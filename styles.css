@@ -1,0 +1,442 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Space+Grotesk:wght@300;400&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Main container */
+#aladin-lite-div {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* Loading state */
+.loading-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 165, 0, 0.3);
+    z-index: 3000;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 165, 0, 0.2);
+    border-top: 3px solid #ffa500;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Brand overlay */
+.brand-overlay {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 15px 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 165, 0, 0.2);
+}
+
+.brand-logo {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4em;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #ffa500, #ff6b00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+.tagline {
+    font-size: 0.8em;
+    opacity: 0.8;
+    letter-spacing: 0.1em;
+    font-weight: 300;
+}
+
+/* Control panel */
+.control-panel {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 25px;
+    z-index: 1000;
+    min-width: 320px;
+    max-width: 400px;
+}
+
+.panel-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel-section:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.panel-section h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1em;
+    margin-bottom: 15px;
+    font-weight: 400;
+    color: #ffa500;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Search functionality */
+.search-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+.search-button {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* My captures section */
+.captures-stats {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.stat-box {
+    flex: 1;
+    padding: 15px;
+    background: rgba(255, 165, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 165, 0, 0.2);
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2em;
+    font-weight: 700;
+    color: #ffa500;
+    font-family: 'Orbitron', monospace;
+}
+
+.stat-label {
+    font-size: 0.75em;
+    opacity: 0.8;
+    margin-top: 3px;
+}
+
+.action-button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ff6b00, #ffa500);
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Orbitron', monospace;
+    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+}
+
+.action-button.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    box-shadow: none;
+}
+
+.action-button.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Photo list */
+.photo-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
+}
+
+.photo-list-item {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    font-size: 0.85em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.photo-list-item:hover {
+    background: rgba(255, 165, 0, 0.1);
+    border-color: rgba(255, 165, 0, 0.3);
+    padding-left: 16px;
+}
+
+.photo-status {
+    font-size: 0.75em;
+    opacity: 0.6;
+}
+
+/* Survey selector */
+.survey-select {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.9em;
+}
+
+/* Bottom controls */
+.bottom-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    padding: 10px 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.control-hint {
+    font-size: 0.85em;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Photo viewer modal */
+.photo-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.98);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.photo-viewer.active {
+    display: flex;
+}
+
+.photo-viewer-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+    text-align: center;
+}
+
+.photo-viewer img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    border: 2px solid rgba(255, 165, 0, 0.3);
+}
+
+.photo-viewer-info {
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.photo-viewer-info h2 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #ffa500;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+}
+
+.photo-viewer-info p {
+    opacity: 0.8;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.photo-details {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 165, 0, 0.2);
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+.close-viewer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 24px;
+}
+
+.close-viewer:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Custom marker animation */
+@keyframes photoBeacon {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.15);
+        opacity: 0.9;
+    }
+}
+
+@keyframes pulseRing {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 165, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 165, 0, 0.5);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .control-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: auto;
+        max-height: 50vh;
+        overflow-y: auto;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .bottom-controls {
+        bottom: auto;
+        top: 20px;
+        font-size: 0.8em;
+        padding: 8px 15px;
+    }
+    
+    .brand-overlay {
+        top: 20px;
+        left: 20px;
+        padding: 10px 20px;
+    }
+    
+    .brand-logo {
+        font-size: 1.2em;
+    }
+}

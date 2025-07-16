@@ -1,0 +1,43 @@
+{
+  "name": "Cosmos Person Photography - Interactive Universe Gallery",
+  "short_name": "Cosmos Gallery",
+  "description": "Explore the universe through my lens - Interactive astrophotography portfolio",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#000000",
+  "theme_color": "#ffa500",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "photography",
+    "education",
+    "science"
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Galaxy view with photo markers"
+    },
+    {
+      "src": "screenshot2.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "label": "Photo viewer showing astrophotography"
+    }
+  ]
+}

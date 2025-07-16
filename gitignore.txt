@@ -1,0 +1,71 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build output
+dist/
+build/
+*.log
+
+# Local environment files
+.env
+.env.local
+.env.*.local
+
+# Image processing/cache
+*.tmp
+.cache/
+.temp/
+
+# Backup files
+*.bak
+*.backup
+*_backup.*
+*_old.*
+
+# Personal notes
+notes.txt
+todo.txt
+personal/
+
+# Large image files (optional - remove if you want to track these)
+# *.tif
+# *.tiff
+# *.raw
+# *.cr2
+# *.nef
+# *.dng
+
+# Test images
+test/
+tests/
+sample-images/
+
+# Local config overrides
+config.local.js
+config.dev.js
+
+# Analytics
+analytics/
+stats/
+
+# Temporary files
+tmp/
+temp/

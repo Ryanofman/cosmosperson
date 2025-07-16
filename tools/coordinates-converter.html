@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celestial Coordinates Converter - Cosmos Person Photography</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Grotesk:wght@300;400&display=swap');
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #111;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-family: 'Orbitron', monospace;
+            color: #ffa500;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            opacity: 0.7;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            color: #ffa500;
+            margin-bottom: 15px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff6b00, #ffa500);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.5);
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+        
+        .examples {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        .example-item {
+            margin: 5px 0;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .example-item:hover {
+            opacity: 1;
+            color: #ffa500;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .back-link a {
+            color: #ffa500;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .back-link a:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Celestial Coordinates Converter</h1>
+        <p class="subtitle">Convert RA/Dec between formats for your celestial database</p>
+        
+        <!-- HMS/DMS to Decimal Degrees -->
+        <div class="section">
+            <h2>HMS/DMS to Decimal Degrees</h2>
+            
+            <div class="input-group">
+                <label>Right Ascension (RA)</label>
+                <div class="input-row">
+                    <input type="number" id="ra-h" placeholder="Hours" min="0" max="23">
+                    <input type="number" id="ra-m" placeholder="Minutes" min="0" max="59">
+                    <input type="number" id="ra-s" placeholder="Seconds" min="0" max="59.999" step="0.001">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Declination (Dec)</label>
+                <div class="input-row">
+                    <input type="number" id="dec-d" placeholder="Degrees" min="-90" max="90">
+                    <input type="number" id="dec-m" placeholder="Minutes" min="0" max="59">
+                    <input type="number" id="dec-s" placeholder="Seconds" min="0" max="59.999" step="0.001">
+                </div>
+            </div>
+            
+            <button onclick="convertToDecimal()">Convert to Decimal</button>
+            
+            <div class="result" id="decimal-result" style="display: none;">
+                <strong>Decimal Degrees:</strong><br>
+                RA: <span id="ra-decimal"></span>°<br>
+                Dec: <span id="dec-decimal"></span>°
+            </div>
+        </div>
+        
+        <!-- Object Name Lookup -->
+        <div class="section">
+            <h2>Object Name Formatter</h2>
+            
+            <div class="input-group">
+                <label>Object Name (as you'll name your file)</label>
+                <input type="text" id="object-name" placeholder="e.g., NGC 2157, M42, IC5070">
+            </div>
+            
+            <button onclick="formatObjectName()">Format for Filename</button>
+            
+            <div class="result" id="format-result" style="display: none;">
+                <strong>Suggested Filenames:</strong><br>
+                <span id="formatted-names"></span>
+            </div>
+        </div>
+        
+        <!-- Database Entry Generator -->
+        <div class="section">
+            <h2>Database Entry Generator</h2>
+            
+            <div class="input-group">
+                <label>Object ID</label>
+                <input type="text" id="db-id" placeholder="e.g., NGC2157">
+            </div>
+            
+            <div class="input-group">
+                <label>Common Name</label>
+                <input type="text" id="db-name" placeholder="e.g., Rosette Nebula">
+            </div>
+            
+            <div class="input-group">
+                <label>Object Type</label>
+                <select id="db-type" style="width: 100%; padding: 10px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px; color: #fff;">
+                    <option value="emission nebula">Emission Nebula</option>
+                    <option value="reflection nebula">Reflection Nebula</option>
+                    <option value="planetary nebula">Planetary Nebula</option>
+                    <option value="dark nebula">Dark Nebula</option>
+                    <option value="supernova remnant">Supernova Remnant</option>
+                    <option value="galaxy">Galaxy</option>
+                    <option value="globular cluster">Globular Cluster</option>
+                    <option value="open cluster">Open Cluster</option>
+                    <option value="star cloud">Star Cloud</option>
+                </select>
+            </div>
+            
+            <button onclick="generateDatabaseEntry()">Generate Entry</button>
+            
+            <div class="result" id="database-result" style="display: none;">
+                <strong>Add to celestial-database.js:</strong><br>
+                <code id="database-entry"></code>
+            </div>
+        </div>
+        
+        <div class="examples">
+            <strong>Quick Examples (click to use):</strong><br>
+            <div class="example-item" onclick="useExample('05:35:17.3', '-05:23:28', 'M42')">
+                M42 (Orion Nebula): 05h 35m 17.3s, -05° 23' 28"
+            </div>
+            <div class="example-item" onclick="useExample('21:30:00', '+12:10:00', 'M15')">
+                M15 (Globular Cluster): 21h 30m 00s, +12° 10' 00"
+            </div>
+            <div class="example-item" onclick="useExample('20:58:56', '+44:20:00', 'IC5070')">
+                IC5070 (Pelican Nebula): 20h 58m 56s, +44° 20' 00"
+            </div>
+        </div>
+        
+        <div class="back-link">
+            <a href="../index.html">← Back to Portfolio</a>
+        </div>
+    </div>
+    
+    <script>
+        // Convert HMS/DMS to decimal degrees
+        function convertToDecimal() {
+            // Get RA values
+            const raH = parseFloat(document.getElementById('ra-h').value) || 0;
+            const raM = parseFloat(document.getElementById('ra-m').value) || 0;
+            const raS = parseFloat(document.getElementById('ra-s').value) || 0;
+            
+            // Get Dec values
+            const decD = parseFloat(document.getElementById('dec-d').value) || 0;
+            const decM = parseFloat(document.getElementById('dec-m').value) || 0;
+            const decS = parseFloat(document.getElementById('dec-s').value) || 0;
+            
+            // Convert RA (HMS to degrees)
+            const raDecimal = (raH + raM/60 + raS/3600) * 15; // 15 degrees per hour
+            
+            // Convert Dec (DMS to degrees)
+            const decSign = decD < 0 ? -1 : 1;
+            const decDecimal = decD + decSign * (decM/60 + decS/3600);
+            
+            // Display results
+            document.getElementById('ra-decimal').textContent = raDecimal.toFixed(4);
+            document.getElementById('dec-decimal').textContent = decDecimal.toFixed(4);
+            document.getElementById('decimal-result').style.display = 'block';
+            
+            // Auto-fill database generator if empty
+            if (!document.getElementById('db-id').value && document.getElementById('object-name').value) {
+                const id = document.getElementById('object-name').value.toUpperCase().replace(/\s/g, '');
+                document.getElementById('db-id').value = id;
+            }
+        }
+        
+        // Format object name for filename
+        function formatObjectName() {
+            const name = document.getElementById('object-name').value.trim();
+            if (!name) return;
+            
+            const formatted = name.toUpperCase().replace(/[\s\-_]/g, '');
+            const suggestions = [
+                formatted + '.jpg',
+                formatted + '.png',
+                formatted + '.jpeg',
+                name.replace(/\s+/g, '_') + '.jpg',
+                name.replace(/\s+/g, '-') + '.jpg'
+            ];
+            
+            document.getElementById('formatted-names').innerHTML = suggestions.join('<br>');
+            document.getElementById('format-result').style.display = 'block';
+        }
+        
+        // Generate database entry
+        function generateDatabaseEntry() {
+            const id = document.getElementById('db-id').value.trim();
+            const name = document.getElementById('db-name').value.trim();
+            const type = document.getElementById('db-type').value;
+            const ra = document.getElementById('ra-decimal').textContent || '0.0000';
+            const dec = document.getElementById('dec-decimal').textContent || '0.0000';
+            
+            if (!id) {
+                alert('Please enter an Object ID');
+                return;
+            }
+            
+            const entry = `'${id}': { ra: ${ra}, dec: ${dec}, name: '${name || id}', type: '${type}' },`;
+            
+            document.getElementById('database-entry').textContent = entry;
+            document.getElementById('database-result').style.display = 'block';
+        }
+        
+        // Use example coordinates
+        function useExample(raStr, decStr, objName) {
+            // Parse RA
+            const raParts = raStr.split(':');
+            document.getElementById('ra-h').value = raParts[0];
+            document.getElementById('ra-m').value = raParts[1];
+            document.getElementById('ra-s').value = raParts[2];
+            
+            // Parse Dec
+            const decParts = decStr.replace(/[°'"]/g, ':').split(':').filter(x => x);
+            document.getElementById('dec-d').value = decParts[0];
+            document.getElementById('dec-m').value = decParts[1] || 0;
+            document.getElementById('dec-s').value = decParts[2] || 0;
+            
+            document.getElementById('object-name').value = objName;
+            
+            // Auto-convert
+            convertToDecimal();
+        }
+        
+        // Allow Enter key to trigger conversion
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    if (this.id.includes('ra-') || this.id.includes('dec-')) {
+                        convertToDecimal();
+                    } else if (this.id === 'object-name') {
+                        formatObjectName();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

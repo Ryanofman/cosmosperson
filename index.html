@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Person Photography - My Universe</title>
+    
+    <!-- Aladin Lite CSS -->
+    <link rel="stylesheet" href="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.min.css" />
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Space+Grotesk:wght@300;400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Main container */
+        #aladin-lite-div {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Brand overlay */
+        .brand-overlay {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2em;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            font-size: 0.8em;
+            opacity: 0.7;
+            letter-spacing: 0.1em;
+            font-weight: 300;
+        }
+
+        /* Photo navigation panel */
+        .photo-nav {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px 20px;
+            z-index: 1000;
+            min-width: 280px;
+            box-shadow: 0 0 40px rgba(255, 165, 0, 0.1);
+        }
+
+        .photo-nav h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            font-weight: 400;
+            text-align: center;
+            color: #ffa500;
+            letter-spacing: 0.05em;
+        }
+
+        .my-captures-count {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 165, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 165, 0, 0.2);
+        }
+
+        .capture-number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #ffa500;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .capture-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .random-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6b00, #ffa500);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Orbitron', monospace;
+            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .random-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 165, 0, 0.5);
+        }
+
+        .random-button:active {
+            transform: translateY(0);
+        }
+
+        /* Photo list */
+        .photo-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .photo-list-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            font-size: 0.9em;
+        }
+
+        .photo-list-item:hover {
+            background: rgba(255, 165, 0, 0.1);
+            border-color: rgba(255, 165, 0, 0.3);
+            transform: translateX(-5px);
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .control-group select {
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 0.85em;
+        }
+
+        /* Photo viewer modal */
+        .photo-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .photo-viewer.active {
+            display: flex;
+        }
+
+        .photo-viewer-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            text-align: center;
+        }
+
+        .photo-viewer img {
+            max-width: 100%;
+            max-height: 75vh;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            border: 2px solid rgba(255, 165, 0, 0.3);
+        }
+
+        .photo-viewer-info {
+            margin-top: 20px;
+        }
+
+        .photo-viewer-info h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #ffa500;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+        }
+
+        .photo-viewer-info p {
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
+        .photo-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 165, 0, 0.2);
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        .close-viewer {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 24px;
+        }
+
+        .close-viewer:hover {
+            background: rgba(255, 165, 0, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Custom marker styles for photos */
+        .my-photo-marker {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            cursor: pointer;
+            animation: beacon 3s ease-in-out infinite;
+        }
+
+        @keyframes beacon {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .my-photo-marker::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.8), rgba(255, 100, 0, 0.4));
+            border-radius: 50%;
+            animation: pulse-ring 3s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        .my-photo-marker::after {
+            content: '📸';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            filter: drop-shadow(0 0 10px rgba(255, 165, 0, 0.8));
+        }
+
+        /* Instructions */
+        .instructions {
+            position: absolute;
+            bottom: 20px;
+            right: 320px;
+            text-align: right;
+            opacity: 0.6;
+            font-size: 0.85em;
+            z-index: 900;
+        }
+
+        /* Welcome message */
+        .welcome-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            z-index: 3000;
+            text-align: center;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .welcome-message h2 {
+            font-family: 'Orbitron', monospace;
+            color: #ffa500;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .welcome-message p {
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .welcome-button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff6b00, #ffa500);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .welcome-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 165, 0, 0.5);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .photo-nav {
+                right: 10px;
+                min-width: 240px;
+                padding: 20px 15px;
+            }
+            
+            .brand-overlay {
+                top: 20px;
+                left: 20px;
+            }
+            
+            .instructions {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome message -->
+    <div class="welcome-message" id="welcome-message">
+        <h2>Welcome to My Universe</h2>
+        <p>Explore the cosmos through my lens. Each glowing beacon represents one of my astrophotography captures. Navigate the galaxy to discover my work scattered across the night sky.</p>
+        <button class="welcome-button" onclick="closeWelcome()">Begin Journey</button>
+    </div>
+
+    <!-- Brand overlay -->
+    <div class="brand-overlay">
+        <div class="brand-logo">Cosmos Person</div>
+        <div class="tagline">Photography</div>
+    </div>
+
+    <!-- Aladin Lite container -->
+    <div id="aladin-lite-div"></div>
+
+    <!-- Photo navigation panel -->
+    <div class="photo-nav">
+        <h3>My Captures</h3>
+        
+        <div class="my-captures-count">
+            <div class="capture-number" id="capture-count">0</div>
+            <div class="capture-label">Deep Sky Objects Captured</div>
+        </div>
+        
+        <button class="random-button" onclick="goToRandomPhoto()">
+            🎲 Explore Random Capture
+        </button>
+        
+        <div class="photo-list" id="photo-list">
+            <!-- Photos will be listed here -->
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="control-group">
+            <label>Background:</label>
+            <select id="survey-select" onchange="changeSurvey()">
+                <option value="P/DSS2/color">Optical (DSS)</option>
+                <option value="P/2MASS/color">Infrared (2MASS)</option>
+                <option value="P/allWISE/color">Mid-IR (WISE)</option>
+                <option value="P/GLIMPSE360">Spitzer IR</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="instructions">
+        <p>🖱️ Drag to pan • Scroll to zoom • Click beacons to view photos</p>
+    </div>
+
+    <!-- Photo viewer modal -->
+    <div class="photo-viewer" id="photo-viewer">
+        <div class="photo-viewer-content">
+            <div class="close-viewer" onclick="closePhotoViewer()">✕</div>
+            <img id="viewer-image" src="" alt="">
+            <div class="photo-viewer-info">
+                <h2 id="viewer-title"></h2>
+                <p id="viewer-description"></p>
+                <div class="photo-details" id="viewer-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aladin Lite JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js"></script>
+    
+    <script>
+        let aladin;
+        let myPhotos = [];
+        let photoCatalog;
+        
+        // Your astrophotography collection
+        // Add your photos here with their celestial coordinates
+        const photoCollection = [
+            {
+                name: "NGC 2157",
+                ra: 89.2167,  // Right Ascension in degrees
+                dec: -23.9167, // Declination in degrees
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23000'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23ffa500' font-size='20'%3ENGC 2157%3C/text%3E%3C/svg%3E", // Replace with actual image URL
+                description: "A stunning emission nebula showcasing vibrant colors",
+                captureDate: "2024-01-15",
+                equipment: "Telescope: 8\" Newtonian, Camera: ZWO ASI2600MC",
+                exposure: "120x300s Ha-OIII"
+            },
+            // Add more of your photos here with the same structure
+            {
+                name: "Orion Nebula (M42)",
+                ra: 83.8221,
+                dec: -5.3911,
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23000'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23ffa500' font-size='20'%3EM42%3C/text%3E%3C/svg%3E",
+                description: "The crown jewel of winter skies",
+                captureDate: "2024-02-20",
+                equipment: "Telescope: 10\" RC, Camera: QHY268M",
+                exposure: "60x180s RGB + 30x600s Ha"
+            },
+            {
+                name: "Andromeda Galaxy (M31)",
+                ra: 10.6847,
+                dec: 41.2687,
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect width='400' height='400' fill='%23000'/%3E%3Ctext x='200' y='200' text-anchor='middle' fill='%23ffa500' font-size='20'%3EM31%3C/text%3E%3C/svg%3E",
+                description: "Our galactic neighbor in all its glory",
+                captureDate: "2023-11-10",
+                equipment: "Telescope: 6\" Refractor, Camera: Canon 6D",
+                exposure: "150x120s at ISO 1600"
+            }
+        ];
+        
+        // Initialize
+        $(document).ready(function() {
+            // Create Aladin instance
+            aladin = A.aladin('#aladin-lite-div', {
+                survey: 'P/DSS2/color',
+                fov: 80,
+                target: 'galactic center',
+                cooFrame: 'J2000',
+                showReticle: false,
+                showZoomControl: true,
+                showFullscreenControl: false,
+                showLayersControl: false,
+                showGotoControl: false,
+                showShareControl: false,
+                showCatalog: true,
+                showFrame: false,
+                showCooGrid: true,
+                gridColor: 'rgba(255, 165, 0, 0.2)',
+                gridOpacity: 0.3
+            });
+            
+            // Initialize photo collection
+            setTimeout(function() {
+                initializePhotos();
+                updatePhotoCount();
+                populatePhotoList();
+            }, 2000);
+        });
+        
+        // Initialize photos on the map
+        function initializePhotos() {
+            // Create a catalog specifically for your photos
+            photoCatalog = A.catalog({
+                name: 'My Astrophotos',
+                sourceSize: 30,
+                shape: 'circle',
+                color: '#ffa500',
+                labelColumn: 'name',
+                displayLabel: true,
+                labelColor: '#ffa500',
+                labelFont: '14px Orbitron',
+                onClick: 'showPhotoDetails'
+            });
+            
+            // Add each photo as a source
+            photoCollection.forEach(photo => {
+                photoCatalog.addSources([
+                    A.source(photo.ra, photo.dec, {
+                        name: photo.name,
+                        photoData: photo
+                    })
+                ]);
+                myPhotos.push(photo);
+            });
+            
+            aladin.addCatalog(photoCatalog);
+            
+            // Set up click handler
+            window.showPhotoDetails = function(source) {
+                const photo = source.data.photoData;
+                openPhotoViewer(photo);
+            };
+        }
+        
+        // Update photo count
+        function updatePhotoCount() {
+            document.getElementById('capture-count').textContent = photoCollection.length;
+        }
+        
+        // Populate photo list
+        function populatePhotoList() {
+            const listContainer = document.getElementById('photo-list');
+            listContainer.innerHTML = '';
+            
+            photoCollection.forEach((photo, index) => {
+                const item = document.createElement('div');
+                item.className = 'photo-list-item';
+                item.textContent = photo.name;
+                item.onclick = () => {
+                    aladin.gotoRaDec(photo.ra, photo.dec);
+                    aladin.setFov(3);
+                };
+                listContainer.appendChild(item);
+            });
+        }
+        
+        // Go to random photo
+        function goToRandomPhoto() {
+            if (myPhotos.length === 0) return;
+            
+            const randomIndex = Math.floor(Math.random() * myPhotos.length);
+            const randomPhoto = myPhotos[randomIndex];
+            
+            // Animate to the photo
+            aladin.animateToRaDec(randomPhoto.ra, randomPhoto.dec, 3);
+            
+            // Show a brief highlight effect
+            setTimeout(() => {
+                openPhotoViewer(randomPhoto);
+            }, 1500);
+        }
+        
+        // Open photo viewer
+        function openPhotoViewer(photo) {
+            document.getElementById('viewer-image').src = photo.image;
+            document.getElementById('viewer-title').textContent = photo.name;
+            document.getElementById('viewer-description').textContent = photo.description;
+            
+            const details = `
+                <strong>Capture Date:</strong> ${photo.captureDate}<br>
+                <strong>Equipment:</strong> ${photo.equipment}<br>
+                <strong>Exposure:</strong> ${photo.exposure}<br>
+                <strong>Coordinates:</strong> RA ${photo.ra.toFixed(4)}°, Dec ${photo.dec.toFixed(4)}°
+            `;
+            document.getElementById('viewer-details').innerHTML = details;
+            
+            document.getElementById('photo-viewer').classList.add('active');
+        }
+        
+        // Close photo viewer
+        function closePhotoViewer() {
+            document.getElementById('photo-viewer').classList.remove('active');
+        }
+        
+        // Change survey
+        function changeSurvey() {
+            const survey = document.getElementById('survey-select').value;
+            aladin.setImageSurvey(survey);
+        }
+        
+        // Close welcome message
+        function closeWelcome() {
+            document.getElementById('welcome-message').style.display = 'none';
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoViewer();
+            } else if (e.key === 'r' || e.key === 'R') {
+                goToRandomPhoto();
+            }
+        });
+        
+        // Auto-close welcome after 10 seconds
+        setTimeout(() => {
+            const welcome = document.getElementById('welcome-message');
+            if (welcome.style.display !== 'none') {
+                welcome.style.display = 'none';
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

@@ -7,6 +7,11 @@ let isLoading = true;
 // Initialize when DOM is ready
 $(document).ready(function() {
     initializeAladin();
+    
+    // Check for Aladin controls overlap after a delay
+    setTimeout(() => {
+        adjustBrandPosition();
+    }, 3000);
 });
 
 // Initialize Aladin Sky Atlas
@@ -204,8 +209,7 @@ function displayPhotosOnMap() {
         displayLabel: true,
         labelColor: '#ffa500',
         labelFont: '14px Orbitron, monospace',
-        labelOffset: [0, -20],
-        onClick: 'showMyPhoto'
+        labelOffset: [0, -20]
     });
     
     // Add custom styles for photo markers
@@ -224,10 +228,19 @@ function displayPhotosOnMap() {
     // Add catalog to Aladin
     aladin.addCatalog(photoCatalog);
     
-    // Set up the click handler
-    window.showMyPhoto = function(source) {
+    // Set up click handler for catalog sources
+    photoCatalog.onClick = function(source) {
         if (source && source.data && source.data.photoData) {
-            openPhotoViewer(source.data.photoData);
+            // Add smooth transition before showing photo
+            const photo = source.data.photoData;
+            
+            // First, smoothly animate to the object
+            aladin.animateToRaDec(photo.ra, photo.dec, 5, 1000);
+            
+            // Then show the photo with a delay for smooth transition
+            setTimeout(() => {
+                openPhotoViewer(photo);
+            }, 1200);
         }
     };
 }
@@ -305,7 +318,12 @@ function updateUI() {
             <span>${photo.name}</span>
             <span class="photo-status">📸</span>
         `;
-        item.onclick = () => goToPhoto(photo);
+        item.onclick = () => {
+            // Smooth animation to photo
+            aladin.animateToRaDec(photo.ra, photo.dec, 5, 1000);
+            // Optional: show photo after arriving
+            setTimeout(() => openPhotoViewer(photo), 1200);
+        };
         listContainer.appendChild(item);
     });
     
@@ -361,8 +379,9 @@ function searchObject() {
     );
     
     if (ourPhoto) {
-        goToPhoto(ourPhoto);
-        setTimeout(() => openPhotoViewer(ourPhoto), CONFIG.ANIMATION_DURATION);
+        // Smooth animation to our photo
+        aladin.animateToRaDec(ourPhoto.ra, ourPhoto.dec, 5, 1000);
+        setTimeout(() => openPhotoViewer(ourPhoto), 1200);
     } else {
         // Search in celestial database
         const celestialObject = findCelestialObject(query);
@@ -383,11 +402,14 @@ function goToRandomPhoto() {
     }
     
     const randomPhoto = photoData[Math.floor(Math.random() * photoData.length)];
-    goToPhoto(randomPhoto);
     
+    // Smooth animation to photo location
+    aladin.animateToRaDec(randomPhoto.ra, randomPhoto.dec, 5, 1000);
+    
+    // Show photo after animation with smooth transition
     setTimeout(() => {
         openPhotoViewer(randomPhoto);
-    }, CONFIG.ANIMATION_DURATION);
+    }, 1200);
 }
 
 // Show all photos
@@ -433,6 +455,15 @@ function showAllPhotos() {
 function openPhotoViewer(photo) {
     if (!photo) return;
     
+    const viewer = document.getElementById('photo-viewer');
+    
+    // Add class to body for background effect
+    document.body.classList.add('photo-viewer-active');
+    
+    // Set display to flex first
+    viewer.style.display = 'flex';
+    
+    // Update content
     document.getElementById('viewer-image').src = photo.imageUrl;
     document.getElementById('viewer-title').textContent = photo.name;
     document.getElementById('viewer-description').textContent = 
@@ -446,12 +477,23 @@ function openPhotoViewer(photo) {
     details += `<strong>Filename:</strong> ${photo.filename}`;
     
     document.getElementById('viewer-details').innerHTML = details;
-    document.getElementById('photo-viewer').classList.add('active');
+    
+    // Trigger animation after a brief delay
+    setTimeout(() => {
+        viewer.classList.add('active');
+    }, 50);
 }
 
 // Close photo viewer
 function closePhotoViewer() {
-    document.getElementById('photo-viewer').classList.remove('active');
+    const viewer = document.getElementById('photo-viewer');
+    viewer.classList.remove('active');
+    document.body.classList.remove('photo-viewer-active');
+    
+    // Wait for animation to complete before fully hiding
+    setTimeout(() => {
+        viewer.style.display = 'none';
+    }, 600);
 }
 
 // Change survey
@@ -530,6 +572,22 @@ function setCachedData(photos) {
         }));
     } catch (e) {
         console.error('Cache error:', e);
+    }
+}
+
+// Adjust brand position to avoid Aladin controls
+function adjustBrandPosition() {
+    const brand = document.getElementById('brand-overlay');
+    const aladinControls = document.querySelector('.aladin-layersControl');
+    
+    if (aladinControls && brand) {
+        const controlsRect = aladinControls.getBoundingClientRect();
+        const brandRect = brand.getBoundingClientRect();
+        
+        // If there's overlap, move brand down
+        if (brandRect.right > controlsRect.left && brandRect.top < controlsRect.bottom) {
+            brand.style.top = (controlsRect.bottom + 20) + 'px';
+        }
     }
 }
 

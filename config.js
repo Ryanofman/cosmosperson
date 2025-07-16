@@ -3,8 +3,8 @@
 
 const CONFIG = {
     // GitHub Settings
-    GITHUB_USERNAME: 'Ryanofman',  // Replace with your GitHub username
-    GITHUB_REPO: 'cosmosperson',           // Replace with your repository name
+    GITHUB_USERNAME: 'YOUR_GITHUB_USERNAME',  // Replace with your GitHub username
+    GITHUB_REPO: 'YOUR_REPO_NAME',           // Replace with your repository name
     IMAGES_PATH: 'images',                   // Path to your images folder in the repo
     
     // Site Settings

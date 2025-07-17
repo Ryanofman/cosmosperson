@@ -28,14 +28,20 @@ function initializeAladin() {
         showGotoControl: false,
         showShareControl: false,
         showCatalog: true,
-        showFrame: true,
-        showCooGrid: true
+        showFrame: false,
+        showCooGrid: false
     });
     
     // Wait for Aladin to fully initialize
     setTimeout(() => {
         loadPhotosFromGitHub();
         setupEventListeners();
+        
+        // Additional grid hiding (in case CSS doesn't catch it)
+        const gridCanvas = document.querySelector('.aladin-grid-canvas');
+        if (gridCanvas) {
+            gridCanvas.style.display = 'none';
+        }
     }, 2000);
     
     // Update visible count when view changes

@@ -1,0 +1,40 @@
+/* Force hide ALL grid-related elements */
+/* This file should be added to index.html after the main styles.css */
+
+/* Target Aladin's coordinate grid specifically */
+.aladin-fov canvas:nth-child(3) {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Hide any canvas that might be the grid */
+.aladin-fov canvas[style*="pointer-events: none"]:not(:first-child) {
+    display: none !important;
+}
+
+/* Hide coordinate grid by class */
+.aladin-cooGrid,
+.aladin-grid,
+[class*="grid"],
+[class*="Grid"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Specific targeting for grid layers */
+.aladin-layerBox canvas:not(.aladin-imageCanvas):not(.aladin-catalogCanvas) {
+    display: none !important;
+}
+
+/* Override any inline styles */
+div[id*="aladin"] canvas {
+    /* Keep first canvas (image) and last canvas (catalog) */
+}
+
+div[id*="aladin"] canvas:nth-child(2),
+div[id*="aladin"] canvas:nth-child(3) {
+    /* These are often grid canvases */
+    opacity: 0 !important;
+    pointer-events: none !important;
+}

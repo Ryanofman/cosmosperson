@@ -11,6 +11,9 @@ $(document).ready(function() {
     // Check for Aladin controls overlap after a delay
     setTimeout(() => {
         adjustBrandPosition();
+        
+        // Also check periodically as controls may load asynchronously
+        setInterval(adjustBrandPosition, 2000);
     }, 3000);
 });
 
@@ -483,9 +486,6 @@ function openPhotoViewer(photo) {
     // Add class to body for background effect
     document.body.classList.add('photo-viewer-active');
     
-    // Set display to flex first
-    viewer.style.display = 'flex';
-    
     // Update content
     document.getElementById('viewer-image').src = photo.imageUrl;
     document.getElementById('viewer-title').textContent = photo.name;
@@ -513,9 +513,9 @@ function closePhotoViewer() {
     viewer.classList.remove('active');
     document.body.classList.remove('photo-viewer-active');
     
-    // Wait for animation to complete before fully hiding
+    // Wait for animation to complete
     setTimeout(() => {
-        viewer.style.display = 'none';
+        // Reset to initial state
     }, 600);
 }
 

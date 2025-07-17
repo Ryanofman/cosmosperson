@@ -24,6 +24,16 @@
     
     <!-- Custom styles -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Emergency grid hiding - inline for highest priority */
+        .aladin-cooGrid,
+        canvas.aladin-cooGrid,
+        .aladin-fov canvas:nth-child(3) {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Loading message -->
@@ -97,8 +107,9 @@
     </div>
 
     <!-- Photo viewer modal -->
-    <div class="photo-viewer" id="photo-viewer" onclick="handleBackdropClick(event)">
-        <div class="photo-viewer-content" onclick="event.stopPropagation()">
+    <div class="photo-viewer" id="photo-viewer">
+        <div class="photo-viewer-backdrop" onclick="closePhotoViewer()"></div>
+        <div class="photo-viewer-content">
             <div class="close-viewer" onclick="closePhotoViewer()">✕</div>
             <img id="viewer-image" src="" alt="">
             <div class="photo-viewer-info">
@@ -107,7 +118,7 @@
                 <div class="photo-details" id="viewer-details"></div>
             </div>
         </div>
-        <div class="click-to-close">Click anywhere to close</div>
+        <div class="click-to-close">Click anywhere outside to close</div>
     </div>
 
     <!-- Scripts -->

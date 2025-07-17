@@ -301,7 +301,6 @@ body.photo-viewer-active #aladin-lite-div {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.95);
     z-index: 2000;
     display: flex;
     justify-content: center;
@@ -310,7 +309,6 @@ body.photo-viewer-active #aladin-lite-div {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.6s ease, visibility 0.6s ease;
-    cursor: pointer; /* Make entire backdrop clickable */
 }
 
 .photo-viewer.active {
@@ -318,15 +316,27 @@ body.photo-viewer-active #aladin-lite-div {
     visibility: visible;
 }
 
+/* Clickable backdrop */
+.photo-viewer-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    cursor: pointer;
+}
+
 .photo-viewer-content {
+    position: relative;
     max-width: 90vw;
     max-height: 90vh;
-    position: relative;
     text-align: center;
     transform: scale(0.8);
     opacity: 0;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: default; /* Don't show pointer cursor on content */
+    z-index: 1;
+    display: inline-block;
 }
 
 .photo-viewer.active .photo-viewer-content {
@@ -387,9 +397,9 @@ body.photo-viewer-active #aladin-lite-div {
 }
 
 .close-viewer {
-    position: absolute;
-    top: -20px;
-    right: -20px;
+    position: fixed;
+    top: 40px;
+    right: 40px;
     width: 60px;
     height: 60px;
     background: rgba(255, 165, 0, 0.9);
@@ -406,7 +416,7 @@ body.photo-viewer-active #aladin-lite-div {
     opacity: 0;
     transform: scale(0.8) rotate(-90deg);
     box-shadow: 0 4px 20px rgba(255, 165, 0, 0.5);
-    z-index: 10;
+    z-index: 2001;
 }
 
 .photo-viewer.active .close-viewer {
@@ -423,15 +433,16 @@ body.photo-viewer-active #aladin-lite-div {
 
 /* Add click instruction */
 .click-to-close {
-    position: absolute;
-    bottom: 20px;
+    position: fixed;
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease;
+    z-index: 2001;
 }
 
 .photo-viewer.active .click-to-close {
@@ -462,14 +473,31 @@ body.photo-viewer-active #aladin-lite-div {
     }
 }
 
-/* Hide Aladin grid overlay */
-.aladin-grid-canvas {
+/* Hide Aladin grid elements */
+.aladin-cooGrid {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide grid canvas specifically */
+canvas.aladin-cooGrid {
     display: none !important;
 }
 
-/* Also hide coordinate grid if it appears */
+/* Hide all coordinate grid related elements */
+[class*="cooGrid"] {
+    display: none !important;
+}
+
+/* Make location indicator more subtle */
 .aladin-location-indicator {
-    opacity: 0.5; /* Make location indicator more subtle */
+    opacity: 0.5;
+}
+
+/* Override any inline styles for grid */
+#aladin-lite-div canvas:nth-child(2),
+#aladin-lite-div canvas:nth-child(3) {
+    opacity: 1 !important; /* Keep opacity but check in JS */
 }
 ::-webkit-scrollbar {
     width: 8px;
@@ -489,8 +517,16 @@ body.photo-viewer-active #aladin-lite-div {
     background: rgba(255, 165, 0, 0.5);
 }
 
-/* Responsive design */
+/* Responsive close button */
 @media (max-width: 768px) {
+    .close-viewer {
+        top: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    
     .control-panel {
         position: fixed;
         bottom: 0;

@@ -37,11 +37,28 @@ function initializeAladin() {
         loadPhotosFromGitHub();
         setupEventListeners();
         
-        // Additional grid hiding (in case CSS doesn't catch it)
-        const gridCanvas = document.querySelector('.aladin-grid-canvas');
-        if (gridCanvas) {
-            gridCanvas.style.display = 'none';
-        }
+        // Force remove grid elements after Aladin loads
+        setTimeout(() => {
+            // Remove coordinate grid
+            const gridElements = document.querySelectorAll('.aladin-cooGrid');
+            gridElements.forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Remove any canvas with grid
+            const canvases = aladin.view.catalogCanvas.parentElement.querySelectorAll('canvas');
+            canvases.forEach((canvas, index) => {
+                // The grid is usually the second or third canvas
+                if (index > 0 && canvas.style.pointerEvents === 'none') {
+                    canvas.style.display = 'none';
+                }
+            });
+            
+            // Try to disable grid through Aladin API if available
+            if (aladin.view && aladin.view.cooGrid) {
+                aladin.view.cooGrid.hide();
+            }
+        }, 1000);
     }, 2000);
     
     // Update visible count when view changes

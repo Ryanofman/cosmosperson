@@ -1,21 +1,21 @@
 /* Gallery Page Styles - Premium Astrophotography Portfolio */
 
-/* CSS Custom Properties - Deep Teal / Jewel Tone Theme */
+/* CSS Custom Properties - Deep Velvet Teal & Forest Theme */
 :root {
-    --space-black: #050807;
-    --space-deep: #081210;
-    --space-dark: #0c1815;
-    --nebula-primary: #1a4a4a;
-    --nebula-glow: #0f3535;
-    --nebula-accent: #28605c;
-    --nebula-light: #3a7b75;
-    --jewel-emerald: #0d2626;
-    --star-white: #e0efec;
-    --star-dim: #8aaba5;
-    --cosmic-glass: rgba(26, 74, 74, 0.12);
-    --cosmic-glass-hover: rgba(26, 74, 74, 0.2);
-    --border-subtle: rgba(58, 123, 117, 0.18);
-    --border-accent: rgba(40, 96, 92, 0.35);
+    --space-black: #010a09;
+    --space-deep: #011a16;
+    --space-dark: #013220;
+    --nebula-primary: #004B49;
+    --nebula-glow: #003836;
+    --nebula-accent: #006462;
+    --nebula-light: #008580;
+    --jewel-emerald: #013220;
+    --star-white: #e8f5f4;
+    --star-dim: #7fb8b5;
+    --cosmic-glass: rgba(0, 75, 73, 0.15);
+    --cosmic-glass-hover: rgba(0, 75, 73, 0.25);
+    --border-subtle: rgba(0, 100, 98, 0.2);
+    --border-accent: rgba(0, 75, 73, 0.4);
 
     /* Legacy aliases for backward compatibility */
     --nebula-orange: var(--nebula-primary);

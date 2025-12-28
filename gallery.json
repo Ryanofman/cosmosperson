@@ -1,0 +1,59 @@
+{
+    "gallery": [
+        {
+            "filename": "IC434_Original_Finalized_2xUpsampled.jpg",
+            "name": "Horsehead Nebula",
+            "type": "Dark Nebula"
+        },
+        {
+            "filename": "M78_3xUpsampled_W.jpg",
+            "name": "M78 Nebula",
+            "type": "Reflection Nebula"
+        },
+        {
+            "filename": "NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
+            "name": "Veil Nebula",
+            "type": "Supernova Remnant"
+        },
+        {
+            "filename": "IC405.jpg",
+            "name": "Flaming Star Nebula",
+            "type": "Emission Nebula"
+        },
+        {
+            "filename": "M101_3xUpsmpled.jpg",
+            "name": "Pinwheel Galaxy",
+            "type": "Spiral Galaxy"
+        },
+        {
+            "filename": "NGC281.JPG",
+            "name": "Pacman Nebula",
+            "type": "Emission Nebula"
+        },
+        {
+            "filename": "IC_63_Phoenix_3XUpsampled.jpg",
+            "name": "Ghost of Cassiopeia",
+            "type": "Reflection Nebula"
+        },
+        {
+            "filename": "Thor_Interpreted_3XUpsampled.jpg",
+            "name": "Thor's Helmet",
+            "type": "Emission Nebula"
+        },
+        {
+            "filename": "SH2-142_Original_2XUpsampled.jpg",
+            "name": "Wizard Nebula",
+            "type": "Emission Nebula"
+        },
+        {
+            "filename": "Butterfly_Mosaic_Original_2X Upsampled.jpg",
+            "name": "Butterfly Nebula",
+            "type": "Planetary Nebula"
+        },
+        {
+            "filename": "CometMinimalV1_2xUpsampled.jpg",
+            "name": "Comet",
+            "type": "Solar System Object"
+        }
+    ]
+}

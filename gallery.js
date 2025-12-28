@@ -20,6 +20,28 @@ async function loadGalleryImages() {
     // Show loading state
     if (loadingEl) loadingEl.style.display = 'flex';
 
+    try {
+        // First, try to load from gallery.json manifest (allows custom ordering)
+        const manifestResponse = await fetch('gallery.json');
+        if (manifestResponse.ok) {
+            const manifest = await manifestResponse.json();
+            if (manifest.gallery && manifest.gallery.length > 0) {
+                const processedImages = manifest.gallery.map(img => ({
+                    id: img.filename.split('.')[0],
+                    name: img.name,
+                    type: img.type,
+                    imageUrl: `gallery/${img.filename}`,
+                    filename: img.filename
+                }));
+                displayGalleryImages(processedImages);
+                if (loadingEl) loadingEl.style.display = 'none';
+                return;
+            }
+        }
+    } catch (e) {
+        console.log('No gallery.json manifest found, trying GitHub API...');
+    }
+
     // Check if we're using GitHub API
     if (CONFIG.DEV_MODE || CONFIG.GITHUB_USERNAME === 'YOUR_GITHUB_USERNAME') {
         loadLocalImages();
@@ -27,14 +49,6 @@ async function loadGalleryImages() {
     }
 
     try {
-        // Check cache first
-        const cachedData = getCachedGalleryData();
-        if (cachedData) {
-            displayGalleryImages(cachedData);
-            if (loadingEl) loadingEl.style.display = 'none';
-            return;
-        }
-
         // Fetch from GitHub API - use GALLERY_PATH for gallery page
         const galleryPath = CONFIG.GALLERY_PATH || 'gallery';
         const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${galleryPath}`;
@@ -70,9 +84,6 @@ async function loadGalleryImages() {
         // Sort by name
         processedImages.sort((a, b) => a.name.localeCompare(b.name));
 
-        // Cache the data
-        setCachedGalleryData(processedImages);
-
         // Display images
         displayGalleryImages(processedImages);
 
@@ -86,41 +97,40 @@ async function loadGalleryImages() {
 
 // Load images from local gallery directory (fallback)
 function loadLocalImages() {
-    // This will scan the gallery folder - add your gallery images here
-    // For now, show a message if gallery is empty
     const gallery = document.getElementById('gallery-grid');
     const loadingEl = document.getElementById('gallery-loading');
 
-    // Try to fetch gallery folder contents via a simple check
-    // Since we can't scan directories in browser, we need a manifest or predefined list
-    // You can add images to this list as you add them to the gallery folder
-    const galleryImages = [
-        // Add your gallery images here as they're added to the gallery folder
-        // Example: { filename: 'image1.jpg', name: 'My Photo', type: 'Deep Sky Object' }
-    ];
+    // Fallback: try to load gallery.json synchronously or show empty state
+    fetch('gallery.json')
+        .then(response => response.json())
+        .then(manifest => {
+            if (manifest.gallery && manifest.gallery.length > 0) {
+                const processedImages = manifest.gallery.map(img => ({
+                    id: img.filename.split('.')[0],
+                    name: img.name,
+                    type: img.type,
+                    imageUrl: `gallery/${img.filename}`,
+                    filename: img.filename
+                }));
+                displayGalleryImages(processedImages);
+            } else {
+                showEmptyGallery(gallery);
+            }
+            if (loadingEl) loadingEl.style.display = 'none';
+        })
+        .catch(() => {
+            showEmptyGallery(gallery);
+            if (loadingEl) loadingEl.style.display = 'none';
+        });
+}
 
-    if (galleryImages.length === 0) {
-        // Show empty state
-        if (loadingEl) loadingEl.style.display = 'none';
-        gallery.innerHTML = `
-            <div style="text-align: center; padding: 60px; color: var(--star-dim); width: 100%;">
-                <p style="font-size: 1.2em; margin-bottom: 10px;">Gallery is empty</p>
-                <p style="opacity: 0.7;">Add images to the /gallery folder to display them here</p>
-            </div>
-        `;
-        return;
-    }
-
-    const processedImages = galleryImages.map(img => ({
-        id: img.filename.split('.')[0],
-        name: img.name,
-        type: img.type,
-        imageUrl: `gallery/${img.filename}`,
-        filename: img.filename
-    }));
-
-    displayGalleryImages(processedImages);
-    if (loadingEl) loadingEl.style.display = 'none';
+function showEmptyGallery(gallery) {
+    gallery.innerHTML = `
+        <div style="text-align: center; padding: 60px; color: var(--star-dim); width: 100%;">
+            <p style="font-size: 1.2em; margin-bottom: 10px;">Gallery is empty</p>
+            <p style="opacity: 0.7;">Add images to gallery.json to display them here</p>
+        </div>
+    `;
 }
 
 // Display images in the gallery grid

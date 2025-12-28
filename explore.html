@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore the Universe - Interactive sky map featuring astrophotography captures by Cosmos Person">
+    <meta name="description"
+        content="Explore the Universe - Interactive sky map featuring astrophotography captures by Cosmos Person">
     <meta name="keywords" content="astrophotography, deep sky, nebula, galaxy, cosmos, space photography, sky map">
     <meta name="author" content="Cosmos Person">
-    
+
     <title>Explore the Universe | Cosmos Person Photography</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="manifest" href="manifest.json">
-    
+
     <!-- Open Graph -->
     <meta property="og:title" content="Explore the Universe | Cosmos Person Photography">
-    <meta property="og:description" content="Interactive sky map - Explore deep sky objects and discover astrophotography captures">
+    <meta property="og:description"
+        content="Interactive sky map - Explore deep sky objects and discover astrophotography captures">
     <meta property="og:image" content="preview.jpg">
     <meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/explore.html">
-    
+
     <!-- Aladin Lite CSS -->
     <link rel="stylesheet" href="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.min.css" />
-    
+
     <!-- Custom styles -->
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -33,7 +36,36 @@
             visibility: hidden !important;
             opacity: 0 !important;
         }
-        
+
+        /* Override Aladin Lite default orange colors */
+        .aladin-reticle circle,
+        .aladin-reticle line {
+            stroke: #00a89d !important;
+        }
+
+        .aladin-fov,
+        .aladin-box {
+            border-color: #00a89d !important;
+        }
+
+        .aladin-location,
+        .aladin-fov-value {
+            color: #00a89d !important;
+        }
+
+        /* Aladin UI elements */
+        .aladin-stack-item,
+        .aladin-layers-control button,
+        .aladin-search-control input {
+            border-color: rgba(0, 168, 157, 0.3) !important;
+        }
+
+        .aladin-stack-item:hover,
+        .aladin-layers-control button:hover {
+            border-color: #00a89d !important;
+            background: rgba(0, 120, 114, 0.2) !important;
+        }
+
         /* Navigation bar for explore page */
         .explore-nav {
             position: fixed;
@@ -47,70 +79,71 @@
             padding: 15px 30px;
             background: rgba(10, 10, 15, 0.85);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 165, 0, 0.1);
+            border-bottom: 1px solid rgba(0, 168, 157, 0.15);
         }
-        
+
         .explore-nav-logo {
             font-family: 'Orbitron', monospace;
             font-size: 1.2em;
             font-weight: 700;
-            background: linear-gradient(45deg, #ffa500, #ff6b00);
+            background: linear-gradient(45deg, #00a89d, #00d4c8);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
             letter-spacing: 0.1em;
         }
-        
+
         .explore-nav-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
             padding: 10px 20px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 165, 0, 0.3);
+            border: 1px solid rgba(0, 168, 157, 0.3);
             border-radius: 25px;
-            color: #ffa500;
+            color: #00a89d;
             text-decoration: none;
             font-family: 'Space Grotesk', sans-serif;
             font-size: 0.9em;
             transition: all 0.3s ease;
         }
-        
+
         .explore-nav-link:hover {
-            background: rgba(255, 165, 0, 0.15);
-            border-color: #ffa500;
+            background: rgba(0, 168, 157, 0.15);
+            border-color: #00a89d;
             transform: translateX(-3px);
         }
-        
+
         .explore-nav-link svg {
             width: 16px;
             height: 16px;
             transition: transform 0.3s ease;
         }
-        
+
         .explore-nav-link:hover svg {
             transform: translateX(-3px);
         }
-        
+
         /* Adjust brand overlay position for nav */
         .brand-overlay {
             top: 90px !important;
         }
-        
+
         @media (max-width: 768px) {
             .explore-nav {
                 padding: 12px 20px;
             }
-            
+
             .explore-nav-logo {
                 font-size: 1em;
             }
-            
+
             .explore-nav-link {
                 padding: 8px 15px;
                 font-size: 0.85em;
             }
-            
+
             .brand-overlay {
                 top: auto !important;
                 bottom: 20px !important;
@@ -118,13 +151,15 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="explore-nav">
         <a href="index.html" class="explore-nav-logo">Cosmos Person</a>
         <a href="index.html" class="explore-nav-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Back to Gallery
         </a>
@@ -151,7 +186,8 @@
         <div class="panel-section">
             <h3>🔍 Explore the Universe</h3>
             <div class="search-group">
-                <input type="text" class="search-input" id="object-search" placeholder="Search any object (M31, NGC 2157...)">
+                <input type="text" class="search-input" id="object-search"
+                    placeholder="Search any object (M31, NGC 2157...)">
                 <button class="search-button" onclick="searchObject()">Go</button>
             </div>
         </div>
@@ -169,14 +205,14 @@
                     <div class="stat-label">Currently Visible</div>
                 </div>
             </div>
-            
+
             <button class="action-button" onclick="goToRandomPhoto()">
                 🎲 Random Capture
             </button>
             <button class="action-button secondary" onclick="showAllPhotos()">
                 👁️ Show All Captures
             </button>
-            
+
             <div class="photo-list" id="photo-list"></div>
         </div>
 
@@ -197,7 +233,7 @@
     <div class="bottom-controls">
         <div class="control-hint">🖱️ Drag to pan</div>
         <div class="control-hint">📷 Scroll to zoom</div>
-        <div class="control-hint">✨ Click orange beacons for my photos</div>
+        <div class="control-hint">✨ Click teal beacons for my photos</div>
     </div>
 
     <!-- Photo viewer modal -->
@@ -222,4 +258,5 @@
     <script src="celestial-database.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@300;400;700&family=Space+Grotesk:wght@300;400&display=swap');
 
+/* Rich Deep Teal Color Variables */
+:root {
+    /* Core dark backgrounds */
+    --space-black: #010a09;
+    --space-deep: #011a16;
+    --space-dark: #013220;
+
+    /* Rich teal gradient spectrum */
+    --nebula-deep: #003333;
+    --nebula-primary: #004B49;
+    --nebula-glow: #005855;
+    --nebula-accent: #007872;
+    --nebula-light: #00a89d;
+    --nebula-bright: #00d4c8;
+
+    /* Complementary forest greens */
+    --forest-deep: #012b1d;
+    --forest-primary: #013220;
+    --forest-accent: #024d30;
+    --jewel-emerald: #015f3d;
+
+    /* Luminous highlights */
+    --star-white: #e8f5f4;
+    --star-glow: #b8ece8;
+    --star-dim: #7fb8b5;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -37,7 +64,7 @@ body.photo-viewer-active #aladin-lite-div {
     background: rgba(0, 0, 0, 0.9);
     padding: 40px;
     border-radius: 20px;
-    border: 1px solid rgba(255, 165, 0, 0.3);
+    border: 1px solid rgba(0, 120, 114, 0.3);
     z-index: 3000;
     text-align: center;
 }
@@ -45,16 +72,21 @@ body.photo-viewer-active #aladin-lite-div {
 .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 3px solid rgba(255, 165, 0, 0.2);
-    border-top: 3px solid #ffa500;
+    border: 3px solid rgba(0, 120, 114, 0.2);
+    border-top: 3px solid var(--nebula-light);
     border-radius: 50%;
     margin: 0 auto 20px;
     animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Brand overlay */
@@ -62,18 +94,20 @@ body.photo-viewer-active #aladin-lite-div {
     position: absolute;
     top: 30px;
     left: 30px;
-    z-index: 999;  /* Below Aladin controls */
+    z-index: 999;
+    /* Below Aladin controls */
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     padding: 15px 25px;
     border-radius: 15px;
-    border: 1px solid rgba(255, 165, 0, 0.2);
+    border: 1px solid rgba(0, 120, 114, 0.2);
 }
 
 /* Move brand down on screens where it might overlap with controls */
 @media (max-width: 1400px) {
     .brand-overlay {
-        top: 100px;  /* Move below Aladin controls */
+        top: 100px;
+        /* Move below Aladin controls */
     }
 }
 
@@ -87,7 +121,7 @@ body.photo-viewer-active #aladin-lite-div {
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #ffa500, #ff6b00);
+    background: linear-gradient(45deg, var(--nebula-light), var(--nebula-bright));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 5px;
@@ -132,7 +166,7 @@ body.photo-viewer-active #aladin-lite-div {
     font-size: 1em;
     margin-bottom: 15px;
     font-weight: 400;
-    color: #ffa500;
+    color: var(--nebula-light);
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
@@ -180,16 +214,16 @@ body.photo-viewer-active #aladin-lite-div {
 .stat-box {
     flex: 1;
     padding: 15px;
-    background: rgba(255, 165, 0, 0.1);
+    background: rgba(0, 75, 73, 0.15);
     border-radius: 10px;
-    border: 1px solid rgba(255, 165, 0, 0.2);
+    border: 1px solid rgba(0, 120, 114, 0.25);
     text-align: center;
 }
 
 .stat-number {
     font-size: 2em;
     font-weight: 700;
-    color: #ffa500;
+    color: var(--nebula-light);
     font-family: 'Orbitron', monospace;
 }
 
@@ -203,10 +237,10 @@ body.photo-viewer-active #aladin-lite-div {
     width: 100%;
     padding: 12px;
     margin-bottom: 10px;
-    background: linear-gradient(135deg, #ff6b00, #ffa500);
+    background: linear-gradient(135deg, var(--nebula-primary), var(--nebula-accent));
     border: none;
     border-radius: 8px;
-    color: #000;
+    color: var(--star-white);
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -214,12 +248,13 @@ body.photo-viewer-active #aladin-lite-div {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-family: 'Orbitron', monospace;
-    box-shadow: 0 4px 15px rgba(255, 165, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 120, 114, 0.3);
 }
 
 .action-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+    box-shadow: 0 6px 20px rgba(0, 168, 157, 0.5);
+    background: linear-gradient(135deg, var(--nebula-accent), var(--nebula-light));
 }
 
 .action-button.secondary {
@@ -254,8 +289,8 @@ body.photo-viewer-active #aladin-lite-div {
 }
 
 .photo-list-item:hover {
-    background: rgba(255, 165, 0, 0.1);
-    border-color: rgba(255, 165, 0, 0.3);
+    background: rgba(0, 120, 114, 0.15);
+    border-color: rgba(0, 168, 157, 0.3);
     padding-left: 16px;
 }
 
@@ -358,7 +393,7 @@ body.photo-viewer-active #aladin-lite-div {
     max-height: 70vh;
     border-radius: 10px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-    border: 2px solid rgba(255, 165, 0, 0.3);
+    border: 2px solid rgba(0, 168, 157, 0.3);
     opacity: 0;
     transform: scale(0.95);
     transition: all 0.4s ease 0.3s;
@@ -385,7 +420,7 @@ body.photo-viewer-active #aladin-lite-div {
     font-family: 'Orbitron', monospace;
     font-size: 2em;
     margin-bottom: 10px;
-    color: #ffa500;
+    color: var(--nebula-light);
     font-weight: 400;
     letter-spacing: 0.1em;
 }
@@ -399,7 +434,7 @@ body.photo-viewer-active #aladin-lite-div {
 .photo-details {
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 1px solid rgba(255, 165, 0, 0.2);
+    border-top: 1px solid rgba(0, 168, 157, 0.2);
     font-size: 0.9em;
     opacity: 0.7;
 }
@@ -410,7 +445,7 @@ body.photo-viewer-active #aladin-lite-div {
     right: 40px;
     width: 60px;
     height: 60px;
-    background: rgba(255, 165, 0, 0.9);
+    background: linear-gradient(135deg, var(--nebula-accent), var(--nebula-light));
     border: 3px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
@@ -420,10 +455,10 @@ body.photo-viewer-active #aladin-lite-div {
     transition: all 0.3s ease;
     font-size: 28px;
     font-weight: bold;
-    color: #000;
+    color: var(--space-black);
     opacity: 0;
     transform: scale(0.8) rotate(-90deg);
-    box-shadow: 0 4px 20px rgba(255, 165, 0, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 168, 157, 0.5);
     z-index: 2001;
 }
 
@@ -434,9 +469,9 @@ body.photo-viewer-active #aladin-lite-div {
 }
 
 .close-viewer:hover {
-    background: #ff6b00;
+    background: linear-gradient(135deg, var(--nebula-light), var(--nebula-bright));
     transform: scale(1.1) rotate(90deg);
-    box-shadow: 0 6px 30px rgba(255, 165, 0, 0.7);
+    box-shadow: 0 6px 30px rgba(0, 212, 200, 0.7);
 }
 
 /* Add click instruction */
@@ -460,11 +495,14 @@ body.photo-viewer-active #aladin-lite-div {
 
 /* Custom marker animation */
 @keyframes photoBeacon {
-    0%, 100% { 
+
+    0%,
+    100% {
         transform: scale(1);
         opacity: 1;
     }
-    50% { 
+
+    50% {
         transform: scale(1.15);
         opacity: 0.9;
     }
@@ -475,6 +513,7 @@ body.photo-viewer-active #aladin-lite-div {
         transform: scale(1);
         opacity: 0.8;
     }
+
     100% {
         transform: scale(2.5);
         opacity: 0;
@@ -505,8 +544,10 @@ canvas.aladin-cooGrid {
 /* Override any inline styles for grid */
 #aladin-lite-div canvas:nth-child(2),
 #aladin-lite-div canvas:nth-child(3) {
-    opacity: 1 !important; /* Keep opacity but check in JS */
+    opacity: 1 !important;
+    /* Keep opacity but check in JS */
 }
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -517,12 +558,12 @@ canvas.aladin-cooGrid {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 165, 0, 0.3);
+    background: rgba(0, 168, 157, 0.3);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 165, 0, 0.5);
+    background: rgba(0, 168, 157, 0.5);
 }
 
 /* Responsive close button */
@@ -534,7 +575,7 @@ canvas.aladin-cooGrid {
         height: 50px;
         font-size: 24px;
     }
-    
+
     .control-panel {
         position: fixed;
         bottom: 0;
@@ -545,21 +586,21 @@ canvas.aladin-cooGrid {
         overflow-y: auto;
         border-radius: 20px 20px 0 0;
     }
-    
+
     .bottom-controls {
         bottom: auto;
         top: 20px;
         font-size: 0.8em;
         padding: 8px 15px;
     }
-    
+
     .brand-overlay {
         top: auto;
         bottom: 20px;
         left: 20px;
         padding: 10px 20px;
     }
-    
+
     .brand-logo {
         font-size: 1.2em;
     }
@@ -568,7 +609,8 @@ canvas.aladin-cooGrid {
 /* For screens where Aladin controls might overlap */
 @media (max-width: 1200px) {
     .brand-overlay {
-        top: 100px;  /* Move below Aladin controls */
+        top: 100px;
+        /* Move below Aladin controls */
     }
 }
 

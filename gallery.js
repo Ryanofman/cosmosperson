@@ -253,7 +253,7 @@ function setupNavigation() {
     });
 }
 
-// Carousel navigation setup
+// Carousel navigation setup with gravitational effects
 function setupCarousel() {
     const gallery = document.getElementById('gallery-grid');
     const prevBtn = document.querySelector('.carousel-nav.prev');
@@ -264,11 +264,10 @@ function setupCarousel() {
     // Calculate scroll amount (width of one card + gap)
     function getScrollAmount() {
         const card = gallery.querySelector('.gallery-card');
-        if (!card) return 300;
+        if (!card) return 620;
         const cardWidth = card.offsetWidth;
-        const gap = 20; // matches CSS gap
-        // Scroll by 3 cards at a time for professional feel
-        return (cardWidth + gap) * 3;
+        const gap = 60; // matches CSS gap
+        return cardWidth + gap;
     }
 
     prevBtn.addEventListener('click', () => {
@@ -285,9 +284,33 @@ function setupCarousel() {
         });
     });
 
-    // Update button visibility based on scroll position
-    function updateNavButtons() {
-        const isAtStart = gallery.scrollLeft <= 0;
+    // Update button visibility and apply gravity effects
+    function updateGravityEffects() {
+        const cards = gallery.querySelectorAll('.gallery-card');
+        const containerCenter = gallery.scrollLeft + (gallery.clientWidth / 2);
+
+        cards.forEach((card, index) => {
+            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+            const distance = cardCenter - containerCenter;
+            const threshold = card.offsetWidth * 0.6;
+
+            // Remove all gravity classes first
+            card.classList.remove('gravity-left', 'gravity-right', 'gravity-center');
+
+            if (Math.abs(distance) < threshold) {
+                // Card is centered - in the gravitational pull
+                card.classList.add('gravity-center');
+            } else if (distance < -threshold) {
+                // Card is to the left - being pulled right
+                card.classList.add('gravity-left');
+            } else if (distance > threshold) {
+                // Card is to the right - being pulled left
+                card.classList.add('gravity-right');
+            }
+        });
+
+        // Update nav button visibility
+        const isAtStart = gallery.scrollLeft <= 10;
         const isAtEnd = gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 10;
 
         prevBtn.style.opacity = isAtStart ? '0.3' : '1';
@@ -297,10 +320,21 @@ function setupCarousel() {
         nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
     }
 
-    gallery.addEventListener('scroll', updateNavButtons);
+    // Throttled scroll handler for smooth performance
+    let scrollTimeout;
+    gallery.addEventListener('scroll', () => {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(() => {
+            updateGravityEffects();
+            scrollTimeout = null;
+        }, 16); // ~60fps
+    });
 
-    // Initial check after images load
-    setTimeout(updateNavButtons, 500);
+    // Initial gravity effect after images load
+    setTimeout(updateGravityEffects, 600);
+
+    // Re-apply on window resize
+    window.addEventListener('resize', updateGravityEffects);
 }
 
 // Cache management

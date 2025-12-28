@@ -35,8 +35,9 @@ async function loadGalleryImages() {
             return;
         }
 
-        // Fetch from GitHub API
-        const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.IMAGES_PATH}`;
+        // Fetch from GitHub API - use GALLERY_PATH for gallery page
+        const galleryPath = CONFIG.GALLERY_PATH || 'gallery';
+        const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${galleryPath}`;
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
@@ -83,42 +84,43 @@ async function loadGalleryImages() {
     }
 }
 
-// Load images from local directory (fallback)
+// Load images from local gallery directory (fallback)
 function loadLocalImages() {
-    // Predefined list of local images
-    const localImages = [
-        { filename: 'IC1805.jpg', name: 'Heart Nebula', type: 'Emission Nebula' },
-        { filename: 'IC405.jpg', name: 'Flaming Star Nebula', type: 'Emission Nebula' },
-        { filename: 'IC410.JPG', name: 'Tadpole Nebula', type: 'Emission Nebula' },
-        { filename: 'IC5070.JPG', name: 'Pelican Nebula', type: 'Emission Nebula' },
-        { filename: 'M1.jpg', name: 'Crab Nebula', type: 'Supernova Remnant' },
-        { filename: 'M101.jpg', name: 'Pinwheel Galaxy', type: 'Spiral Galaxy' },
-        { filename: 'M13.jpg', name: 'Hercules Cluster', type: 'Globular Cluster' },
-        { filename: 'M42.jpeg', name: 'Orion Nebula', type: 'Emission Nebula' },
-        { filename: 'M42_2.jpg', name: 'Orion Nebula II', type: 'Emission Nebula' },
-        { filename: 'M78.jpg', name: 'M78 Nebula', type: 'Reflection Nebula' },
-        { filename: 'NGC1499.jpg', name: 'California Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC1975.jpg', name: 'Running Man Nebula', type: 'Reflection Nebula' },
-        { filename: 'NGC2024.jpg', name: 'Flame Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC2175.jpeg', name: 'Monkey Head Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC2237.jpg', name: 'Rosette Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC281.JPG', name: 'Pacman Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC4565.JPG', name: 'Needle Galaxy', type: 'Spiral Galaxy' },
-        { filename: 'NGC6888.jpg', name: 'Crescent Nebula', type: 'Emission Nebula' },
-        { filename: 'NGC6888_2.jpg', name: 'Crescent Nebula II', type: 'Emission Nebula' },
-        { filename: 'NGC6995.jpg', name: 'Veil Nebula', type: 'Supernova Remnant' }
+    // This will scan the gallery folder - add your gallery images here
+    // For now, show a message if gallery is empty
+    const gallery = document.getElementById('gallery-grid');
+    const loadingEl = document.getElementById('gallery-loading');
+
+    // Try to fetch gallery folder contents via a simple check
+    // Since we can't scan directories in browser, we need a manifest or predefined list
+    // You can add images to this list as you add them to the gallery folder
+    const galleryImages = [
+        // Add your gallery images here as they're added to the gallery folder
+        // Example: { filename: 'image1.jpg', name: 'My Photo', type: 'Deep Sky Object' }
     ];
 
-    const processedImages = localImages.map(img => ({
+    if (galleryImages.length === 0) {
+        // Show empty state
+        if (loadingEl) loadingEl.style.display = 'none';
+        gallery.innerHTML = `
+            <div style="text-align: center; padding: 60px; color: var(--star-dim); width: 100%;">
+                <p style="font-size: 1.2em; margin-bottom: 10px;">Gallery is empty</p>
+                <p style="opacity: 0.7;">Add images to the /gallery folder to display them here</p>
+            </div>
+        `;
+        return;
+    }
+
+    const processedImages = galleryImages.map(img => ({
         id: img.filename.split('.')[0],
         name: img.name,
         type: img.type,
-        imageUrl: `images/${img.filename}`,
+        imageUrl: `gallery/${img.filename}`,
         filename: img.filename
     }));
 
     displayGalleryImages(processedImages);
-    document.getElementById('gallery-loading').style.display = 'none';
+    if (loadingEl) loadingEl.style.display = 'none';
 }
 
 // Display images in the gallery grid

@@ -57,44 +57,11 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="title-line">Capturing the</span>
-                <span class="title-line accent">Cosmos</span>
-            </h1>
-            <p class="hero-subtitle">
-                A journey through deep space, one exposure at a time.
-                <br>Nebulae, galaxies, and star clusters from my backyard observatory.
-            </p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-value" id="image-count">0</span>
-                    <span class="stat-label">Captures</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat">
-                    <span class="stat-value">Deep Sky</span>
-                    <span class="stat-label">Objects</span>
-                </div>
-            </div>
-        </div>
-        <div class="hero-scroll-indicator">
-            <span>Scroll to explore</span>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M12 5v14M5 12l7 7 7-7" />
-            </svg>
-        </div>
-    </section>
+
 
     <!-- Gallery Section -->
     <section class="gallery-section" id="gallery">
-        <div class="section-header">
-            <h2>The Collection</h2>
-            <p>Each image represents hours of patient observation and careful processing</p>
-        </div>
+
 
         <!-- Loading State -->
         <div class="gallery-loading" id="gallery-loading">
@@ -102,45 +69,25 @@
             <p>Loading captures...</p>
         </div>
 
-        <!-- Gallery Grid -->
-        <div class="gallery-grid" id="gallery-grid"></div>
-    </section>
-
-    <!-- Explore CTA Section -->
-    <section class="explore-cta">
-        <div class="cta-content">
-            <h2>Ready to Explore?</h2>
-            <p>Navigate the cosmos with our interactive sky map. Find these objects in the night sky and discover more.
-            </p>
-            <a href="explore.html" class="cta-button">
-                <span>Launch Sky Map</span>
+        <!-- Gallery Carousel -->
+        <div class="gallery-carousel-wrapper">
+            <button class="carousel-nav prev" aria-label="Previous images">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                     stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <path
-                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                    <path d="M2 12h20" />
+                    <path d="M15 18l-6-6 6-6" />
                 </svg>
-            </a>
+            </button>
+            <div class="gallery-grid" id="gallery-grid"></div>
+            <button class="carousel-nav next" aria-label="Next images">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="gallery-footer">
-        <div class="footer-content">
-            <div class="footer-brand">
-                <span class="footer-logo">Cosmos Person</span>
-                <p>Capturing the universe, one photon at a time.</p>
-            </div>
-            <div class="footer-links">
-                <a href="explore.html">Sky Map</a>
-                <a href="mailto:hello@cosmosperson.com">Contact</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Cosmos Person Photography. All rights reserved.</p>
-        </div>
-    </footer>
+
 
     <!-- Lightbox Modal -->
     <div class="lightbox" id="lightbox">

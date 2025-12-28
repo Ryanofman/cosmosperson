@@ -1,14 +1,9 @@
 {
     "gallery": [
         {
-            "filename": "IC434_Original_Finalized_2xUpsampled.jpg",
-            "name": "Horsehead Nebula",
-            "type": "Dark Nebula"
-        },
-        {
-            "filename": "M78_3xUpsampled_W.jpg",
-            "name": "M78 Nebula",
-            "type": "Reflection Nebula"
+            "filename": "Thor_Interpreted_3XUpsampled.jpg",
+            "name": "Thor's Helmet",
+            "type": "Emission Nebula"
         },
         {
             "filename": "NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
@@ -16,14 +11,29 @@
             "type": "Supernova Remnant"
         },
         {
-            "filename": "IC405.jpg",
-            "name": "Flaming Star Nebula",
+            "filename": "SH2-142_Original_2XUpsampled.jpg",
+            "name": "Wizard Nebula",
             "type": "Emission Nebula"
+        },
+        {
+            "filename": "IC434_Original_Finalized_2xUpsampled.jpg",
+            "name": "Horsehead Nebula",
+            "type": "Dark Nebula"
         },
         {
             "filename": "M101_3xUpsmpled.jpg",
             "name": "Pinwheel Galaxy",
             "type": "Spiral Galaxy"
+        },
+        {
+            "filename": "M78_3xUpsampled_W.jpg",
+            "name": "M78 Nebula",
+            "type": "Reflection Nebula"
+        },
+        {
+            "filename": "IC405.jpg",
+            "name": "Flaming Star Nebula",
+            "type": "Emission Nebula"
         },
         {
             "filename": "NGC281.JPG",
@@ -34,16 +44,6 @@
             "filename": "IC_63_Phoenix_3XUpsampled.jpg",
             "name": "Ghost of Cassiopeia",
             "type": "Reflection Nebula"
-        },
-        {
-            "filename": "Thor_Interpreted_3XUpsampled.jpg",
-            "name": "Thor's Helmet",
-            "type": "Emission Nebula"
-        },
-        {
-            "filename": "SH2-142_Original_2XUpsampled.jpg",
-            "name": "Wizard Nebula",
-            "type": "Emission Nebula"
         },
         {
             "filename": "Butterfly_Mosaic_Original_2X Upsampled.jpg",

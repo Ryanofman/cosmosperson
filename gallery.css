@@ -494,7 +494,8 @@
 .gallery-card-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    background: #000;
     filter: brightness(0.85);
     transition: all 0.8s var(--transition-smooth);
 }

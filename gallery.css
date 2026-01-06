@@ -337,33 +337,27 @@
     z-index: 2;
 }
 
-/* Gallery Carousel - Orbital Path */
-/* Gallery Grid - 3 Column Layout */
+/* Gallery Grid - Masonry Columns Layout (No Gaps) */
 .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    padding: 40px;
+    column-count: 3;
+    column-gap: 20px;
+    padding: 20px;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    overflow: visible;
-    height: auto;
-    align-items: start;
-    /* Prevent cards from stretching to row height */
 }
 
-/* Responsive Grid */
+/* Responsive Columns */
 @media (max-width: 1200px) {
     .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+        column-count: 2;
     }
 }
 
 @media (max-width: 768px) {
     .gallery-grid {
-        grid-template-columns: 1fr;
-        padding: 20px;
+        column-count: 1;
+        padding: 15px;
     }
 }
 
@@ -397,8 +391,7 @@
     right: 30px;
 }
 
-/* Gallery Card - Orbital Item with Professional Gallery Framing */
-/* Gallery Card - Restored Frames */
+/* Gallery Card - Masonry Item */
 .gallery-card {
     position: relative;
     border-radius: 4px;
@@ -408,16 +401,14 @@
     opacity: 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
-    height: auto;
+    margin-bottom: 20px;
+    break-inside: avoid;
     border: 3px solid var(--nebula-deep);
     box-shadow:
-        /* Inner glow */
         inset 0 0 20px rgba(0, 168, 157, 0.1),
-        /* Matte frame shadow */
-        0 0 0 8px var(--space-deep),
-        0 0 0 10px var(--nebula-primary),
-        /* Outer depth shadows */
-        0 10px 30px rgba(0, 0, 0, 0.5);
+        0 0 0 6px var(--space-deep),
+        0 0 0 8px var(--nebula-primary),
+        0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 /* Inner matte frame overlay */

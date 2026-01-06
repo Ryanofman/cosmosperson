@@ -352,6 +352,8 @@
     margin: 0 auto;
     overflow: visible;
     height: auto;
+    align-items: start;
+    /* Prevent cards from stretching to row height */
 }
 
 /* Responsive Grid */
@@ -409,8 +411,6 @@
     opacity: 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
-    /* Enforce Square Aspect Ratio */
-    aspect-ratio: 1 / 1;
     height: auto;
     border: 3px solid var(--nebula-deep);
     box-shadow:
@@ -469,17 +469,17 @@
 }
 
 .gallery-card-image {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: auto;
+    display: block;
 }
 
 .gallery-card-image img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
+    object-fit: contain;
     background: #000;
     transition: transform 0.8s ease;
 }

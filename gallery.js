@@ -20,62 +20,79 @@ async function loadGalleryImages() {
     // Show loading state
     if (loadingEl) loadingEl.style.display = 'flex';
 
-    let galleryManifestImages = [];
-    let additionalImages = [];
-
     try {
-        // First, load from gallery.json manifest (priority images)
+        // First, try to load from gallery.json manifest (allows custom ordering)
         const manifestResponse = await fetch('gallery.json');
         if (manifestResponse.ok) {
             const manifest = await manifestResponse.json();
             if (manifest.gallery && manifest.gallery.length > 0) {
-                galleryManifestImages = manifest.gallery.map(img => ({
-                    id: img.filename.split('/').pop().split('.')[0],
+                const processedImages = manifest.gallery.map(img => ({
+                    id: img.filename.split('.')[0],
                     name: img.name,
                     type: img.type,
                     imageUrl: `gallery/${img.filename}`,
-                    filename: img.filename.split('/').pop()
+                    filename: img.filename
                 }));
+                displayGalleryImages(processedImages);
+                if (loadingEl) loadingEl.style.display = 'none';
+                return;
             }
         }
     } catch (e) {
-        console.log('No gallery.json manifest found');
+        console.log('No gallery.json manifest found, trying GitHub API...');
     }
 
-    // Track filenames from gallery manifest to avoid duplicates
-    const galleryFilenames = new Set(galleryManifestImages.map(img => img.filename.toLowerCase()));
+    // Check if we're using GitHub API
+    if (CONFIG.DEV_MODE || CONFIG.GITHUB_USERNAME === 'YOUR_GITHUB_USERNAME') {
+        loadLocalImages();
+        return;
+    }
 
     try {
-        // Then, load additional images from /images folder
-        const imagesResponse = await fetch('images.json');
-        if (imagesResponse.ok) {
-            const imagesManifest = await imagesResponse.json();
-            if (imagesManifest.images && imagesManifest.images.length > 0) {
-                additionalImages = imagesManifest.images
-                    .filter(img => !galleryFilenames.has(img.filename.toLowerCase()))
-                    .map(img => ({
-                        id: img.filename.split('.')[0],
-                        name: img.name || formatFileName(img.filename),
-                        type: img.type || 'Deep Sky Object',
-                        imageUrl: `images/${img.filename}`,
-                        filename: img.filename
-                    }));
-            }
+        // Fetch from GitHub API - use GALLERY_PATH for gallery page
+        const galleryPath = CONFIG.GALLERY_PATH || 'gallery';
+        const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${galleryPath}`;
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            throw new Error(`GitHub API error: ${response.status}`);
         }
-    } catch (e) {
-        console.log('No images.json manifest found, trying directory listing...');
+
+        const files = await response.json();
+
+        // Filter for image files
+        const imageFiles = files.filter(file =>
+            file.type === 'file' &&
+            CONFIG.SUPPORTED_FORMATS.some(ext =>
+                file.name.toLowerCase().endsWith(`.${ext}`)
+            )
+        );
+
+        // Process each image
+        const processedImages = imageFiles.map(file => {
+            const celestialObject = findCelestialObject(file.name);
+            return {
+                id: normalizeObjectName(file.name),
+                name: celestialObject ? celestialObject.name : formatFileName(file.name),
+                type: celestialObject ? celestialObject.type : 'Deep Sky Object',
+                imageUrl: file.download_url,
+                filename: file.name,
+                size: file.size
+            };
+        });
+
+        // Sort by name
+        processedImages.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Display images
+        displayGalleryImages(processedImages);
+
+    } catch (error) {
+        console.error('Error loading gallery from GitHub:', error);
+        loadLocalImages();
+    } finally {
+        if (loadingEl) loadingEl.style.display = 'none';
     }
-
-    // Combine: gallery first, then additional images
-    const allImages = [...galleryManifestImages, ...additionalImages];
-
-    if (allImages.length > 0) {
-        displayGalleryImages(allImages);
-    } else {
-        showEmptyGallery(gallery);
-    }
-
-    if (loadingEl) loadingEl.style.display = 'none';
 }
 
 // Load images from local gallery directory (fallback)

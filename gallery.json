@@ -6,6 +6,11 @@
             "type": "Supernova Remnant"
         },
         {
+            "filename": "Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+            "name": "Whirlpool Galaxy",
+            "type": "Grand Design Spiral"
+        },
+        {
             "filename": "Thor_Original_2XUpsampled.jpg",
             "name": "Thor's Helmet",
             "type": "Emission Nebula"
@@ -44,6 +49,7 @@
             "filename": "Butterfly_Mosaic_Original_2X Upsampled.jpg",
             "name": "Butterfly Nebula",
             "type": "Planetary Nebula"
+
         },
         {
             "filename": "NGC281.JPG",

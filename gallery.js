@@ -273,13 +273,8 @@ function setupCarousel() {
 
     if (!gallery || !prevBtn || !nextBtn) return;
 
-    // Calculate scroll amount (width of one card + gap)
     function getScrollAmount() {
-        const card = gallery.querySelector('.gallery-card');
-        if (!card) return 620;
-        const cardWidth = card.offsetWidth;
-        const gap = 60; // matches CSS gap
-        return cardWidth + gap;
+        return window.innerWidth;
     }
 
     prevBtn.addEventListener('click', () => {
@@ -302,23 +297,9 @@ function setupCarousel() {
         const containerCenter = gallery.scrollLeft + (gallery.clientWidth / 2);
 
         cards.forEach((card, index) => {
-            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-            const distance = cardCenter - containerCenter;
-            const threshold = card.offsetWidth * 0.6;
-
-            // Remove all gravity classes first
+            // Gravity effects removed for full screen layout
             card.classList.remove('gravity-left', 'gravity-right', 'gravity-center');
-
-            if (Math.abs(distance) < threshold) {
-                // Card is centered - in the gravitational pull
-                card.classList.add('gravity-center');
-            } else if (distance < -threshold) {
-                // Card is to the left - being pulled right
-                card.classList.add('gravity-left');
-            } else if (distance > threshold) {
-                // Card is to the right - being pulled left
-                card.classList.add('gravity-right');
-            }
+            card.classList.add('gravity-center');
         });
 
         // Update nav button visibility

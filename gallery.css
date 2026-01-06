@@ -409,6 +409,8 @@
     opacity: 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
+    /* Enforce Square Aspect Ratio */
+    aspect-ratio: 1 / 1;
     height: auto;
     border: 3px solid var(--nebula-deep);
     box-shadow:
@@ -467,18 +469,19 @@
 }
 
 .gallery-card-image {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
 }
 
 .gallery-card-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     background: #000;
-    transition: opacity 0.5s ease;
+    transition: transform 0.8s ease;
 }
 
 .gallery-card:hover .gallery-card-image img {

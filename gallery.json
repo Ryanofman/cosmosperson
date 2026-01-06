@@ -1,6 +1,11 @@
 {
     "gallery": [
         {
+            "filename": "optimized/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+            "name": "Whirlpool Galaxy (Deep Field)",
+            "type": "Grand Design Spiral"
+        },
+        {
             "filename": "optimized/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
             "name": "Veil Nebula",
             "type": "Supernova Remnant"

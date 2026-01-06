@@ -214,9 +214,9 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* Black Hole Center Effect */

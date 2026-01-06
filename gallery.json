@@ -1,29 +1,14 @@
 {
     "gallery": [
         {
-            "filename": "optimized/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
-            "name": "Whirlpool Galaxy",
-            "type": "Grand Design Spiral"
-        },
-        {
-            "filename": "optimized/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
-            "name": "Veil Nebula",
-            "type": "Supernova Remnant"
-        },
-        {
             "filename": "optimized/Thor_Original_2XUpsampled.jpg",
             "name": "Thor's Helmet",
             "type": "Emission Nebula"
         },
         {
-            "filename": "optimized/SH2-142_Original_2XUpsampled.jpg",
-            "name": "Wizard Nebula",
-            "type": "Emission Nebula"
-        },
-        {
-            "filename": "optimized/CometMinimalV1_2xUpsampled.jpg",
-            "name": "24P/Schaumasse Comet",
-            "type": "Periodic Comet"
+            "filename": "optimized/IC_63_Phoenix_3XUpsampled.jpg",
+            "name": "Ghost of Cassiopeia",
+            "type": "Reflection Nebula"
         },
         {
             "filename": "optimized/IC434_Original_Finalized_2xUpsampled.jpg",
@@ -31,19 +16,14 @@
             "type": "Dark Nebula"
         },
         {
+            "filename": "optimized/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
+            "name": "Veil Nebula",
+            "type": "Supernova Remnant"
+        },
+        {
             "filename": "optimized/M101_3xUpsmpled.jpg",
             "name": "Pinwheel Galaxy",
             "type": "Spiral Galaxy"
-        },
-        {
-            "filename": "optimized/M78_3xUpsampled_W.jpg",
-            "name": "M78 Nebula",
-            "type": "Reflection Nebula"
-        },
-        {
-            "filename": "optimized/IC_63_Phoenix_3XUpsampled.jpg",
-            "name": "Ghost of Cassiopeia",
-            "type": "Reflection Nebula"
         },
         {
             "filename": "optimized/Butterfly_Mosaic_Original_2X Upsampled.jpg",
@@ -53,6 +33,26 @@
         {
             "filename": "optimized/NGC281.JPG",
             "name": "Pacman Nebula",
+            "type": "Emission Nebula"
+        },
+        {
+            "filename": "optimized/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+            "name": "Whirlpool Galaxy",
+            "type": "Grand Design Spiral"
+        },
+        {
+            "filename": "optimized/M78_3xUpsampled_W.jpg",
+            "name": "M78 Nebula",
+            "type": "Reflection Nebula"
+        },
+        {
+            "filename": "optimized/CometMinimalV1_2xUpsampled.jpg",
+            "name": "24P/Schaumasse Comet",
+            "type": "Periodic Comet"
+        },
+        {
+            "filename": "optimized/SH2-142_Original_2XUpsampled.jpg",
+            "name": "Wizard Nebula",
             "type": "Emission Nebula"
         }
     ]

@@ -265,69 +265,16 @@ function setupNavigation() {
     });
 }
 
-// Carousel navigation setup with gravitational effects
+// Carousel navigation setup - DISABLED for Grid Layout
 function setupCarousel() {
-    const gallery = document.getElementById('gallery-grid');
     const prevBtn = document.querySelector('.carousel-nav.prev');
     const nextBtn = document.querySelector('.carousel-nav.next');
 
-    if (!gallery || !prevBtn || !nextBtn) return;
+    // Hide buttons if they exist
+    if (prevBtn) prevBtn.style.display = 'none';
+    if (nextBtn) nextBtn.style.display = 'none';
 
-    function getScrollAmount() {
-        return window.innerWidth;
-    }
-
-    prevBtn.addEventListener('click', () => {
-        gallery.scrollBy({
-            left: -getScrollAmount(),
-            behavior: 'smooth'
-        });
-    });
-
-    nextBtn.addEventListener('click', () => {
-        gallery.scrollBy({
-            left: getScrollAmount(),
-            behavior: 'smooth'
-        });
-    });
-
-    // Update button visibility and apply gravity effects
-    function updateGravityEffects() {
-        const cards = gallery.querySelectorAll('.gallery-card');
-        const containerCenter = gallery.scrollLeft + (gallery.clientWidth / 2);
-
-        cards.forEach((card, index) => {
-            // Gravity effects removed for full screen layout
-            card.classList.remove('gravity-left', 'gravity-right', 'gravity-center');
-            card.classList.add('gravity-center');
-        });
-
-        // Update nav button visibility
-        const isAtStart = gallery.scrollLeft <= 10;
-        const isAtEnd = gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 10;
-
-        prevBtn.style.opacity = isAtStart ? '0.3' : '1';
-        prevBtn.style.pointerEvents = isAtStart ? 'none' : 'auto';
-
-        nextBtn.style.opacity = isAtEnd ? '0.3' : '1';
-        nextBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto';
-    }
-
-    // Throttled scroll handler for smooth performance
-    let scrollTimeout;
-    gallery.addEventListener('scroll', () => {
-        if (scrollTimeout) return;
-        scrollTimeout = setTimeout(() => {
-            updateGravityEffects();
-            scrollTimeout = null;
-        }, 16); // ~60fps
-    });
-
-    // Initial gravity effect after images load
-    setTimeout(updateGravityEffects, 600);
-
-    // Re-apply on window resize
-    window.addEventListener('resize', updateGravityEffects);
+    // No scroll listeners or gravity needed for grid
 }
 
 // Cache management

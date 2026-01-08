@@ -36,9 +36,15 @@
             "type": "Spiral Galaxy"
         },
         {
+            "filename": "California_2xUpsampled_reddragon.jpg",
+            "name": "California(Dragon) Nebula",
+            "type": "Spiral Galaxy"
+        },
+
+        {
             "filename": "optimized/M78_3xUpsampled_W.jpg",
             "name": "M78 Nebula",
-            "type": "Reflection Nebula"
+            "type": "Emission Nebula"
         },
         {
             "filename": "optimized/IC_63_Phoenix_3XUpsampled.jpg",

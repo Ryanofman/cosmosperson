@@ -26,6 +26,12 @@
             "type": "Periodic Comet"
         },
         {
+            "filename": "Christmas_Tree_3xUpsampled.jpg",
+            "name": "Christmas Tree Nebula",
+            "type": "Emission Nebula"
+
+        },
+        {
             "filename": "optimized/IC434_Original_Finalized_2xUpsampled.jpg",
             "name": "Horsehead Nebula",
             "type": "Dark Nebula"

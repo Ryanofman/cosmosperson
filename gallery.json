@@ -38,72 +38,60 @@
         },
         {
             "position": 6,
-            "name": "Christmas Tree Cluster",
-            "type": "Nebula",
-            "filename": "Christmas_Tree_3xUpsampled.jpg"
-        },
-        {
-            "position": 7,
             "name": "North America Nebula",
             "type": "Nebula",
             "filename": "North_3xResampled.jpg"
         },
         {
-            "position": 8,
+            "position": 7,
             "name": "M101 Pinwheel Galaxy",
             "type": "Galaxy",
             "filename": "M101_3xUpsmpled.jpg"
         },
         {
-            "position": 9,
+            "position": 8,
             "name": "Thor's Helmet",
             "type": "Nebula",
             "filename": "Thor_Original_2XUpsampled.jpg"
         },
         {
-            "position": 10,
+            "position": 9,
             "name": "Comet",
             "type": "Solar System",
             "filename": "CometMinimalV1_2xUpsampled.jpg"
         },
         {
-            "position": 11,
+            "position": 10,
             "name": "IC 434 Horsehead",
             "type": "Nebula",
             "filename": "IC434_Original_Finalized_2xUpsampled.jpg"
         },
         {
-            "position": 12,
+            "position": 11,
             "name": "M78",
             "type": "Nebula",
             "filename": "M78_3xUpsampled_W.jpg"
         },
         {
-            "position": 13,
+            "position": 12,
             "name": "Pacman Nebula (NGC 281)",
             "type": "Nebula",
             "filename": "NGC281.JPG"
         },
         {
-            "position": 14,
+            "position": 13,
             "name": "Soul Nebula",
             "type": "Nebula",
             "filename": "Soul_3xUpsampled_Original.jpg"
         },
         {
-            "position": 15,
-            "name": "M78 Fairplay",
-            "type": "Nebula",
-            "filename": "M78_Fairplay_30s_3XUpsampled.jpg"
-        },
-        {
-            "position": 16,
+            "position": 14,
             "name": "Eastern Veil Nebula",
             "type": "Nebula",
             "filename": "NGC_6992_Interpret_Mosaic_3xUpsampled.jpg"
         },
         {
-            "position": 17,
+            "position": 15,
             "name": "Iris Nebula",
             "type": "Nebula",
             "filename": "Iris_Finalized_3xUpsampled.jpg"

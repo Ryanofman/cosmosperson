@@ -1,71 +1,112 @@
 {
+    "settings": {
+        "columns": 3,
+        "gap": 29,
+        "borderRadius": 4,
+        "showInfo": false
+    },
     "gallery": [
         {
-            "filename": "optimized/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+            "position": 1,
+            "name": "SH2-142",
+            "type": "Nebula",
+            "filename": "SH2-142_Original_2XUpsampled.jpg"
+        },
+        {
+            "position": 2,
+            "name": "California Nebula",
+            "type": "Nebula",
+            "filename": "California_2xUpsampled_reddragon.jpg"
+        },
+        {
+            "position": 3,
+            "name": "Butterfly Mosaic",
+            "type": "Nebula",
+            "filename": "Butterfly_Mosaic_Original_2X Upsampled.jpg"
+        },
+        {
+            "position": 4,
+            "name": "IC 63 Phoenix",
+            "type": "Nebula",
+            "filename": "IC_63_Phoenix_3XUpsampled.jpg"
+        },
+        {
+            "position": 5,
             "name": "Whirlpool Galaxy",
-            "type": "Grand Design Spiral"
+            "type": "Galaxy",
+            "filename": "Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg"
         },
         {
-            "filename": "optimized/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
-            "name": "Veil Nebula",
-            "type": "Supernova Remnant"
+            "position": 6,
+            "name": "Christmas Tree Cluster",
+            "type": "Nebula",
+            "filename": "Christmas_Tree_3xUpsampled.jpg"
         },
         {
-            "filename": "optimized/Thor_Original_2XUpsampled.jpg",
+            "position": 7,
+            "name": "North America Nebula",
+            "type": "Nebula",
+            "filename": "North_3xResampled.jpg"
+        },
+        {
+            "position": 8,
+            "name": "M101 Pinwheel Galaxy",
+            "type": "Galaxy",
+            "filename": "M101_3xUpsmpled.jpg"
+        },
+        {
+            "position": 9,
             "name": "Thor's Helmet",
-            "type": "Emission Nebula"
+            "type": "Nebula",
+            "filename": "Thor_Original_2XUpsampled.jpg"
         },
         {
-            "filename": "optimized/SH2-142_Original_2XUpsampled.jpg",
-            "name": "Wizard Nebula",
-            "type": "Emission Nebula"
+            "position": 10,
+            "name": "Comet",
+            "type": "Solar System",
+            "filename": "CometMinimalV1_2xUpsampled.jpg"
         },
         {
-            "filename": "optimized/CometMinimalV1_2xUpsampled.jpg",
-            "name": "24P/Schaumasse Comet",
-            "type": "Periodic Comet"
+            "position": 11,
+            "name": "IC 434 Horsehead",
+            "type": "Nebula",
+            "filename": "IC434_Original_Finalized_2xUpsampled.jpg"
         },
         {
-            "filename": "Christmas_Tree_3xUpsampled.jpg",
-            "name": "Christmas Tree Nebula",
-            "type": "Emission Nebula"
-
+            "position": 12,
+            "name": "M78",
+            "type": "Nebula",
+            "filename": "M78_3xUpsampled_W.jpg"
         },
         {
-            "filename": "optimized/IC434_Original_Finalized_2xUpsampled.jpg",
-            "name": "Horsehead Nebula",
-            "type": "Dark Nebula"
+            "position": 13,
+            "name": "Pacman Nebula (NGC 281)",
+            "type": "Nebula",
+            "filename": "NGC281.JPG"
         },
         {
-            "filename": "optimized/M101_3xUpsmpled.jpg",
-            "name": "Pinwheel Galaxy",
-            "type": "Spiral Galaxy"
+            "position": 14,
+            "name": "Soul Nebula",
+            "type": "Nebula",
+            "filename": "Soul_3xUpsampled_Original.jpg"
         },
         {
-            "filename": "California_2xUpsampled_reddragon.jpg",
-            "name": "California(Dragon) Nebula",
-            "type": "Spiral Galaxy"
-        },
-
-        {
-            "filename": "optimized/M78_3xUpsampled_W.jpg",
-            "name": "M78 Nebula",
-            "type": "Emission Nebula"
+            "position": 15,
+            "name": "M78 Fairplay",
+            "type": "Nebula",
+            "filename": "M78_Fairplay_30s_3XUpsampled.jpg"
         },
         {
-            "filename": "optimized/IC_63_Phoenix_3XUpsampled.jpg",
-            "name": "Ghost of Cassiopeia",
-            "type": "Reflection Nebula"
+            "position": 16,
+            "name": "Eastern Veil Nebula",
+            "type": "Nebula",
+            "filename": "NGC_6992_Interpret_Mosaic_3xUpsampled.jpg"
         },
         {
-            "filename": "optimized/Butterfly_Mosaic_Original_2X Upsampled.jpg",
-            "name": "Butterfly Nebula",
-            "type": "Planetary Nebula"
-        },
-        {
-            "filename": "optimized/NGC281.JPG",
-            "name": "Pacman Nebula",
-            "type": "Emission Nebula"
+            "position": 17,
+            "name": "Iris Nebula",
+            "type": "Nebula",
+            "filename": "Iris_Finalized_3xUpsampled.jpg"
         }
     ]
 }

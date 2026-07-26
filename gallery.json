@@ -1,100 +1,609 @@
 {
-    "settings": {
-        "columns": 3,
-        "gap": 29,
-        "borderRadius": 4,
-        "showInfo": false
-    },
-    "gallery": [
+  "version": 2,
+  "updated": "2026-07-26T06:02:34Z",
+  "settings": {
+    "hero": "california"
+  },
+  "images": [
+    {
+      "id": "wizard",
+      "title": "The Wizard Nebula",
+      "catalog": "NGC 7380 · Sh2-142",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cepheus",
+      "distance": "≈ 7,200 light-years",
+      "description": "An open star cluster carving shapes into the cloud it was born from. With a little imagination there's a wizard in there — pointy hat and all.",
+      "skyTarget": "NGC 7380",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/SH2-142_Original_2XUpsampled.jpg",
+      "width": 3916,
+      "height": 7216,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDi+1HQ+tPiQyOEUZJpZYmiOHGD6GmVYjopdjelFMRJbzvA+5Dg4wafcyLKd4LZPXJzVeilYpPoGKKKKYj/2Q==",
+      "color": "#0f070d",
+      "srcset": [
         {
-            "position": 1,
-            "name": "SH2-142",
-            "type": "Nebula",
-            "filename": "SH2-142_Original_2XUpsampled.jpg"
+          "src": "gallery/_web/wizard-800.jpg",
+          "w": 434
         },
         {
-            "position": 2,
-            "name": "California Nebula",
-            "type": "Nebula",
-            "filename": "California_2xUpsampled_reddragon.jpg"
+          "src": "gallery/_web/wizard-1600.jpg",
+          "w": 868
         },
         {
-            "position": 3,
-            "name": "Butterfly Mosaic",
-            "type": "Nebula",
-            "filename": "Butterfly_Mosaic_Original_2X Upsampled.jpg"
-        },
-        {
-            "position": 4,
-            "name": "IC 63 Phoenix",
-            "type": "Nebula",
-            "filename": "IC_63_Phoenix_3XUpsampled.jpg"
-        },
-        {
-            "position": 5,
-            "name": "Whirlpool Galaxy",
-            "type": "Galaxy",
-            "filename": "Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg"
-        },
-        {
-            "position": 6,
-            "name": "North America Nebula",
-            "type": "Nebula",
-            "filename": "North_3xResampled.jpg"
-        },
-        {
-            "position": 7,
-            "name": "M101 Pinwheel Galaxy",
-            "type": "Galaxy",
-            "filename": "M101_3xUpsmpled.jpg"
-        },
-        {
-            "position": 8,
-            "name": "Thor's Helmet",
-            "type": "Nebula",
-            "filename": "Thor_Original_2XUpsampled.jpg"
-        },
-        {
-            "position": 9,
-            "name": "Comet",
-            "type": "Solar System",
-            "filename": "CometMinimalV1_2xUpsampled.jpg"
-        },
-        {
-            "position": 10,
-            "name": "IC 434 Horsehead",
-            "type": "Nebula",
-            "filename": "IC434_Original_Finalized_2xUpsampled.jpg"
-        },
-        {
-            "position": 11,
-            "name": "M78",
-            "type": "Nebula",
-            "filename": "M78_3xUpsampled_W.jpg"
-        },
-        {
-            "position": 12,
-            "name": "Pacman Nebula (NGC 281)",
-            "type": "Nebula",
-            "filename": "NGC281.JPG"
-        },
-        {
-            "position": 13,
-            "name": "Soul Nebula",
-            "type": "Nebula",
-            "filename": "Soul_3xUpsampled_Original.jpg"
-        },
-        {
-            "position": 14,
-            "name": "Eastern Veil Nebula",
-            "type": "Nebula",
-            "filename": "NGC_6992_Interpret_Mosaic_3xUpsampled.jpg"
-        },
-        {
-            "position": 15,
-            "name": "Iris Nebula",
-            "type": "Nebula",
-            "filename": "Iris_Finalized_3xUpsampled.jpg"
+          "src": "gallery/_web/wizard-2600.jpg",
+          "w": 1411
         }
-    ]
+      ]
+    },
+    {
+      "id": "california",
+      "title": "The California Nebula",
+      "catalog": "NGC 1499",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Perseus",
+      "distance": "≈ 1,000 light-years",
+      "description": "A hundred-light-year ribbon of hydrogen, glowing under UV light from the star Menkib. Named for its shape, not its weather.",
+      "skyTarget": "NGC 1499",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/California_2xUpsampled_reddragon.jpg",
+      "width": 7116,
+      "height": 3216,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAOACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDikQtk9AOpqZIl24DFiSPl6Co1cgevPepTeuMiMADtkc0tToh7NL3iXybVgOJQ3cqRVeVI0JADfjTZZnlfc7ZOKZk0WCpVi9oAAAAAAAAIn//Z",
+      "color": "#21030a",
+      "srcset": [
+        {
+          "src": "gallery/_web/california-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/california-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/california-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "butterfly",
+      "title": "The Butterfly Nebula",
+      "catalog": "IC 1318",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cygnus",
+      "distance": "≈ 4,000 light-years",
+      "description": "Wings of glowing hydrogen split by a dark dust lane, wrapped around Sadr — the bright star at the heart of Cygnus.",
+      "skyTarget": "IC 1318",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/Butterfly_Mosaic_Original_2X Upsampled.jpg",
+      "width": 6132,
+      "height": 9422,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiVq7pts9xcjA+RfvMTgCqPStnQLhDObd1G6bCgkjBpPYumk5akN0IxOwALAdPmorXktLezYxzW9wSGOHVAQ49etFRc29mZekxWbEG/VFhPG5s5JqtqdqLa7doVKw7vkyecdRVPPHtTzIz8uc4HU1djPmTjaxKL65X7ksmPc5oqFZCOhGPpRRYAACOZ9z/2Q==",
+      "color": "#1d1010",
+      "srcset": [
+        {
+          "src": "gallery/_web/butterfly-800.jpg",
+          "w": 521
+        },
+        {
+          "src": "gallery/_web/butterfly-1600.jpg",
+          "w": 1041
+        },
+        {
+          "src": "gallery/_web/butterfly-2600.jpg",
+          "w": 1692
+        }
+      ]
+    },
+    {
+      "id": "ghost-of-cassiopeia",
+      "title": "The Ghost of Cassiopeia",
+      "catalog": "IC 63",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cassiopeia",
+      "distance": "≈ 550 light-years",
+      "description": "Gas and dust slowly getting blasted away by the star Gamma Cassiopeiae next door. It genuinely looks like a ghost mid-drift.",
+      "skyTarget": "IC 63",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/IC_63_Phoenix_3XUpsampled.jpg",
+      "width": 5589,
+      "height": 3141,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiB34p4H7s8Ak9/SmDrUisApGPofShlxt1Fhklt5EmjZ42HKOOPypHdncsxLMxySepNSz3L3EMSSYPlZw3cgnNQ9qaZLST0G9xS9hRRSBCjpSd6KKYj//Z",
+      "color": "#0c0508",
+      "srcset": [
+        {
+          "src": "gallery/_web/ghost-of-cassiopeia-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/ghost-of-cassiopeia-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/ghost-of-cassiopeia-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "whirlpool",
+      "title": "The Whirlpool Galaxy",
+      "catalog": "Messier 51",
+      "type": "Spiral Galaxy",
+      "category": "galaxies",
+      "constellation": "Canes Venatici",
+      "distance": "≈ 23 million light-years",
+      "description": "A spiral galaxy caught tugging on its smaller neighbor, NGC 5195. The gravitational tug-of-war lights up new stars along its arms.",
+      "skyTarget": "M51",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+      "width": 2187,
+      "height": 3780,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjaSnDk1Yv7NrGURvk5AYMVxkUAVKKOPWigB+Sealubua5EYmcsIxhc9hUOPyoIoAA/9k=",
+      "color": "#0c0c0c",
+      "srcset": [
+        {
+          "src": "gallery/_web/whirlpool-800.jpg",
+          "w": 463
+        },
+        {
+          "src": "gallery/_web/whirlpool-1600.jpg",
+          "w": 926
+        },
+        {
+          "src": "gallery/_web/whirlpool-2600.jpg",
+          "w": 1504
+        }
+      ]
+    },
+    {
+      "id": "north-america",
+      "title": "The North America Nebula",
+      "catalog": "NGC 7000",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cygnus",
+      "distance": "≈ 2,600 light-years",
+      "description": "Dark dust lanes carve a surprisingly good map of North America into this huge cloud of glowing hydrogen near Deneb.",
+      "skyTarget": "NGC 7000",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/North_3xResampled.jpg",
+      "width": 5508,
+      "height": 9792,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDCtpGYhQe1Wy7W0Xm7wEBwTWTFI0fKnPsau3Mb3NmiwHIIG76+lSzoi7rTcm/tCI88c0VimN1Yg9RwaKfKifay7Egxu56Vat2aNvNRmVV9KrNweKdvYryTigmLsPZFZidnU560U3JooA//2Q==",
+      "color": "#2b191b",
+      "srcset": [
+        {
+          "src": "gallery/_web/north-america-800.jpg",
+          "w": 450
+        },
+        {
+          "src": "gallery/_web/north-america-1600.jpg",
+          "w": 900
+        },
+        {
+          "src": "gallery/_web/north-america-2600.jpg",
+          "w": 1462
+        }
+      ]
+    },
+    {
+      "id": "pinwheel",
+      "title": "The Pinwheel Galaxy",
+      "catalog": "Messier 101",
+      "type": "Spiral Galaxy",
+      "category": "galaxies",
+      "constellation": "Ursa Major",
+      "distance": "≈ 21 million light-years",
+      "description": "A face-on spiral nearly twice the size of the Milky Way, dotted with enormous star-forming regions.",
+      "skyTarget": "M101",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/M101_3xUpsmpled.jpg",
+      "width": 5625,
+      "height": 8370,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABYDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiKKKtPp80doLll/dk460AVaKKKAAdalaeRkCFjtHbNRUE0AKoUn5iAP/Z",
+      "color": "#050405",
+      "srcset": [
+        {
+          "src": "gallery/_web/pinwheel-800.jpg",
+          "w": 538
+        },
+        {
+          "src": "gallery/_web/pinwheel-1600.jpg",
+          "w": 1075
+        },
+        {
+          "src": "gallery/_web/pinwheel-2600.jpg",
+          "w": 1747
+        }
+      ]
+    },
+    {
+      "id": "thors-helmet",
+      "title": "Thor's Helmet",
+      "catalog": "NGC 2359",
+      "type": "Wolf-Rayet Nebula",
+      "category": "nebulae",
+      "constellation": "Canis Major",
+      "distance": "≈ 12,000 light-years",
+      "description": "A bubble blown by a Wolf-Rayet star — a massive sun burning hard and fast before it goes supernova. The wings are a bonus.",
+      "skyTarget": "NGC 2359",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/Thor_Original_2XUpsampled.jpg",
+      "width": 7240,
+      "height": 3984,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDifxqSCFp5RGg+duFHqajqWCQRuGI5HOaYC3VrNaS+VOhR8AlT1GaiGMEknPYVJPKZpi7Mz54yxyaj/n3oADQKKKACkBwwxxQAAAAUUAf/2Q==",
+      "color": "#07070a",
+      "srcset": [
+        {
+          "src": "gallery/_web/thors-helmet-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/thors-helmet-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/thors-helmet-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "comet",
+      "title": "The Comet",
+      "catalog": "Solar System",
+      "type": "Comet",
+      "category": "solar-system",
+      "constellation": "",
+      "distance": "",
+      "description": "A visitor from the outer solar system, tail streaming behind it courtesy of sunlight and the solar wind.",
+      "skyTarget": "",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/CometMinimalV1_2xUpsampled.jpg",
+      "width": 4040,
+      "height": 7388,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjgDtLAcDgn0pKUZIwM464oxTANzf3jRSUUAPWV0yEYrkYOOM0ylpKaKYH/9k=",
+      "color": "#0a0a0d",
+      "srcset": [
+        {
+          "src": "gallery/_web/comet-800.jpg",
+          "w": 437
+        },
+        {
+          "src": "gallery/_web/comet-1600.jpg",
+          "w": 875
+        },
+        {
+          "src": "gallery/_web/comet-2600.jpg",
+          "w": 1422
+        }
+      ]
+    },
+    {
+      "id": "horsehead",
+      "title": "The Horsehead Nebula",
+      "catalog": "IC 434 · Barnard 33",
+      "type": "Dark Nebula",
+      "category": "nebulae",
+      "constellation": "Orion",
+      "distance": "≈ 1,400 light-years",
+      "description": "Probably the most famous silhouette in the sky: a pillar of cold dust a light-year tall, backlit by glowing hydrogen.",
+      "skyTarget": "IC 434",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/IC434_Original_Finalized_2xUpsampled.jpg",
+      "width": 3942,
+      "height": 2292,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAATACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDnNKtIbmQme4WBQOWYZxUWY/MZSVAzwfWpLeWOK0faVVmGGDDcD9PQ1RVhuy67h6ZxSvcv4LMsSwqPuEMevBzUZiYDLKR+FRKSOlPVz3JoE2mMooopkhSiAACiigR//9k=",
+      "color": "#140f0f",
+      "srcset": [
+        {
+          "src": "gallery/_web/horsehead-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/horsehead-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/horsehead-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "m78",
+      "title": "Messier 78",
+      "catalog": "M 78",
+      "type": "Reflection Nebula",
+      "category": "nebulae",
+      "constellation": "Orion",
+      "distance": "≈ 1,300 light-years",
+      "description": "The brightest reflection nebula in the sky — starlight bouncing off dust at the edge of the Orion complex.",
+      "skyTarget": "M78",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/M78_3xUpsampled_W.jpg",
+      "width": 2560,
+      "height": 4438,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKKKMjGNvOevemAUUUUALinzTSTsHlcswUKD7DgUyigP/2Q==",
+      "color": "#0f0d11",
+      "srcset": [
+        {
+          "src": "gallery/_web/m78-800.jpg",
+          "w": 461
+        },
+        {
+          "src": "gallery/_web/m78-1600.jpg",
+          "w": 923
+        },
+        {
+          "src": "gallery/_web/m78-2600.jpg",
+          "w": 1500
+        }
+      ]
+    },
+    {
+      "id": "pacman",
+      "title": "The Pacman Nebula",
+      "catalog": "NGC 281",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cassiopeia",
+      "distance": "≈ 9,200 light-years",
+      "description": "A busy star-forming pocket in Cassiopeia. Tilt your head and it's clearly mid-chomp.",
+      "skyTarget": "NGC 281",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/NGC281.JPG",
+      "width": 3042,
+      "height": 5067,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiKKns4fOm2kZGOvpVnUbH7NgEcsuVA+tFna4aXsZ1FOZSpweCO1FAF/TLiOFxv2rjnJ71fv8AV7NmVo4gzqu0FeB+NYFFNNpWFZN83UdI5kkZ26sc0U2ikAAAAAAAAADP/9k=",
+      "color": "#0e0f11",
+      "srcset": [
+        {
+          "src": "gallery/_web/pacman-800.jpg",
+          "w": 480
+        },
+        {
+          "src": "gallery/_web/pacman-1600.jpg",
+          "w": 961
+        },
+        {
+          "src": "gallery/_web/pacman-2600.jpg",
+          "w": 1561
+        }
+      ]
+    },
+    {
+      "id": "soul",
+      "title": "The Soul Nebula",
+      "catalog": "IC 1848",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cassiopeia",
+      "distance": "≈ 6,500 light-years",
+      "description": "A huge stellar nursery in the Perseus Arm, hollowed out by the winds of its newborn star clusters.",
+      "skyTarget": "IC 1848",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/Soul_3xUpsampled_Original.jpg",
+      "width": 6528,
+      "height": 3672,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkIIfOJJztHUDrSzReW33GX/eqe2vEtNhjUOer7l7+lOkuYrpyCdmcEZHT2qbu5pZW8yokTE5HNK6lCARzV+KS2QyoJMqoAU4+97/hVW8eNpcRZIHShO7BxSV7lSk9aKKozFH3hTgTvw60UUAf/9k=",
+      "color": "#1b100e",
+      "srcset": [
+        {
+          "src": "gallery/_web/soul-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/soul-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/soul-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "eastern-veil",
+      "title": "The Eastern Veil Nebula",
+      "catalog": "NGC 6992",
+      "type": "Supernova Remnant",
+      "category": "nebulae",
+      "constellation": "Cygnus",
+      "distance": "≈ 2,400 light-years",
+      "description": "The eastern edge of the Cygnus Loop — the still-expanding shockwave from a star that blew up thousands of years ago.",
+      "skyTarget": "NGC 6992",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
+      "width": 5317,
+      "height": 3203,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAATACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDi4hHu/eBmH+y2KdIYAcIjYx3PIP1qEHB6ZoNMCXyd7YhO/wBuhqIgg4PBFKrFWBB5FT3T/aMTBQGPD49fWkVa6uQEUlFFMkKcGf/Z",
+      "color": "#070406",
+      "srcset": [
+        {
+          "src": "gallery/_web/eastern-veil-800.jpg",
+          "w": 800
+        },
+        {
+          "src": "gallery/_web/eastern-veil-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/eastern-veil-2600.jpg",
+          "w": 2600
+        }
+      ]
+    },
+    {
+      "id": "iris",
+      "title": "The Iris Nebula",
+      "catalog": "NGC 7023",
+      "type": "Reflection Nebula",
+      "category": "nebulae",
+      "constellation": "Cepheus",
+      "distance": "≈ 1,300 light-years",
+      "description": "Dust lit up blue by a hot young star, blooming inside a dark molecular cloud.",
+      "skyTarget": "NGC 7023",
+      "visible": true,
+      "capture": {
+        "telescope": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "integration": "",
+        "date": "",
+        "location": ""
+      },
+      "original": "gallery/Iris_Finalized_3xUpsampled.jpg",
+      "width": 5814,
+      "height": 10866,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDis0UhNOdWjbbICrDsaQCUUUUANPU4pSSxyTk+9JQKoBefSik4opDP/9k=",
+      "color": "#040404",
+      "srcset": [
+        {
+          "src": "gallery/_web/iris-800.jpg",
+          "w": 428
+        },
+        {
+          "src": "gallery/_web/iris-1600.jpg",
+          "w": 856
+        },
+        {
+          "src": "gallery/_web/iris-2600.jpg",
+          "w": 1391
+        }
+      ]
+    }
+  ]
 }

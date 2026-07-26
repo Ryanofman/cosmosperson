@@ -1,321 +1,464 @@
-// Gallery page JavaScript for Cosmos Person Photography
-// Handles image loading, carousel, and lightbox functionality
+/* ============================================================
+   Cosmos Person — gallery page
+   Consumes gallery.json (schema v2, written by tools/build_derivatives.py
+   and by the admin interface).
+   ============================================================ */
 
-let galleryImages = [];
-let currentImageIndex = 0;
+(function () {
+    'use strict';
 
-// Initialize gallery when DOM is ready
-document.addEventListener('DOMContentLoaded', function () {
-    loadGalleryImages();
-    setupLightbox();
-    setupNavigation();
-    setupCarousel();
-});
+    const CATEGORY_LABELS = {
+        'nebulae': 'Nebulae',
+        'galaxies': 'Galaxies',
+        'star-clusters': 'Star Clusters',
+        'solar-system': 'Solar System',
+        'wide-field': 'Wide Field'
+    };
 
-// Load images from GitHub or local directory
-async function loadGalleryImages() {
-    const gallery = document.getElementById('gallery-grid');
-    const loadingEl = document.getElementById('gallery-loading');
+    const GRID_SIZES = '(max-width: 720px) 96vw, (max-width: 1200px) 46vw, 30vw';
 
-    // Show loading state
-    if (loadingEl) loadingEl.style.display = 'flex';
+    let allImages = [];   // visible images, manifest order
+    let shown = [];       // current filter applied
+    let heroId = '';
+    let lbIndex = -1;
+    let openedViaHash = false;
 
-    try {
-        // First, try to load from gallery.json manifest (allows custom ordering)
-        const manifestResponse = await fetch('gallery.json');
-        if (manifestResponse.ok) {
-            const manifest = await manifestResponse.json();
-            if (manifest.gallery && manifest.gallery.length > 0) {
-                const processedImages = manifest.gallery.map(img => ({
-                    id: img.filename.split('.')[0],
-                    name: img.name,
-                    type: img.type,
-                    imageUrl: `gallery/${img.filename}`,
-                    filename: img.filename
-                }));
-                displayGalleryImages(processedImages);
-                if (loadingEl) loadingEl.style.display = 'none';
-                return;
+    const $ = (id) => document.getElementById(id);
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    async function init() {
+        $('year').textContent = new Date().getFullYear();
+        setupHeader();
+        setupLightboxChrome();
+
+        let manifest;
+        try {
+            const res = await fetch('gallery.json', { cache: 'no-cache' });
+            manifest = await res.json();
+        } catch (err) {
+            console.error('Failed to load gallery manifest', err);
+            $('grid').innerHTML = '<p class="grid-empty">The photos couldn’t load. Give it a refresh.</p>';
+            finishLoading();
+            return;
+        }
+
+        allImages = (manifest.images || []).filter(img => img.visible !== false);
+        heroId = manifest.settings && manifest.settings.hero;
+
+        renderHero();
+        renderFilters();
+        applyFilter('all');
+        finishLoading();
+        openFromHash();
+        window.addEventListener('hashchange', openFromHash);
+
+        // Arriving from the sky atlas ("Collection" links use #gallery):
+        // make sure the anchor holds even if the browser restored scroll early.
+        if (location.hash === '#gallery') {
+            setTimeout(() => {
+                if (window.scrollY < 100) {
+                    const root = document.documentElement;
+                    root.style.scrollBehavior = 'auto';
+                    $('gallery').scrollIntoView();
+                    root.style.scrollBehavior = '';
+                }
+            }, 150);
+        }
+    }
+
+    function finishLoading() {
+        const el = $('page-loading');
+        el.classList.add('done');
+        setTimeout(() => el.remove(), 800);
+    }
+
+    /* ---------- Header ---------- */
+
+    function setupHeader() {
+        const header = $('site-header');
+        const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
+
+    /* ---------- Hero ---------- */
+
+    function renderHero() {
+        const entry = allImages.find(i => i.id === heroId) || allImages[0];
+        if (!entry) return;
+
+        const media = $('hero-media');
+        media.style.backgroundColor = entry.color || '';
+        media.style.backgroundImage = `url("${entry.placeholder}")`;
+        media.style.backgroundSize = 'cover';
+        media.style.backgroundPosition = 'center';
+
+        const img = new Image();
+        img.alt = '';
+        img.srcset = srcsetAttr(entry);
+        img.sizes = '100vw';
+        img.src = largest(entry).src;
+        img.fetchPriority = 'high';
+        img.addEventListener('load', () => img.classList.add('loaded'));
+        media.appendChild(img);
+
+        const credit = [entry.title, entry.catalog].filter(Boolean).join(' · ');
+        $('hero-credit').textContent = credit;
+    }
+
+    /* ---------- Filters ---------- */
+
+    function renderFilters() {
+        const counts = {};
+        allImages.forEach(i => {
+            const c = i.category || 'nebulae';
+            counts[c] = (counts[c] || 0) + 1;
+        });
+
+        const cats = Object.keys(CATEGORY_LABELS).filter(c => counts[c]);
+        const host = $('filters');
+        host.innerHTML = '';
+
+        const mk = (key, label) => {
+            const b = document.createElement('button');
+            b.className = 'filter-btn';
+            b.dataset.filter = key;
+            b.textContent = label;
+            b.setAttribute('role', 'tab');
+            b.addEventListener('click', () => applyFilter(key));
+            host.appendChild(b);
+            return b;
+        };
+
+        mk('all', 'All');
+        cats.forEach(c => mk(c, CATEGORY_LABELS[c] || c));
+
+        if (cats.length < 2) host.style.display = 'none';
+    }
+
+    function applyFilter(key) {
+        shown = key === 'all' ? allImages.slice() : allImages.filter(i => (i.category || 'nebulae') === key);
+
+        document.querySelectorAll('.filter-btn').forEach(b => {
+            const active = b.dataset.filter === key;
+            b.classList.toggle('active', active);
+            b.setAttribute('aria-selected', active);
+        });
+
+        $('collection-count').textContent =
+            shown.length + (shown.length === 1 ? ' photo' : ' photos');
+
+        renderGrid();
+    }
+
+    /* ---------- Grid ---------- */
+
+    function renderGrid() {
+        const grid = $('grid');
+        grid.innerHTML = '';
+
+        if (!shown.length) {
+            grid.innerHTML = '<p class="grid-empty">Nothing here yet.</p>';
+            return;
+        }
+
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in-view');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -4% 0px', threshold: 0.05 });
+
+        shown.forEach((entry, idx) => {
+            const card = document.createElement('figure');
+            card.className = 'card';
+            card.tabIndex = 0;
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', entry.title);
+            card.style.backgroundColor = entry.color || '';
+            card.style.backgroundImage = `url("${entry.placeholder}")`;
+
+            const img = document.createElement('img');
+            img.alt = `${entry.title}${entry.catalog ? ' — ' + entry.catalog : ''}`;
+            img.loading = idx < 3 ? 'eager' : 'lazy';
+            img.decoding = 'async';
+            img.width = entry.width;
+            img.height = entry.height;
+            img.srcset = srcsetAttr(entry);
+            img.sizes = GRID_SIZES;
+            img.src = entry.srcset[0].src;
+            img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+            card.appendChild(img);
+
+            const cap = document.createElement('figcaption');
+            cap.className = 'card-caption';
+            const meta = [entry.type, entry.constellation].filter(Boolean).join(' · ');
+            cap.innerHTML = `<h3></h3><p></p>`;
+            cap.querySelector('h3').textContent = entry.title;
+            cap.querySelector('p').textContent = meta;
+            card.appendChild(cap);
+
+            const open = () => openLightbox(idx);
+            card.addEventListener('click', open);
+            card.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+            });
+
+            grid.appendChild(card);
+            io.observe(card);
+        });
+    }
+
+    /* ---------- Lightbox ---------- */
+
+    function setupLightboxChrome() {
+        $('lb-close').addEventListener('click', closeLightbox);
+        $('lb-prev').addEventListener('click', () => step(-1));
+        $('lb-next').addEventListener('click', () => step(1));
+        $('lb-info').addEventListener('click', toggleDetails);
+
+        $('lightbox').addEventListener('click', e => {
+            if (e.target === $('lightbox') || e.target === $('lb-stage')) closeLightbox();
+        });
+
+        // Click-to-zoom: 1:1 with pan, centred on the click point
+        $('lb-image').addEventListener('click', e => {
+            e.stopPropagation();
+            toggleZoom(e);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (!$('lightbox').classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') step(-1);
+            else if (e.key === 'ArrowRight') step(1);
+            else if (e.key.toLowerCase() === 'i') toggleDetails();
+            else if (e.key.toLowerCase() === 'z') toggleZoom();
+        });
+
+        // Swipe navigation (disabled while zoomed — scrolling pans instead)
+        let touchX = null;
+        $('lb-stage').addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+        $('lb-stage').addEventListener('touchend', e => {
+            if (touchX === null || $('lb-stage').classList.contains('zoomed')) { touchX = null; return; }
+            const dx = e.changedTouches[0].clientX - touchX;
+            touchX = null;
+            if (Math.abs(dx) > 44) step(dx > 0 ? -1 : 1);
+        }, { passive: true });
+
+        window.addEventListener('popstate', () => {
+            if ($('lightbox').classList.contains('active') && !location.hash.startsWith('#photo=')) {
+                hideLightbox();
             }
-        }
-    } catch (e) {
-        console.log('No gallery.json manifest found, trying GitHub API...');
-    }
+        });
 
-    // Check if we're using GitHub API
-    if (CONFIG.DEV_MODE || CONFIG.GITHUB_USERNAME === 'YOUR_GITHUB_USERNAME') {
-        loadLocalImages();
-        return;
-    }
-
-    try {
-        // Fetch from GitHub API - use GALLERY_PATH for gallery page
-        const galleryPath = CONFIG.GALLERY_PATH || 'gallery';
-        const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${galleryPath}`;
-        const response = await fetch(apiUrl);
-
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status}`);
-        }
-
-        const files = await response.json();
-
-        // Filter for image files
-        const imageFiles = files.filter(file =>
-            file.type === 'file' &&
-            CONFIG.SUPPORTED_FORMATS.some(ext =>
-                file.name.toLowerCase().endsWith(`.${ext}`)
-            )
+        // Auto-hide chrome after idle (never while the details drawer is open)
+        ['mousemove', 'touchstart', 'keydown'].forEach(evt =>
+            $('lightbox').addEventListener(evt, wakeChrome, { passive: true })
         );
-
-        // Process each image
-        const processedImages = imageFiles.map(file => {
-            const celestialObject = findCelestialObject(file.name);
-            return {
-                id: normalizeObjectName(file.name),
-                name: celestialObject ? celestialObject.name : formatFileName(file.name),
-                type: celestialObject ? celestialObject.type : 'Deep Sky Object',
-                imageUrl: file.download_url,
-                filename: file.name,
-                size: file.size
-            };
+        document.addEventListener('keydown', () => {
+            if ($('lightbox').classList.contains('active')) wakeChrome();
         });
-
-        // Sort by name
-        processedImages.sort((a, b) => a.name.localeCompare(b.name));
-
-        // Display images
-        displayGalleryImages(processedImages);
-
-    } catch (error) {
-        console.error('Error loading gallery from GitHub:', error);
-        loadLocalImages();
-    } finally {
-        if (loadingEl) loadingEl.style.display = 'none';
     }
-}
 
-// Load images from local gallery directory (fallback)
-function loadLocalImages() {
-    const gallery = document.getElementById('gallery-grid');
-    const loadingEl = document.getElementById('gallery-loading');
+    let chromeTimer = null;
 
-    // Fallback: try to load gallery.json synchronously or show empty state
-    fetch('gallery.json')
-        .then(response => response.json())
-        .then(manifest => {
-            if (manifest.gallery && manifest.gallery.length > 0) {
-                const processedImages = manifest.gallery.map(img => ({
-                    id: img.filename.split('.')[0],
-                    name: img.name,
-                    type: img.type,
-                    imageUrl: `gallery/${img.filename}`,
-                    filename: img.filename
-                }));
-                displayGalleryImages(processedImages);
-            } else {
-                showEmptyGallery(gallery);
-            }
-            if (loadingEl) loadingEl.style.display = 'none';
-        })
-        .catch(() => {
-            showEmptyGallery(gallery);
-            if (loadingEl) loadingEl.style.display = 'none';
-        });
-}
+    function wakeChrome() {
+        const lb = $('lightbox');
+        lb.classList.remove('chrome-hidden');
+        clearTimeout(chromeTimer);
+        chromeTimer = setTimeout(() => {
+            if (!lb.classList.contains('active')) return;
+            if ($('lb-details').classList.contains('open')) return;
+            lb.classList.add('chrome-hidden');
+        }, 3000);
+    }
 
-function showEmptyGallery(gallery) {
-    gallery.innerHTML = `
-        <div style="text-align: center; padding: 60px; color: var(--star-dim); width: 100%;">
-            <p style="font-size: 1.2em; margin-bottom: 10px;">Gallery is empty</p>
-            <p style="opacity: 0.7;">Add images to gallery.json to display them here</p>
-        </div>
-    `;
-}
+    function toggleZoom(e) {
+        const stage = $('lb-stage');
+        const img = $('lb-image');
+        const zoomingIn = !stage.classList.contains('zoomed');
 
-// Display images in the gallery grid
-function displayGalleryImages(images) {
-    galleryImages = images;
-    const gallery = document.getElementById('gallery-grid');
-
-    // Update image count
-    const countEl = document.getElementById('image-count');
-    if (countEl) countEl.textContent = images.length;
-
-    gallery.innerHTML = '';
-
-    images.forEach((image, index) => {
-        const card = document.createElement('div');
-        card.className = 'gallery-card';
-        card.setAttribute('data-index', index);
-
-        card.innerHTML = `
-            <div class="gallery-card-image">
-                <img src="${image.imageUrl}" alt="${image.name}" loading="lazy">
-                <div class="gallery-card-overlay">
-                    <span class="view-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <path d="M21 21l-4.35-4.35"/>
-                            <path d="M11 8v6M8 11h6"/>
-                        </svg>
-                    </span>
-                </div>
-            </div>
-            <div class="gallery-card-info">
-                <h3>${image.name}</h3>
-                <span class="gallery-card-type">${image.type}</span>
-            </div>
-        `;
-
-        card.addEventListener('click', () => openLightbox(index));
-        gallery.appendChild(card);
-
-        // Staggered animation
-        setTimeout(() => {
-            card.classList.add('visible');
-        }, index * 50);
-    });
-}
-
-// Format filename to readable name
-function formatFileName(filename) {
-    return filename
-        .replace(/\.[^/.]+$/, '')  // Remove extension
-        .replace(/[_-]/g, ' ')     // Replace underscores/dashes with spaces
-        .replace(/(\d+)/g, ' $1 ') // Add space around numbers
-        .trim()
-        .toUpperCase();
-}
-
-// Lightbox functionality
-function setupLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    const closeBtn = document.querySelector('.lightbox-close');
-    const prevBtn = document.querySelector('.lightbox-prev');
-    const nextBtn = document.querySelector('.lightbox-next');
-
-    closeBtn.addEventListener('click', closeLightbox);
-    prevBtn.addEventListener('click', () => navigateLightbox(-1));
-    nextBtn.addEventListener('click', () => navigateLightbox(1));
-
-    // Close on backdrop click
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox || e.target.classList.contains('lightbox-backdrop')) {
-            closeLightbox();
-        }
-    });
-
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
-
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navigateLightbox(-1);
-        if (e.key === 'ArrowRight') navigateLightbox(1);
-    });
-}
-
-function openLightbox(index) {
-    currentImageIndex = index;
-    const image = galleryImages[index];
-    const lightbox = document.getElementById('lightbox');
-
-    document.getElementById('lightbox-image').src = image.imageUrl;
-    document.getElementById('lightbox-title').textContent = image.name;
-    document.getElementById('lightbox-type').textContent = image.type;
-    document.getElementById('lightbox-counter').textContent = `${index + 1} / ${galleryImages.length}`;
-
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function navigateLightbox(direction) {
-    currentImageIndex = (currentImageIndex + direction + galleryImages.length) % galleryImages.length;
-    const image = galleryImages[currentImageIndex];
-
-    const imgEl = document.getElementById('lightbox-image');
-    imgEl.style.opacity = '0';
-
-    setTimeout(() => {
-        imgEl.src = image.imageUrl;
-        document.getElementById('lightbox-title').textContent = image.name;
-        document.getElementById('lightbox-type').textContent = image.type;
-        document.getElementById('lightbox-counter').textContent = `${currentImageIndex + 1} / ${galleryImages.length}`;
-        imgEl.style.opacity = '1';
-    }, 200);
-}
-
-// Navigation setup
-function setupNavigation() {
-    const header = document.querySelector('.gallery-header');
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
+        if (zoomingIn) {
+            // Remember where the user clicked, as a fraction of the displayed image
+            const rect = img.getBoundingClientRect();
+            const fx = e ? (e.clientX - rect.left) / rect.width : 0.5;
+            const fy = e ? (e.clientY - rect.top) / rect.height : 0.5;
+            stage.classList.add('zoomed');
+            stage.scrollLeft = img.clientWidth * fx - stage.clientWidth / 2;
+            stage.scrollTop = img.clientHeight * fy - stage.clientHeight / 2;
         } else {
-            header.classList.remove('scrolled');
+            stage.classList.remove('zoomed');
         }
-    });
-}
+    }
 
-// Carousel navigation setup - DISABLED for Grid Layout
-function setupCarousel() {
-    const prevBtn = document.querySelector('.carousel-nav.prev');
-    const nextBtn = document.querySelector('.carousel-nav.next');
-
-    // Hide buttons if they exist
-    if (prevBtn) prevBtn.style.display = 'none';
-    if (nextBtn) nextBtn.style.display = 'none';
-
-    // No scroll listeners or gravity needed for grid
-}
-
-// Cache management
-function getCachedGalleryData() {
-    const cached = localStorage.getItem('cosmosGallery');
-    if (!cached) return null;
-
-    try {
-        const data = JSON.parse(cached);
-        if (Date.now() - data.timestamp < CONFIG.CACHE_DURATION) {
-            return data.images;
+    function openFromHash() {
+        const m = location.hash.match(/^#photo=(.+)$/);
+        if (!m) return;
+        const id = decodeURIComponent(m[1]);
+        const idx = shown.findIndex(i => i.id === id);
+        if (idx >= 0 && lbIndex !== idx) {
+            openedViaHash = true;
+            openLightbox(idx, { pushed: true });
         }
-    } catch (e) {
-        console.error('Cache error:', e);
     }
 
-    return null;
-}
-
-function setCachedGalleryData(images) {
-    try {
-        localStorage.setItem('cosmosGallery', JSON.stringify({
-            images: images,
-            timestamp: Date.now()
-        }));
-    } catch (e) {
-        console.error('Cache error:', e);
+    function openLightbox(idx, opts = {}) {
+        lbIndex = idx;
+        const lb = $('lightbox');
+        lb.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        if (!opts.pushed) {
+            history.pushState(null, '', '#photo=' + encodeURIComponent(shown[idx].id));
+        }
+        showEntry();
+        wakeChrome();
     }
-}
 
-// Helper function to find celestial object (from celestial-database.js)
-function findCelestialObject(filename) {
-    if (typeof window.findCelestialObject === 'function') {
-        return window.findCelestialObject(filename);
-    }
-    return null;
-}
+    function showEntry() {
+        const entry = shown[lbIndex];
+        if (!entry) return;
 
-function normalizeObjectName(filename) {
-    if (typeof window.normalizeObjectName === 'function') {
-        return window.normalizeObjectName(filename);
+        $('lb-stage').classList.remove('zoomed');
+        const img = $('lb-image');
+        img.classList.remove('loaded');
+        img.alt = entry.title;
+        img.srcset = srcsetAttr(entry);
+        img.sizes = '92vw';
+        img.src = largest(entry).src;
+        if (img.complete) img.classList.add('loaded');
+        else img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+
+        $('lb-title').textContent = entry.title;
+
+        const metaBits = [entry.catalog, entry.constellation, entry.distance]
+            .filter(Boolean)
+            .map(t => `<span></span>`);
+        $('lb-meta').innerHTML = metaBits.join('');
+        [entry.catalog, entry.constellation, entry.distance].filter(Boolean)
+            .forEach((t, i) => { $('lb-meta').children[i].textContent = t; });
+
+        $('lb-counter').textContent = `${lbIndex + 1} / ${shown.length}`;
+
+        const sky = $('lb-sky');
+        if (entry.skyTarget) {
+            sky.hidden = false;
+            sky.href = 'explore.html?goto=' + encodeURIComponent(entry.skyTarget);
+        } else {
+            sky.hidden = true;
+        }
+        $('lb-full').href = entry.original;
+
+        renderDetails(entry);
+        history.replaceState(null, '', '#photo=' + encodeURIComponent(entry.id));
+
+        // Preload neighbours
+        [lbIndex - 1, lbIndex + 1].forEach(i => {
+            const n = shown[(i + shown.length) % shown.length];
+            if (n) { const pre = new Image(); pre.src = largest(n).src; }
+        });
     }
-    return filename.replace(/\.[^/.]+$/, '').toUpperCase();
-}
+
+    function renderDetails(entry) {
+        $('lb-description').textContent = entry.description || '';
+        $('lb-description').style.display = entry.description ? '' : 'none';
+
+        const specs = [];
+        if (entry.type) specs.push(['Object Type', entry.type]);
+        if (entry.constellation) specs.push(['Constellation', entry.constellation]);
+        if (entry.distance) specs.push(['Distance', entry.distance]);
+
+        // Astrometry from the celestial catalog, when the object resolves
+        if (entry.skyTarget && typeof findCelestialObject === 'function') {
+            const obj = findCelestialObject(entry.skyTarget);
+            if (obj) specs.push(['Position', formatRA(obj.ra) + '  ·  ' + formatDec(obj.dec)]);
+        }
+
+        const cap = entry.capture || {};
+        const captureLabels = {
+            telescope: 'Telescope', camera: 'Camera', mount: 'Mount',
+            filters: 'Filters', integration: 'Integration', date: 'Captured', location: 'Location'
+        };
+        Object.keys(captureLabels).forEach(k => {
+            if (cap[k]) specs.push([captureLabels[k], cap[k]]);
+        });
+        if (entry.width && entry.height) {
+            specs.push(['Resolution', `${entry.width.toLocaleString()} × ${entry.height.toLocaleString()} px`]);
+        }
+
+        const host = $('lb-specs');
+        host.innerHTML = '';
+        specs.forEach(([dt, dd]) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'lb-spec';
+            const dtEl = document.createElement('dt');
+            dtEl.textContent = dt;
+            const ddEl = document.createElement('dd');
+            ddEl.textContent = dd;
+            wrap.append(dtEl, ddEl);
+            host.appendChild(wrap);
+        });
+    }
+
+    function toggleDetails() {
+        const details = $('lb-details');
+        const open = !details.classList.contains('open');
+        details.classList.toggle('open', open);
+        $('lb-info').classList.toggle('toggled', open);
+        $('lb-info').setAttribute('aria-expanded', open);
+    }
+
+    function step(dir) {
+        lbIndex = (lbIndex + dir + shown.length) % shown.length;
+        showEntry();
+    }
+
+    function closeLightbox() {
+        if (location.hash.startsWith('#photo=') && !openedViaHash) {
+            history.back();               // pops our pushed state; popstate handler hides
+        } else {
+            history.replaceState(null, '', location.pathname + location.search);
+            hideLightbox();
+        }
+    }
+
+    function hideLightbox() {
+        $('lightbox').classList.remove('active');
+        $('lightbox').classList.remove('chrome-hidden');
+        $('lb-stage').classList.remove('zoomed');
+        $('lb-details').classList.remove('open');
+        $('lb-info').classList.remove('toggled');
+        clearTimeout(chromeTimer);
+        document.body.style.overflow = '';
+        lbIndex = -1;
+        openedViaHash = false;
+    }
+
+    /* ---------- Helpers ---------- */
+
+    function formatRA(ra) {
+        const hours = ra / 15;
+        const h = Math.floor(hours);
+        const m = Math.round((hours - h) * 60);
+        return `RA ${h}ʰ ${String(m).padStart(2, '0')}ᵐ`;
+    }
+
+    function formatDec(dec) {
+        const sign = dec < 0 ? '−' : '+';
+        const abs = Math.abs(dec);
+        const d = Math.floor(abs);
+        const m = Math.round((abs - d) * 60);
+        return `Dec ${sign}${d}° ${String(m).padStart(2, '0')}′`;
+    }
+
+    function srcsetAttr(entry) {
+        return entry.srcset.map(s => `${encodeURI(s.src)} ${s.w}w`).join(', ');
+    }
+
+    function largest(entry) {
+        return entry.srcset[entry.srcset.length - 1];
+    }
+})();

@@ -123,6 +123,8 @@ const CelestialDatabase = {
     'NGC884': { ra: 35.6000, dec: 57.1500, name: 'Double Cluster', type: 'open cluster' },
     'NGC891': { ra: 35.6392, dec: 42.3492, name: 'Silver Sliver Galaxy', type: 'galaxy' },
     'NGC1499': { ra: 61.2667, dec: 36.6333, name: 'California Nebula', type: 'emission nebula' },
+    'NGC1975': { ra: 83.8500, dec: -4.6833, name: 'Running Man Nebula', type: 'reflection nebula' },
+    'NGC2175': { ra: 92.4000, dec: 20.4833, name: 'Monkey Head Nebula', type: 'emission nebula' },
     'NGC2024': { ra: 85.5958, dec: -1.8600, name: 'Flame Nebula', type: 'emission nebula' },
     'NGC2070': { ra: 84.6822, dec: -69.0906, name: 'Tarantula Nebula', type: 'emission nebula' },
     'NGC2157': { ra: 89.2167, dec: -23.9167, name: 'NGC 2157', type: 'emission nebula' },
@@ -157,6 +159,7 @@ const CelestialDatabase = {
     'NGC6946': { ra: 308.7181, dec: 60.1539, name: 'Fireworks Galaxy', type: 'galaxy' },
     'NGC6960': { ra: 311.7500, dec: 30.7167, name: 'Western Veil Nebula', type: 'supernova remnant' },
     'NGC6992': { ra: 313.2583, dec: 31.7167, name: 'Eastern Veil Nebula', type: 'supernova remnant' },
+    'NGC6995': { ra: 314.6583, dec: 31.2167, name: 'Bat Nebula (Eastern Veil)', type: 'supernova remnant' },
     'NGC7000': { ra: 315.1939, dec: 44.5297, name: 'North America Nebula', type: 'emission nebula' },
     'NGC7023': { ra: 316.1167, dec: 68.1667, name: 'Iris Nebula', type: 'reflection nebula' },
     'NGC7293': { ra: 337.4108, dec: -20.8372, name: 'Helix Nebula', type: 'planetary nebula' },
@@ -284,7 +287,11 @@ const CelestialDatabase = {
     'PTOLEMY': { ra: 268.4633, dec: -34.7933, name: 'Ptolemy Cluster', type: 'open cluster' },
     'OMEGACENTAURI': { ra: 201.6970, dec: -47.4796, name: 'Omega Centauri', type: 'globular cluster' },
     'HERCULES': { ra: 250.4235, dec: 36.4613, name: 'Hercules Cluster', type: 'globular cluster' },
-    'SAGITTARIUS': { ra: 279.0996, dec: -23.9049, name: 'Sagittarius Cluster', type: 'globular cluster' }
+    'SAGITTARIUS': { ra: 279.0996, dec: -23.9049, name: 'Sagittarius Cluster', type: 'globular cluster' },
+    'THOR': { ra: 109.2667, dec: -13.2000, name: "Thor's Helmet", type: 'emission nebula' },
+    'FISHHEAD': { ra: 36.6833, dec: 62.0833, name: 'Fish Head Nebula', type: 'emission nebula' },
+    'IC1795': { ra: 36.6833, dec: 62.0833, name: 'Fish Head Nebula', type: 'emission nebula' },
+    'PLEAIDES': { ra: 56.8710, dec: 24.1050, name: 'Pleiades', type: 'open cluster' }  // common filename misspelling
 };
 
 // Function to normalize object names for matching
@@ -296,28 +303,34 @@ function normalizeObjectName(name) {
         .trim();
 }
 
-// Function to find object by various name formats
+// Function to find object by various name formats.
+// Returns the database entry with an extra `key` property naming the catalog id it matched.
 function findCelestialObject(filename) {
     const normalized = normalizeObjectName(filename);
-    
+
     // Direct match
     if (CelestialDatabase[normalized]) {
-        return CelestialDatabase[normalized];
+        return { ...CelestialDatabase[normalized], key: normalized };
     }
-    
-    // Try partial matches for compound names
+
+    // Partial matches for compound names (e.g. "M101_3xUpsampled").
+    // Prefer the LONGEST matching key so "M101…" resolves to M101, not M1.
+    let best = null;
     for (let key in CelestialDatabase) {
         if (normalized.includes(key) || key.includes(normalized)) {
-            return CelestialDatabase[key];
+            if (!best || key.length > best.length) best = key;
         }
     }
-    
+    if (best) {
+        return { ...CelestialDatabase[best], key: best };
+    }
+
     // Try without leading zeros (M001 -> M1)
     const withoutZeros = normalized.replace(/([A-Z]+)0+(\d+)/, '$1$2');
     if (CelestialDatabase[withoutZeros]) {
-        return CelestialDatabase[withoutZeros];
+        return { ...CelestialDatabase[withoutZeros], key: withoutZeros };
     }
-    
+
     return null;
 }
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Gallery Admin — Cosmos Person</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="site.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+    <!-- ============ Sign in ============ -->
+    <section class="auth" id="auth-view">
+        <div class="auth-card">
+            <p class="label">Cosmos Person</p>
+            <h1 class="display auth-title">Gallery Admin</h1>
+            <p class="auth-lede">Sign in with a GitHub access token to manage the gallery —
+                pick which photos show up, reorder them, edit their details, and publish
+                straight to the live site.</p>
+
+            <form id="auth-form">
+                <label class="field">
+                    <span class="field-label">GitHub access token</span>
+                    <input type="password" id="token-input" autocomplete="off" spellcheck="false"
+                        placeholder="github_pat_…" required>
+                </label>
+                <label class="check">
+                    <input type="checkbox" id="remember-check">
+                    <span>Keep me signed in on this device</span>
+                </label>
+                <button type="submit" class="btn solid auth-submit" id="auth-submit">Sign in</button>
+                <p class="auth-error" id="auth-error" hidden></p>
+            </form>
+
+            <details class="auth-help">
+                <summary>How to create a token</summary>
+                <ol>
+                    <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank"
+                            rel="noopener">GitHub → Settings → Developer settings → Fine-grained tokens</a>.</li>
+                    <li>Under <em>Repository access</em>, choose <strong>Only select repositories</strong> and pick
+                        <span class="mono" id="help-repo">this repository</span>.</li>
+                    <li>Under <em>Permissions → Repository permissions</em>, set
+                        <strong>Contents</strong> to <strong>Read and write</strong>.</li>
+                    <li>Generate the token and paste it above. It stays on this device only.</li>
+                </ol>
+            </details>
+        </div>
+    </section>
+
+    <!-- ============ Workspace ============ -->
+    <div class="workspace" id="workspace" hidden>
+        <header class="admin-header">
+            <div class="admin-header-left">
+                <a href="index.html" class="wordmark" aria-label="Cosmos Person">C<svg class="cat-o"
+                        viewBox="0 0 24 24" aria-hidden="true">
+                        <path
+                            d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"
+                            stroke-linecap="round" />
+                    </svg>smos<span>&thinsp;Person</span></a>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="admin-header-right">
+                <span class="admin-user" id="admin-user"></span>
+                <a href="index.html" class="admin-link" target="_blank" rel="noopener">View site</a>
+                <button class="admin-link as-btn" id="signout-btn">Sign out</button>
+            </div>
+        </header>
+
+        <div class="admin-toolbar">
+            <div class="toolbar-left">
+                <h1 class="display toolbar-title">The Photos</h1>
+                <span class="toolbar-stats" id="toolbar-stats"></span>
+            </div>
+            <div class="toolbar-right">
+                <label class="btn" for="upload-input">Add photos</label>
+                <input type="file" id="upload-input" accept="image/jpeg,image/png" multiple hidden>
+                <button class="btn" id="discard-btn" disabled>Discard changes</button>
+                <button class="btn solid" id="publish-btn" disabled>Publish</button>
+            </div>
+        </div>
+
+        <p class="admin-hint">Drag to reorder · click the eye to show or hide a photo on the site ·
+            click a row to edit its details. Nothing changes on the live site until you publish.</p>
+
+        <div class="admin-list" id="admin-list"></div>
+
+        <section class="admin-unpublished" id="unpublished-section" hidden>
+            <h2 class="label">In the repository, not in the gallery</h2>
+            <p class="admin-hint">Image files found in the <span class="mono">gallery/</span> folder that aren't in
+                the gallery yet. Add one to make it available on the site.</p>
+            <div class="admin-list" id="unpublished-list"></div>
+        </section>
+    </div>
+
+    <!-- ============ Publish overlay ============ -->
+    <div class="publish-overlay" id="publish-overlay" hidden>
+        <div class="publish-card">
+            <h2 class="display publish-title" id="publish-title">Publishing</h2>
+            <ul class="publish-steps" id="publish-steps"></ul>
+            <p class="publish-note" id="publish-note"></p>
+            <div class="publish-actions" id="publish-actions" hidden>
+                <button class="btn solid" id="publish-done-btn">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="celestial-database.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>

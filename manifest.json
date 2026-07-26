@@ -1,12 +1,11 @@
 {
-  "name": "Cosmos Person Photography - Interactive Universe Gallery",
-  "short_name": "Cosmos Gallery",
-  "description": "Explore the universe through my lens - Interactive astrophotography portfolio",
+  "name": "Cosmos Person — Deep-Sky Astrophotography",
+  "short_name": "Cosmos Person",
+  "description": "Nebulae, galaxies and comets photographed one clear night at a time — with an interactive sky atlas of every capture.",
   "start_url": "./index.html",
-  "display": "fullscreen",
-  "orientation": "landscape",
-  "background_color": "#000000",
-  "theme_color": "#ffa500",
+  "display": "standalone",
+  "background_color": "#08090b",
+  "theme_color": "#08090b",
   "icons": [
     {
       "src": "icon-192.png",
@@ -25,19 +24,5 @@
     "photography",
     "education",
     "science"
-  ],
-  "screenshots": [
-    {
-      "src": "screenshot1.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "label": "Galaxy view with photo markers"
-    },
-    {
-      "src": "screenshot2.png",
-      "sizes": "1920x1080",
-      "type": "image/png",
-      "label": "Photo viewer showing astrophotography"
-    }
   ]
 }

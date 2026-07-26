@@ -1,23 +1,24 @@
-// Main application script for Cosmos Person Photography
+/* ============================================================
+   Cosmos Person — Explore the Universe
+   Aladin sky atlas with beacons where photographs were captured.
+   Beacons come from two sources, merged:
+     1. gallery.json (the curated collection, with titles/descriptions)
+     2. the images/ folder of the repository (older captures)
+   ============================================================ */
+
 let aladin;
 let photoCatalog;
 let photoData = [];
-let isLoading = true;
 
-// Initialize when DOM is ready
-$(document).ready(function() {
+const VIEWER_FALLBACK = new WeakSet();
+
+$(document).ready(function () {
     initializeAladin();
-    
-    // Check for Aladin controls overlap after a delay
-    setTimeout(() => {
-        adjustBrandPosition();
-        
-        // Also check periodically as controls may load asynchronously
-        setInterval(adjustBrandPosition, 2000);
-    }, 3000);
+    setupPanelToggle();
 });
 
-// Initialize Aladin Sky Atlas
+/* ---------- Aladin ---------- */
+
 function initializeAladin() {
     aladin = A.aladin('#aladin-lite-div', {
         survey: 'P/DSS2/color',
@@ -34,587 +35,431 @@ function initializeAladin() {
         showFrame: false,
         showCooGrid: false
     });
-    
-    // Wait for Aladin to fully initialize
+
     setTimeout(() => {
-        loadPhotosFromGitHub();
+        loadPhotos();
         setupEventListeners();
-        
-        // Force remove grid elements after Aladin loads
-        setTimeout(() => {
-            // Remove coordinate grid
-            const gridElements = document.querySelectorAll('.aladin-cooGrid');
-            gridElements.forEach(el => {
-                el.style.display = 'none';
-            });
-            
-            // Remove any canvas with grid
-            const canvases = aladin.view.catalogCanvas.parentElement.querySelectorAll('canvas');
-            canvases.forEach((canvas, index) => {
-                // The grid is usually the second or third canvas
-                if (index > 0 && canvas.style.pointerEvents === 'none') {
-                    canvas.style.display = 'none';
-                }
-            });
-            
-            // Try to disable grid through Aladin API if available
-            if (aladin.view && aladin.view.cooGrid) {
-                aladin.view.cooGrid.hide();
-            }
-        }, 1000);
-    }, 2000);
-    
-    // Update visible count when view changes
+        hideCoordinateGrid();
+        handleGotoParam();
+    }, 1800);
+
     aladin.on('positionChanged', updateVisibleCount);
     aladin.on('zoomChanged', updateVisibleCount);
 }
 
-// Load photos from GitHub repository
-async function loadPhotosFromGitHub() {
-    // Show loading state
-    updateLoadingState(true);
-    
-    // Check if we're in dev mode or using sample data
-    if (CONFIG.DEV_MODE || CONFIG.GITHUB_USERNAME === 'YOUR_GITHUB_USERNAME') {
-        loadSamplePhotos();
-        return;
-    }
-    
-    try {
-        // Check if we have cached data
-        const cachedData = getCachedData();
-        if (cachedData) {
-            processPhotoData(cachedData);
-            updateLoadingState(false);
-            return;
-        }
-        
-        // Fetch repository contents from GitHub API
-        const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.IMAGES_PATH}`;
-        const response = await fetch(apiUrl);
-        
-        if (!response.ok) {
-            throw new Error(`GitHub API error: ${response.status}`);
-        }
-        
-        const files = await response.json();
-        
-        // Filter for image files
-        const imageFiles = files.filter(file => 
-            file.type === 'file' && 
-            CONFIG.SUPPORTED_FORMATS.some(ext => 
-                file.name.toLowerCase().endsWith(`.${ext}`)
-            )
-        );
-        
-        // Process each image file
-        const processedPhotos = [];
-        imageFiles.forEach(file => {
-            const celestialObject = findCelestialObject(file.name);
-            
-            if (celestialObject) {
-                processedPhotos.push({
-                    id: normalizeObjectName(file.name),
-                    name: celestialObject.name,
-                    ra: celestialObject.ra,
-                    dec: celestialObject.dec,
-                    type: celestialObject.type || 'unknown',
-                    imageUrl: file.download_url,
-                    filename: file.name,
-                    size: file.size
-                });
-            } else {
-                console.warn(`No celestial object found for: ${file.name}`);
-            }
-        });
-        
-        // Cache the data
-        setCachedData(processedPhotos);
-        
-        // Process and display
-        processPhotoData(processedPhotos);
-        
-    } catch (error) {
-        console.error('Error loading photos from GitHub:', error);
-        showError('Unable to load photos from GitHub. Using sample data.');
-        loadSamplePhotos();
-    } finally {
-        updateLoadingState(false);
+function hideCoordinateGrid() {
+    setTimeout(() => {
+        document.querySelectorAll('.aladin-cooGrid').forEach(el => { el.style.display = 'none'; });
+        if (aladin.view && aladin.view.cooGrid) aladin.view.cooGrid.hide();
+    }, 800);
+}
+
+/* Deep links from the gallery: explore.html?goto=NGC 7000 */
+function handleGotoParam() {
+    const target = new URLSearchParams(location.search).get('goto');
+    if (!target) return;
+    const obj = findCelestialObject(target);
+    if (obj) {
+        flyTo(obj.ra, obj.dec, 4);
+    } else {
+        aladin.gotoObject(target);
     }
 }
 
-// Process photo data and add to map
-function processPhotoData(photos) {
-    photoData = photos;
+/*
+ * Smoothly fly the view to a target, then verify arrival.
+ * animateToRaDec animates on requestAnimationFrame, which stalls in
+ * background tabs and never changes the field of view — so after the
+ * animation window we snap to the exact target and FoV if needed.
+ */
+function flyTo(ra, dec, fov, after) {
+    try { aladin.animateToRaDec(ra, dec, 1.5); }
+    catch (e) { aladin.gotoRaDec(ra, dec); }
+    if (fov) {
+        try { aladin.zoomToFoV(fov, 1.5); } catch (e) { /* snapped below */ }
+    }
+    setTimeout(() => {
+        const now = aladin.getRaDec();
+        const arrived = Math.abs(now[0] - ra) < 0.5 && Math.abs(now[1] - dec) < 0.5;
+        if (!arrived) aladin.gotoRaDec(ra, dec);
+        if (fov && Math.abs(aladin.getFov()[0] - fov) > 0.5) aladin.setFov(fov);
+        if (after) after();
+    }, 1650);
+}
+
+/* ---------- Photo loading ---------- */
+
+async function loadPhotos() {
+    if (loadPhotos._ran) return;
+    loadPhotos._ran = true;
+    updateLoadingState(true);
+
+    const byKey = new Map();
+
+    // 1. The curated collection — carries real titles and descriptions
+    try {
+        const res = await fetch('gallery.json', { cache: 'no-cache' });
+        const manifest = await res.json();
+        (manifest.images || [])
+            .filter(img => img.visible !== false && img.skyTarget)
+            .forEach(img => {
+                const obj = findCelestialObject(img.skyTarget);
+                if (!obj) return;
+                byKey.set(obj.key, {
+                    id: obj.key,
+                    name: img.title,
+                    ra: obj.ra,
+                    dec: obj.dec,
+                    type: img.type || obj.type || '',
+                    meta: [img.catalog, img.constellation, img.distance].filter(Boolean),
+                    description: img.description || '',
+                    viewerUrl: viewerSizeFrom(img),
+                    fullUrl: img.original,
+                    galleryId: img.id
+                });
+            });
+    } catch (err) {
+        console.warn('Could not load gallery.json for beacons:', err);
+    }
+
+    // 2. Every recognised capture in the repository's images/ folder
+    try {
+        const files = await fetchRepoImages();
+        files.forEach(file => {
+            const obj = findCelestialObject(file.name);
+            if (!obj) {
+                console.warn(`No celestial match for: ${file.name}`);
+                return;
+            }
+            if (byKey.has(obj.key)) return; // curated version wins
+            // Same object under a different designation (e.g. THOR vs NGC 2359)
+            const near = [...byKey.values()].some(p => angularDistance(p.ra, p.dec, obj.ra, obj.dec) < 0.25);
+            if (near) return;
+            const stem = file.name.replace(/\.[^.]+$/, '');
+            byKey.set(obj.key, {
+                id: obj.key,
+                name: obj.name,
+                ra: obj.ra,
+                dec: obj.dec,
+                type: obj.type || '',
+                meta: [],
+                description: '',
+                viewerUrl: encodeURI(`images/_web/${stem}-1600.jpg`),
+                fullUrl: file.download_url,
+                galleryId: null
+            });
+        });
+    } catch (err) {
+        console.warn('Could not list repository images:', err);
+    }
+
+    photoData = [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
     displayPhotosOnMap();
     updateUI();
+    updateLoadingState(false);
 }
 
-// Load sample photos for demonstration
-function loadSamplePhotos() {
-    const samplePhotos = [
-        {
-            id: 'NGC2157',
-            name: 'NGC 2157',
-            ra: 89.2167,
-            dec: -23.9167,
-            type: 'emission nebula',
-            imageUrl: createPlaceholderImage('NGC 2157'),
-            filename: 'NGC2157.jpg'
-        },
-        {
-            id: 'M42',
-            name: 'Orion Nebula',
-            ra: 83.8221,
-            dec: -5.3911,
-            type: 'emission nebula',
-            imageUrl: createPlaceholderImage('M42 - Orion Nebula'),
-            filename: 'M42.jpg'
-        },
-        {
-            id: 'M31',
-            name: 'Andromeda Galaxy',
-            ra: 10.6847,
-            dec: 41.2687,
-            type: 'galaxy',
-            imageUrl: createPlaceholderImage('M31 - Andromeda'),
-            filename: 'M31.jpg'
-        },
-        {
-            id: 'IC5070',
-            name: 'Pelican Nebula',
-            ra: 313.7500,
-            dec: 44.3667,
-            type: 'emission nebula',
-            imageUrl: createPlaceholderImage('IC5070 - Pelican'),
-            filename: 'IC5070.jpg'
-        }
-    ];
-    
-    processPhotoData(samplePhotos);
+async function fetchRepoImages() {
+    const cached = getCachedData();
+    if (cached) return cached;
+
+    const apiUrl = `${CONFIG.GITHUB_API_BASE}/repos/${CONFIG.GITHUB_USERNAME}/${CONFIG.GITHUB_REPO}/contents/${CONFIG.IMAGES_PATH}`;
+    const response = await fetch(apiUrl);
+    if (!response.ok) throw new Error(`GitHub API ${response.status}`);
+
+    const files = (await response.json()).filter(file =>
+        file.type === 'file' &&
+        CONFIG.SUPPORTED_FORMATS.some(ext => file.name.toLowerCase().endsWith(`.${ext}`))
+    ).map(f => ({ name: f.name, download_url: f.download_url }));
+
+    setCachedData(files);
+    return files;
 }
 
-// Create placeholder image
-function createPlaceholderImage(text) {
-    const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
-            <rect width="800" height="600" fill="#000"/>
-            <rect width="800" height="600" fill="url(#stars)"/>
-            <text x="400" y="300" text-anchor="middle" fill="#ffa500" 
-                  font-size="32" font-family="Orbitron, monospace">${text}</text>
-            <text x="400" y="340" text-anchor="middle" fill="#fff" 
-                  font-size="16" opacity="0.7">Your Photo Here</text>
-            <defs>
-                <pattern id="stars" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                    <circle cx="10" cy="10" r="1" fill="#fff" opacity="0.5"/>
-                    <circle cx="40" cy="25" r="0.5" fill="#fff" opacity="0.3"/>
-                    <circle cx="60" cy="50" r="1.5" fill="#fff" opacity="0.7"/>
-                    <circle cx="90" cy="70" r="0.8" fill="#fff" opacity="0.4"/>
-                    <circle cx="30" cy="80" r="1" fill="#fff" opacity="0.6"/>
-                </pattern>
-            </defs>
-        </svg>
-    `;
-    return 'data:image/svg+xml,' + encodeURIComponent(svg);
+function viewerSizeFrom(entry) {
+    if (!entry.srcset || !entry.srcset.length) return entry.original;
+    // Prefer the middle (~1600px) derivative for fast viewing
+    const mid = entry.srcset.find(s => /-1600\.jpg$/.test(s.src));
+    return encodeURI((mid || entry.srcset[entry.srcset.length - 1]).src);
 }
 
-// Display photos on the map
+/* ---------- Map beacons ---------- */
+
 function displayPhotosOnMap() {
-    // Remove existing catalog if any
-    if (photoCatalog) {
-        aladin.removeCatalog(photoCatalog);
-    }
-    
-    // Create new catalog for photos
+    if (photoCatalog) aladin.removeCatalog(photoCatalog);
+
     photoCatalog = A.catalog({
-        name: 'My Astrophotos',
-        sourceSize: CONFIG.MARKER_SIZE,
+        name: 'Photographed by Cosmos Person',
+        sourceSize: 20,
         shape: 'circle',
-        color: '#ffa500',
+        color: '#7cd1c8',
         labelColumn: 'name',
         displayLabel: true,
-        labelColor: '#ffa500',
-        labelFont: '14px Orbitron, monospace',
-        labelOffset: [0, -20]
+        labelColor: '#a9e8e2',
+        labelFont: '11px Inter, sans-serif',
+        labelOffset: [0, -18]
     });
-    
-    // Add custom styles for photo markers
-    addCustomMarkerStyles();
-    
-    // Add sources to catalog
+
     photoData.forEach(photo => {
-        const source = A.source(photo.ra, photo.dec, {
+        photoCatalog.addSources([A.source(photo.ra, photo.dec, {
             name: photo.name,
-            photoId: photo.id,
             photoData: photo
-        });
-        photoCatalog.addSources([source]);
+        })]);
     });
-    
-    // Add catalog to Aladin
+
     aladin.addCatalog(photoCatalog);
-    
-    // Set up click handler for catalog sources
-    photoCatalog.onClick = function(source) {
+
+    photoCatalog.onClick = function (source) {
         if (source && source.data && source.data.photoData) {
-            // Add smooth transition before showing photo
             const photo = source.data.photoData;
-            
-            // First, smoothly animate to the object
-            aladin.animateToRaDec(photo.ra, photo.dec, 5, 1000);
-            
-            // Then show the photo with a delay for smooth transition
-            setTimeout(() => {
-                openPhotoViewer(photo);
-            }, 1200);
+            flyTo(photo.ra, photo.dec, 5, () => openPhotoViewer(photo));
         }
     };
 }
 
-// Add custom marker styles
-function addCustomMarkerStyles() {
-    // Check if styles already exist
-    if (document.getElementById('custom-marker-styles')) return;
-    
-    const style = document.createElement('style');
-    style.id = 'custom-marker-styles';
-    style.textContent = `
-        /* Custom styles for photo markers */
-        .aladin-location-my-astrophotos {
-            cursor: pointer !important;
-        }
-        
-        .aladin-source-my-astrophotos {
-            width: 40px !important;
-            height: 40px !important;
-            margin: -20px 0 0 -20px !important;
-            background: radial-gradient(circle at center, 
-                rgba(255, 165, 0, 0.9) 0%, 
-                rgba(255, 165, 0, 0.6) 40%, 
-                rgba(255, 100, 0, 0.3) 100%) !important;
-            border-radius: 50% !important;
-            border: 3px solid #ffa500 !important;
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.8),
-                        0 0 40px rgba(255, 165, 0, 0.4),
-                        inset 0 0 10px rgba(255, 255, 255, 0.3) !important;
-            animation: photoBeacon 3s ease-in-out infinite !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            position: relative !important;
-        }
-        
-        .aladin-source-my-astrophotos::before {
-            content: '📸' !important;
-            font-size: 18px !important;
-            position: absolute !important;
-            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.8)) !important;
-        }
-        
-        .aladin-source-my-astrophotos::after {
-            content: '' !important;
-            position: absolute !important;
-            width: 100% !important;
-            height: 100% !important;
-            border-radius: 50% !important;
-            border: 2px solid rgba(255, 165, 0, 0.5) !important;
-            animation: pulseRing 3s ease-out infinite !important;
-        }
-        
-        .aladin-source-my-astrophotos:hover {
-            transform: scale(1.2) !important;
-        }
-    `;
-    document.head.appendChild(style);
-}
+/* ---------- UI ---------- */
 
-// Update UI elements
 function updateUI() {
-    // Update capture count
     document.getElementById('capture-count').textContent = photoData.length;
-    
-    // Update photo list
+
     const listContainer = document.getElementById('photo-list');
     listContainer.innerHTML = '';
-    
+
     photoData.forEach(photo => {
         const item = document.createElement('div');
         item.className = 'photo-list-item';
-        item.innerHTML = `
-            <span>${photo.name}</span>
-            <span class="photo-status">📸</span>
-        `;
-        item.onclick = () => {
-            // Smooth animation to photo
-            aladin.animateToRaDec(photo.ra, photo.dec, 5, 1000);
-            // Optional: show photo after arriving
-            setTimeout(() => openPhotoViewer(photo), 1200);
-        };
+        const name = document.createElement('span');
+        name.textContent = photo.name;
+        const type = document.createElement('span');
+        type.className = 'photo-type';
+        type.textContent = shortType(photo.type);
+        item.append(name, type);
+        item.onclick = () => flyTo(photo.ra, photo.dec, 5, () => openPhotoViewer(photo));
         listContainer.appendChild(item);
     });
-    
+
     updateVisibleCount();
 }
 
-// Go to specific photo
-function goToPhoto(photo) {
-    aladin.animateToRaDec(photo.ra, photo.dec, 3, CONFIG.ANIMATION_DURATION);
+function shortType(type) {
+    if (!type) return '';
+    const t = type.toLowerCase();
+    if (t.includes('galaxy')) return 'Galaxy';
+    if (t.includes('cluster')) return 'Cluster';
+    if (t.includes('remnant')) return 'Remnant';
+    if (t.includes('comet')) return 'Comet';
+    if (t.includes('nebula')) return 'Nebula';
+    return type;
 }
 
-// Update visible photo count
 function updateVisibleCount() {
-    let visibleCount = 0;
+    if (!photoData.length) return;
     const view = aladin.getRaDec();
     const fov = aladin.getFov()[0];
-    
-    photoData.forEach(photo => {
-        const distance = calculateAngularDistance(
-            view[0], view[1], 
-            photo.ra, photo.dec
-        );
-        if (distance < fov / 2) {
-            visibleCount++;
-        }
-    });
-    
-    document.getElementById('visible-count').textContent = visibleCount;
+    const visible = photoData.filter(p =>
+        angularDistance(view[0], view[1], p.ra, p.dec) < fov / 2
+    ).length;
+    document.getElementById('visible-count').textContent = visible;
 }
 
-// Calculate angular distance between two celestial coordinates
-function calculateAngularDistance(ra1, dec1, ra2, dec2) {
+function angularDistance(ra1, dec1, ra2, dec2) {
     const toRad = Math.PI / 180;
     const dRA = (ra2 - ra1) * toRad;
     const dDec = (dec2 - dec1) * toRad;
-    const a = Math.sin(dDec/2) * Math.sin(dDec/2) +
-              Math.cos(dec1 * toRad) * Math.cos(dec2 * toRad) *
-              Math.sin(dRA/2) * Math.sin(dRA/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return c * 180 / Math.PI;
+    const a = Math.sin(dDec / 2) ** 2 +
+        Math.cos(dec1 * toRad) * Math.cos(dec2 * toRad) * Math.sin(dRA / 2) ** 2;
+    return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 180 / Math.PI;
 }
 
-// Search for object
+/* ---------- Search / navigation ---------- */
+
 function searchObject() {
     const query = document.getElementById('object-search').value.trim();
     if (!query) return;
-    
-    // First check if it's one of our photos
-    const normalizedQuery = normalizeObjectName(query);
-    const ourPhoto = photoData.find(photo => 
-        photo.id === normalizedQuery || 
-        photo.name.toLowerCase().includes(query.toLowerCase())
+
+    const match = findCelestialObject(query);
+    const ourPhoto = photoData.find(p =>
+        (match && p.id === match.key) ||
+        p.name.toLowerCase().includes(query.toLowerCase())
     );
-    
+
     if (ourPhoto) {
-        // Smooth animation to our photo
-        aladin.animateToRaDec(ourPhoto.ra, ourPhoto.dec, 5, 1000);
-        setTimeout(() => openPhotoViewer(ourPhoto), 1200);
+        flyTo(ourPhoto.ra, ourPhoto.dec, 5, () => openPhotoViewer(ourPhoto));
+    } else if (match) {
+        flyTo(match.ra, match.dec, 3);
     } else {
-        // Search in celestial database
-        const celestialObject = findCelestialObject(query);
-        if (celestialObject) {
-            aladin.animateToRaDec(celestialObject.ra, celestialObject.dec, 3);
-        } else {
-            // Let Aladin handle it (for coordinates or unknown objects)
-            aladin.gotoObject(query);
-        }
+        aladin.gotoObject(query);
     }
 }
 
-// Go to random photo
 function goToRandomPhoto() {
-    if (photoData.length === 0) {
-        showMessage('No photos loaded yet!');
-        return;
-    }
-    
-    const randomPhoto = photoData[Math.floor(Math.random() * photoData.length)];
-    
-    // Smooth animation to photo location
-    aladin.animateToRaDec(randomPhoto.ra, randomPhoto.dec, 5, 1000);
-    
-    // Show photo after animation with smooth transition
-    setTimeout(() => {
-        openPhotoViewer(randomPhoto);
-    }, 1200);
+    if (!photoData.length) return;
+    const photo = photoData[Math.floor(Math.random() * photoData.length)];
+    flyTo(photo.ra, photo.dec, 5, () => openPhotoViewer(photo));
 }
 
-// Show all photos
 function showAllPhotos() {
-    if (photoData.length === 0) return;
-    
-    // Calculate bounds
-    let minRa = Infinity, maxRa = -Infinity;
-    let minDec = Infinity, maxDec = -Infinity;
-    
-    photoData.forEach(photo => {
-        minRa = Math.min(minRa, photo.ra);
-        maxRa = Math.max(maxRa, photo.ra);
-        minDec = Math.min(minDec, photo.dec);
-        maxDec = Math.max(maxDec, photo.dec);
+    if (!photoData.length) return;
+
+    let minRa = Infinity, maxRa = -Infinity, minDec = Infinity, maxDec = -Infinity;
+    photoData.forEach(p => {
+        minRa = Math.min(minRa, p.ra);
+        maxRa = Math.max(maxRa, p.ra);
+        minDec = Math.min(minDec, p.dec);
+        maxDec = Math.max(maxDec, p.dec);
     });
-    
-    // Handle RA wrap-around (0-360 degrees)
+
     if (maxRa - minRa > 180) {
-        // Photos span across RA 0
-        let newMinRa = Infinity, newMaxRa = -Infinity;
-        photoData.forEach(photo => {
-            const ra = photo.ra > 180 ? photo.ra - 360 : photo.ra;
-            newMinRa = Math.min(newMinRa, ra);
-            newMaxRa = Math.max(newMaxRa, ra);
+        let nMin = Infinity, nMax = -Infinity;
+        photoData.forEach(p => {
+            const ra = p.ra > 180 ? p.ra - 360 : p.ra;
+            nMin = Math.min(nMin, ra);
+            nMax = Math.max(nMax, ra);
         });
-        minRa = newMinRa;
-        maxRa = newMaxRa;
+        minRa = nMin;
+        maxRa = nMax;
     }
-    
+
     const centerRa = (minRa + maxRa) / 2;
     const centerDec = (minDec + maxDec) / 2;
     const fov = Math.max(maxRa - minRa, maxDec - minDec) * 1.5;
-    
-    aladin.animateToRaDec(
-        centerRa < 0 ? centerRa + 360 : centerRa, 
-        centerDec, 
-        Math.min(fov, 180)
-    );
+    flyTo(centerRa < 0 ? centerRa + 360 : centerRa, centerDec, Math.min(fov, 180));
 }
 
-// Open photo viewer
+/* ---------- Photo viewer ---------- */
+
 function openPhotoViewer(photo) {
     if (!photo) return;
-    
-    const viewer = document.getElementById('photo-viewer');
-    
-    // Add class to body for background effect
+
     document.body.classList.add('photo-viewer-active');
-    
-    // Update content
-    document.getElementById('viewer-image').src = photo.imageUrl;
+
+    const img = document.getElementById('viewer-image');
+    img.onerror = () => {
+        // Derivative not deployed (or missing) — fall back to the original file
+        if (!VIEWER_FALLBACK.has(photo) && photo.fullUrl && img.src !== photo.fullUrl) {
+            VIEWER_FALLBACK.add(photo);
+            img.src = photo.fullUrl;
+        }
+    };
+    img.src = VIEWER_FALLBACK.has(photo) ? photo.fullUrl : photo.viewerUrl;
+    img.alt = photo.name;
+
     document.getElementById('viewer-title').textContent = photo.name;
-    document.getElementById('viewer-description').textContent = 
-        `One of my captures of ${photo.name}${photo.type ? ` - ${photo.type}` : ''}`;
-    
-    let details = '';
-    if (CONFIG.SHOW_COORDINATES) {
-        details += `<strong>Coordinates:</strong> RA ${photo.ra.toFixed(4)}°, Dec ${photo.dec.toFixed(4)}°<br>`;
+
+    const metaBits = photo.meta && photo.meta.length
+        ? photo.meta
+        : [photo.type, formatRA(photo.ra), formatDec(photo.dec)].filter(Boolean);
+    const metaEl = document.getElementById('viewer-meta');
+    metaEl.innerHTML = '';
+    metaBits.forEach(text => {
+        const span = document.createElement('span');
+        span.textContent = text;
+        metaEl.appendChild(span);
+    });
+
+    const desc = document.getElementById('viewer-description');
+    desc.textContent = photo.description || '';
+    desc.style.display = photo.description ? '' : 'none';
+
+    const actions = document.getElementById('viewer-actions');
+    actions.innerHTML = '';
+    if (photo.galleryId) {
+        const a = document.createElement('a');
+        a.className = 'viewer-action';
+        a.href = `index.html#photo=${encodeURIComponent(photo.galleryId)}`;
+        a.textContent = 'Open in Photos';
+        actions.appendChild(a);
     }
-    details += `<strong>Object ID:</strong> ${photo.id}<br>`;
-    details += `<strong>Filename:</strong> ${photo.filename}`;
-    
-    document.getElementById('viewer-details').innerHTML = details;
-    
-    // Trigger animation after a brief delay
+    if (photo.fullUrl) {
+        const a = document.createElement('a');
+        a.className = 'viewer-action';
+        a.href = photo.fullUrl;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = 'Full Resolution';
+        actions.appendChild(a);
+    }
+
     setTimeout(() => {
-        viewer.classList.add('active');
-    }, 50);
+        document.getElementById('photo-viewer').classList.add('active');
+    }, 40);
 }
 
-// Close photo viewer
 function closePhotoViewer() {
-    const viewer = document.getElementById('photo-viewer');
-    viewer.classList.remove('active');
+    document.getElementById('photo-viewer').classList.remove('active');
     document.body.classList.remove('photo-viewer-active');
-    
-    // Wait for animation to complete
-    setTimeout(() => {
-        // Reset to initial state
-    }, 600);
 }
 
-// Change survey
+function formatRA(ra) {
+    const hours = ra / 15;
+    const h = Math.floor(hours);
+    const m = Math.round((hours - h) * 60);
+    return `RA ${h}ʰ ${String(m).padStart(2, '0')}ᵐ`;
+}
+
+function formatDec(dec) {
+    const sign = dec < 0 ? '−' : '+';
+    const abs = Math.abs(dec);
+    const d = Math.floor(abs);
+    const m = Math.round((abs - d) * 60);
+    return `Dec ${sign}${d}° ${String(m).padStart(2, '0')}′`;
+}
+
+/* ---------- Misc ---------- */
+
 function changeSurvey() {
-    const survey = document.getElementById('survey-select').value;
-    aladin.setImageSurvey(survey);
+    aladin.setImageSurvey(document.getElementById('survey-select').value);
 }
 
-// Setup event listeners
+function setupPanelToggle() {
+    const toggle = document.getElementById('panel-toggle');
+    const panel = document.getElementById('control-panel');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+        const open = panel.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open);
+        toggle.textContent = open ? 'Close' : 'My Photos';
+    });
+}
+
 function setupEventListeners() {
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closePhotoViewer();
-        } else if (e.key === 'r' || e.key === 'R') {
-            if (!e.ctrlKey && !e.metaKey) { // Avoid browser refresh
-                goToRandomPhoto();
-            }
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closePhotoViewer();
+        else if ((e.key === 'r' || e.key === 'R') && !e.ctrlKey && !e.metaKey &&
+            document.activeElement.tagName !== 'INPUT') {
+            goToRandomPhoto();
         }
     });
-    
-    // Enter key for search
-    document.getElementById('object-search').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            searchObject();
-        }
+
+    document.getElementById('object-search').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') searchObject();
     });
 }
 
-// Update loading state
 function updateLoadingState(loading) {
-    isLoading = loading;
-    const loadingElement = document.getElementById('loading-message');
-    if (loadingElement) {
-        loadingElement.style.display = loading ? 'block' : 'none';
-    }
+    const el = document.getElementById('loading-message');
+    if (el) el.style.display = loading ? 'block' : 'none';
 }
 
-// Show error message
-function showError(message) {
-    console.error(message);
-    // You could implement a toast notification here
-}
+/* ---------- Cache ---------- */
 
-// Show message
-function showMessage(message) {
-    alert(message); // Simple implementation, could be improved
-}
+const CACHE_KEY = 'cosmosRepoImages-v2';
 
-// Cache management
 function getCachedData() {
-    if (!CONFIG.USE_GITHUB_API) return null;
-    
-    const cached = localStorage.getItem('cosmosPhotos');
-    if (!cached) return null;
-    
     try {
-        const data = JSON.parse(cached);
-        if (Date.now() - data.timestamp < CONFIG.CACHE_DURATION) {
-            return data.photos;
-        }
-    } catch (e) {
-        console.error('Cache error:', e);
-    }
-    
+        const data = JSON.parse(localStorage.getItem(CACHE_KEY));
+        if (data && Date.now() - data.timestamp < CONFIG.CACHE_DURATION) return data.files;
+    } catch (e) { /* ignore */ }
     return null;
 }
 
-function setCachedData(photos) {
-    if (!CONFIG.USE_GITHUB_API) return;
-    
+function setCachedData(files) {
     try {
-        localStorage.setItem('cosmosPhotos', JSON.stringify({
-            photos: photos,
-            timestamp: Date.now()
-        }));
-    } catch (e) {
-        console.error('Cache error:', e);
-    }
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ files, timestamp: Date.now() }));
+    } catch (e) { /* ignore */ }
 }
 
-// Adjust brand position to avoid Aladin controls
-function adjustBrandPosition() {
-    const brand = document.getElementById('brand-overlay');
-    const aladinControls = document.querySelector('.aladin-layersControl');
-    
-    if (aladinControls && brand) {
-        const controlsRect = aladinControls.getBoundingClientRect();
-        const brandRect = brand.getBoundingClientRect();
-        
-        // If there's overlap, move brand down
-        if (brandRect.right > controlsRect.left && brandRect.top < controlsRect.bottom) {
-            brand.style.top = (controlsRect.bottom + 20) + 'px';
-        }
-    }
-}
-
-// Make functions globally available
+/* Globals used by inline handlers */
 window.searchObject = searchObject;
 window.goToRandomPhoto = goToRandomPhoto;
 window.showAllPhotos = showAllPhotos;

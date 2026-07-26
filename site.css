@@ -1,0 +1,284 @@
+/* ============================================================
+   Cosmos Person — shared design system
+   Used by index.html, explore.html, admin.html
+   ============================================================ */
+
+:root {
+    /* Surfaces — neutral near-black; the photographs supply the color */
+    --bg: #08090b;
+    --bg-elev: #0e1013;
+    --bg-panel: #12151a;
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.16);
+
+    /* Type */
+    --ink: #eef1f3;
+    --ink-2: #a9b1b7;
+    --ink-3: #69707a;
+
+    /* Accent — a single desaturated teal, used sparingly */
+    --accent: #7cd1c8;
+    --accent-dim: rgba(124, 209, 200, 0.35);
+    --accent-faint: rgba(124, 209, 200, 0.12);
+
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-ui: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+
+    --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --shadow-lift: 0 20px 60px rgba(0, 0, 0, 0.55);
+
+    --header-h: 72px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--accent-dim); color: var(--ink); }
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+button { font-family: var(--font-ui); }
+
+:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* ---------- Shared type utilities ---------- */
+
+.label {
+    font-family: var(--font-ui);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+}
+
+.display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: 0.01em;
+}
+
+/* ---------- Site header ---------- */
+
+.site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 1000;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(20px, 4vw, 48px);
+    transition: background 0.45s var(--ease), border-color 0.45s var(--ease);
+    border-bottom: 1px solid transparent;
+    background: linear-gradient(to bottom, rgba(5, 6, 8, 0.55), transparent);
+}
+
+.site-header.scrolled {
+    background: rgba(8, 9, 11, 0.82);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border-bottom-color: var(--line);
+}
+
+.header-inner {
+    width: 100%;
+    max-width: 1560px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.wordmark {
+    text-decoration: none;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.wordmark span { color: var(--ink-3); transition: color 0.3s; }
+.wordmark:hover span { color: var(--accent); }
+
+/* The first O in Cosmos is a cat. Non-negotiable. */
+.cat-o {
+    display: inline-block;
+    height: 0.8em;
+    width: auto;
+    vertical-align: -0.03em;
+    margin: 0 0.1em;
+}
+
+.wordmark:hover .cat-o { color: var(--accent); }
+.cat-o { transition: color 0.3s; }
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 3vw, 40px);
+}
+
+.site-nav a {
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.site-nav a:hover { color: var(--ink); }
+
+.site-nav a.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+}
+
+.site-nav a.nav-accent { color: var(--accent); }
+.site-nav a.nav-accent:hover { color: var(--ink); }
+
+@media (max-width: 640px) {
+    .nav-x { display: none; }
+    .wordmark { letter-spacing: 0.3em; }
+    /* the current page's own link is redundant on small screens */
+    .site-nav a.active { display: none; }
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+    border-top: 1px solid var(--line);
+    padding: 72px clamp(20px, 4vw, 48px) 48px;
+    text-align: center;
+}
+
+.footer-wordmark {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    text-decoration: none;
+}
+
+.footer-links {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--accent); }
+
+.footer-fine {
+    margin-top: 36px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    opacity: 0.7;
+}
+
+.footer-fine a { color: inherit; text-decoration: none; }
+.footer-fine a:hover { color: var(--ink-2); }
+
+/* ---------- Shared controls ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 28px;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn.solid {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0a0b0d;
+}
+
+.btn.solid:hover { background: var(--accent); border-color: var(--accent); color: #06110f; }
+
+.btn svg { width: 14px; height: 14px; }
+
+.icon-btn {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+
+.icon-btn:hover { color: var(--ink); border-color: var(--line-strong); background: rgba(255, 255, 255, 0.07); }
+
+.icon-btn svg { width: 20px; height: 20px; }
+
+/* ---------- Scrollbar ---------- */
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #23272d; border-radius: 5px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: #2f353c; }
+
+/* ---------- Motion preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+    }
+}

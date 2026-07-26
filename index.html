@@ -5,128 +5,189 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Cosmos Person Photography - Premium astrophotography portfolio showcasing deep sky objects, nebulae, and galaxies">
-    <meta name="keywords" content="astrophotography, deep sky, nebula, galaxy, cosmos, space photography, portfolio">
+        content="Cosmos Person — deep-sky astrophotography. Nebulae, galaxies, and the occasional comet, one clear night at a time.">
     <meta name="author" content="Cosmos Person">
 
-    <title>Cosmos Person Photography | Astrophotography Portfolio</title>
+    <title>Cosmos Person — Deep-Sky Astrophotography</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="manifest.json">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Cosmos Person Photography">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Cosmos Person — Deep-Sky Astrophotography">
     <meta property="og:description"
-        content="Premium astrophotography portfolio - Deep sky objects captured through my lens">
-    <meta property="og:image" content="preview.jpg">
-    <meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/">
+        content="Nebulae, galaxies, and the occasional comet — one clear night at a time.">
+    <meta property="og:image" content="https://cosmosperson.com/gallery/_web/california-1600.jpg">
+    <meta property="og:url" content="https://cosmosperson.com/">
+    <meta name="twitter:card" content="summary_large_image">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- Start the manifest fetch as early as possible -->
+    <link rel="preload" href="gallery.json" as="fetch" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="site.css">
     <link rel="stylesheet" href="gallery.css">
 </head>
 
-<body class="gallery-page">
-    <!-- Animated background -->
-    <div class="stars-bg"></div>
+<body>
+    <div class="page-loading" id="page-loading" aria-hidden="true">
+        <span class="label">Cosmos Person</span>
+    </div>
 
     <!-- Header -->
-    <header class="gallery-header">
-        <div class="header-container">
-            <a href="index.html" class="header-logo">
-                <span class="logo-text">Cosmos Person</span>
-                <span class="logo-tagline">Photography</span>
-            </a>
-            <nav class="header-nav">
-                <a href="explore.html" class="nav-cta">
-                    <span>Explore the Universe</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
+    <header class="site-header" id="site-header">
+        <div class="header-inner">
+            <a href="index.html" class="wordmark" aria-label="Cosmos Person">C<svg class="cat-o"
+                    viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"
+                        stroke-linecap="round" />
+                </svg>smos<span>&thinsp;Person</span></a>
+            <nav class="site-nav" aria-label="Site">
+                <a href="index.html#gallery" class="active">Photos</a>
+                <a href="explore.html" class="nav-accent">Explore<span class="nav-x"> the Universe</span></a>
             </nav>
         </div>
     </header>
 
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-media" id="hero-media" aria-hidden="true"></div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+        <div class="hero-content">
+            <p class="label hero-kicker">Deep-Sky Astrophotography</p>
+            <h1 class="hero-title" aria-label="Cosmos Person">C<svg class="cat-o cat-o-hero"
+                    viewBox="0 0 24 24" aria-hidden="true">
+                    <path
+                        d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                        fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"
+                        stroke-linecap="round" />
+                    <circle cx="9.4" cy="12.6" r="0.95" fill="currentColor" />
+                    <circle cx="14.6" cy="12.6" r="0.95" fill="currentColor" />
+                    <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+                        <path d="M3.9 11.5 L0.6 10.9 M3.9 14.5 L0.6 15.1 M20.1 11.5 L23.4 10.9 M20.1 14.5 L23.4 15.1" />
+                    </g>
+                </svg>smos Person</h1>
+            <p class="hero-sub">Nebulae, galaxies, and the occasional comet —
+                photographed one clear night at a time.</p>
+            <div class="hero-actions">
+                <a href="#gallery" class="btn solid">See the Photos</a>
+                <a href="explore.html" class="btn">
+                    <span>Explore the Universe</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <p class="hero-credit" id="hero-credit"></p>
+        <a class="hero-scroll" href="#gallery" aria-label="Scroll to gallery">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                aria-hidden="true">
+                <path d="M12 4v16M6 14l6 6 6-6" />
+            </svg>
+        </a>
+    </section>
 
-
-    <!-- Gallery Section -->
-    <section class="gallery-section" id="gallery">
-        <!-- Black Hole Visual Effect -->
-        <div class="black-hole-container">
-            <div class="gravity-field"></div>
-            <div class="black-hole-ring"></div>
-            <div class="black-hole-core"></div>
+    <!-- Collection -->
+    <main class="collection" id="gallery">
+        <div class="collection-head">
+            <h2 class="collection-title display">The Photos</h2>
+            <span class="collection-count" id="collection-count"></span>
         </div>
 
-        <!-- Loading State -->
-        <div class="gallery-loading" id="gallery-loading">
-            <div class="loading-spinner"></div>
-            <p>Loading captures...</p>
+        <div class="filters" id="filters" role="tablist" aria-label="Filter by object type"></div>
+
+        <div class="grid" id="grid"></div>
+    </main>
+
+    <!-- Statement -->
+    <section class="statement">
+        <span class="label">A Note</span>
+        <blockquote>
+            The light in these photos is old — some of it left home before humans figured out
+            writing. Then it fell into my telescope. That still gets me every time.
+        </blockquote>
+        <div class="statement-cta">
+            <a href="explore.html" class="btn">See where each one lives in the sky</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <a href="index.html" class="footer-wordmark" aria-label="Cosmos Person">C<svg class="cat-o"
+                viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                    d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"
+                    stroke-linecap="round" />
+            </svg>smos Person</a>
+        <div class="footer-links">
+            <a href="index.html#gallery">Photos</a>
+            <a href="explore.html">Explore the Universe</a>
+            <a href="https://instagram.com/cosmosperson" target="_blank" rel="noopener">Instagram</a>
+            <a href="mailto:hello@cosmosperson.com">Contact</a>
+        </div>
+        <p class="footer-fine">
+            © 2025–<span id="year"></span> Cosmos Person. All photos by me.
+            <a href="admin.html" aria-label="Site administration">·</a>
+        </p>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+        <div class="lb-topbar">
+            <span class="lb-counter" id="lb-counter"></span>
+            <button class="icon-btn" id="lb-close" aria-label="Close viewer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
         </div>
 
-        <!-- Gallery Carousel -->
-        <div class="gallery-carousel-wrapper">
-            <button class="carousel-nav prev" aria-label="Previous images">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
+        <div class="lb-stage" id="lb-stage">
+            <button class="icon-btn lb-nav prev" id="lb-prev" aria-label="Previous photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M15 18l-6-6 6-6" />
                 </svg>
             </button>
-            <div class="gallery-grid" id="gallery-grid"></div>
-            <button class="carousel-nav next" aria-label="Next images">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2">
+            <img id="lb-image" src="" alt="">
+            <button class="icon-btn lb-nav next" id="lb-next" aria-label="Next photo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <path d="M9 18l6-6-6-6" />
                 </svg>
             </button>
         </div>
-    </section>
 
-
-
-    <!-- Lightbox Modal -->
-    <div class="lightbox" id="lightbox">
-        <div class="lightbox-backdrop"></div>
-        <button class="lightbox-close" aria-label="Close">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-        </button>
-        <button class="lightbox-nav lightbox-prev" aria-label="Previous">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M15 18l-6-6 6-6" />
-            </svg>
-        </button>
-        <button class="lightbox-nav lightbox-next" aria-label="Next">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                stroke-width="2">
-                <path d="M9 18l6-6-6-6" />
-            </svg>
-        </button>
-        <div class="lightbox-content">
-            <img id="lightbox-image" src="" alt="">
-            <div class="lightbox-info">
-                <h2 id="lightbox-title"></h2>
-                <span id="lightbox-type"></span>
-                <span id="lightbox-counter"></span>
+        <div class="lb-caption">
+            <h2 class="lb-title" id="lb-title"></h2>
+            <p class="lb-meta" id="lb-meta"></p>
+            <div class="lb-actions">
+                <button class="lb-action" id="lb-info" aria-expanded="false">Details</button>
+                <a class="lb-action" id="lb-sky" href="#" hidden>View on Sky Map</a>
+                <a class="lb-action" id="lb-full" href="#" target="_blank" rel="noopener">Full Resolution</a>
+            </div>
+            <div class="lb-details" id="lb-details">
+                <div class="lb-details-inner">
+                    <p class="lb-description" id="lb-description"></p>
+                    <dl class="lb-specs" id="lb-specs"></dl>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="config.js"></script>
     <script src="celestial-database.js"></script>
     <script src="gallery.js"></script>
 </body>

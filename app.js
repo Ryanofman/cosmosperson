@@ -12,9 +12,16 @@ let photoData = [];
 
 const VIEWER_FALLBACK = new WeakSet();
 
-$(document).ready(function () {
-    initializeAladin();
+document.addEventListener('DOMContentLoaded', async () => {
     setupPanelToggle();
+    const ready = window.__aladinReady ? await window.__aladinReady : (typeof A !== 'undefined');
+    if (!ready) {
+        updateLoadingState(false);
+        document.getElementById('sky-fallback').hidden = false;
+        document.body.classList.add('sky-failed');
+        return;
+    }
+    initializeAladin();
 });
 
 /* ---------- Aladin ---------- */
@@ -114,7 +121,7 @@ async function loadPhotos() {
                     meta: [img.catalog, img.constellation, img.distance].filter(Boolean),
                     description: img.description || '',
                     viewerUrl: viewerSizeFrom(img),
-                    fullUrl: img.original,
+                    fullUrl: '/' + encodeURI(img.original),
                     galleryId: img.id
                 });
             });
@@ -144,7 +151,7 @@ async function loadPhotos() {
                 type: obj.type || '',
                 meta: [],
                 description: '',
-                viewerUrl: encodeURI(`images/_web/${stem}-1600.jpg`),
+                viewerUrl: encodeURI(`/images/_web/${stem}-1600.jpg`),
                 fullUrl: file.download_url,
                 galleryId: null
             });
@@ -177,10 +184,11 @@ async function fetchRepoImages() {
 }
 
 function viewerSizeFrom(entry) {
-    if (!entry.srcset || !entry.srcset.length) return entry.original;
-    // Prefer the middle (~1600px) derivative for fast viewing
-    const mid = entry.srcset.find(s => /-1600\.jpg$/.test(s.src));
-    return encodeURI((mid || entry.srcset[entry.srcset.length - 1]).src);
+    const list = (entry.sources && entry.sources.jpg) || entry.srcset || [];
+    if (!list.length) return '/' + encodeURI(entry.original);
+    // Prefer the ~1600px derivative for fast viewing
+    const mid = list.find(s => /-1600\.jpg$/.test(s.src));
+    return '/' + encodeURI((mid || list[list.length - 1]).src);
 }
 
 /* ---------- Map beacons ---------- */
@@ -366,8 +374,8 @@ function openPhotoViewer(photo) {
     if (photo.galleryId) {
         const a = document.createElement('a');
         a.className = 'viewer-action';
-        a.href = `index.html#photo=${encodeURIComponent(photo.galleryId)}`;
-        a.textContent = 'Open in Photos';
+        a.href = `/photo/${encodeURIComponent(photo.galleryId)}/`;
+        a.textContent = 'Photo page';
         actions.appendChild(a);
     }
     if (photo.fullUrl) {

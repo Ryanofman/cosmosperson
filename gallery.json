@@ -1,9 +1,54 @@
 {
-  "version": 2,
-  "updated": "2026-07-26T06:02:34Z",
+  "version": 3,
+  "updated": "2026-10-30T22:48:59Z",
   "settings": {
-    "hero": "california"
+    "hero": {
+      "id": "california",
+      "focal": [
+        0.5,
+        0.5
+      ]
+    },
+    "grid": {
+      "style": "justified",
+      "row_height": 300,
+      "gutter": 14,
+      "captions": "hover",
+      "caption_fields": [
+        "title",
+        "catalog",
+        "integration"
+      ]
+    },
+    "index": {
+      "default_sort": "curated",
+      "facets": [
+        "category",
+        "palette",
+        "constellation",
+        "year"
+      ],
+      "featured_first": false,
+      "show_search": true
+    },
+    "viewer": {
+      "open_as": "overlay",
+      "show_card": true
+    },
+    "theme": {
+      "accent": "#7cd1c8"
+    },
+    "site": {
+      "title": "Cosmos Person",
+      "tagline": "Deep-Sky Astrophotography",
+      "lede": "Nebulae, galaxies, and the occasional comet — photographed one clear night at a time.",
+      "statement": "The light in these photos is old — some of it left home before humans figured out writing. Then it fell into my telescope. That still gets me every time.",
+      "instagram": "https://instagram.com/cosmosperson",
+      "email": "hello@cosmosperson.com",
+      "licence": "© Cosmos Person. All rights reserved."
+    }
   },
+  "collections": [],
   "images": [
     {
       "id": "wizard",
@@ -16,32 +61,150 @@
       "description": "An open star cluster carving shapes into the cloud it was born from. With a little imagination there's a wizard in there — pointy hat and all.",
       "skyTarget": "NGC 7380",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/SH2-142_Original_2XUpsampled.jpg",
       "width": 3916,
       "height": 7216,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDi+1HQ+tPiQyOEUZJpZYmiOHGD6GmVYjopdjelFMRJbzvA+5Dg4wafcyLKd4LZPXJzVeilYpPoGKKKKYj/2Q==",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkcUlT2yxOWEhbP8IHeonG1iCKZVhopSSaKKAP/9k=",
       "color": "#0f070d",
       "srcset": [
         {
-          "src": "gallery/_web/wizard-800.jpg",
-          "w": 434
+          "src": "gallery/_web/wizard-640.jpg",
+          "w": 347
+        },
+        {
+          "src": "gallery/_web/wizard-1024.jpg",
+          "w": 556
         },
         {
           "src": "gallery/_web/wizard-1600.jpg",
           "w": 868
         },
         {
-          "src": "gallery/_web/wizard-2600.jpg",
-          "w": 1411
+          "src": "gallery/_web/wizard-2400.jpg",
+          "w": 1302
+        },
+        {
+          "src": "gallery/_web/wizard-3200.jpg",
+          "w": 1737
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/wizard-640.avif",
+            "w": 347,
+            "h": 640,
+            "bytes": 40445
+          },
+          {
+            "src": "gallery/_web/wizard-1024.avif",
+            "w": 556,
+            "h": 1024,
+            "bytes": 78245
+          },
+          {
+            "src": "gallery/_web/wizard-1600.avif",
+            "w": 868,
+            "h": 1600,
+            "bytes": 141642
+          },
+          {
+            "src": "gallery/_web/wizard-2400.avif",
+            "w": 1302,
+            "h": 2400,
+            "bytes": 259872
+          },
+          {
+            "src": "gallery/_web/wizard-3200.avif",
+            "w": 1737,
+            "h": 3200,
+            "bytes": 408267
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/wizard-640.jpg",
+            "w": 347,
+            "h": 640,
+            "bytes": 63277
+          },
+          {
+            "src": "gallery/_web/wizard-1024.jpg",
+            "w": 556,
+            "h": 1024,
+            "bytes": 155340
+          },
+          {
+            "src": "gallery/_web/wizard-1600.jpg",
+            "w": 868,
+            "h": 1600,
+            "bytes": 316926
+          },
+          {
+            "src": "gallery/_web/wizard-2400.jpg",
+            "w": 1302,
+            "h": 2400,
+            "bytes": 584460
+          },
+          {
+            "src": "gallery/_web/wizard-3200.jpg",
+            "w": 1737,
+            "h": 3200,
+            "bytes": 925344
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/SH2-142_Original_2XUpsampled.jpg",
+          "width": 3916,
+          "height": 7216,
+          "bytes": 12284156
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/wizard-3200.jpg",
+          "width": 1737,
+          "height": 3200,
+          "bytes": 925344
         }
       ]
     },
@@ -56,32 +219,150 @@
       "description": "A hundred-light-year ribbon of hydrogen, glowing under UV light from the star Menkib. Named for its shape, not its weather.",
       "skyTarget": "NGC 1499",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/California_2xUpsampled_reddragon.jpg",
       "width": 7116,
       "height": 3216,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAOACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDikQtk9AOpqZIl24DFiSPl6Co1cgevPepTeuMiMADtkc0tToh7NL3iXybVgOJQ3cqRVeVI0JADfjTZZnlfc7ZOKZk0WCpVi9oAAAAAAAAIn//Z",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAALABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkkj3Yzk57CrAiVFLSxEr0+ZsEVVDFeQcGkyT1JNBtGcYrbUll8oH5F/8AHs0VDRQRKV3c/9k=",
       "color": "#21030a",
       "srcset": [
         {
-          "src": "gallery/_web/california-800.jpg",
-          "w": 800
+          "src": "gallery/_web/california-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/california-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/california-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/california-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/california-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/california-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/california-640.avif",
+            "w": 640,
+            "h": 289,
+            "bytes": 26982
+          },
+          {
+            "src": "gallery/_web/california-1024.avif",
+            "w": 1024,
+            "h": 463,
+            "bytes": 62211
+          },
+          {
+            "src": "gallery/_web/california-1600.avif",
+            "w": 1600,
+            "h": 723,
+            "bytes": 150087
+          },
+          {
+            "src": "gallery/_web/california-2400.avif",
+            "w": 2400,
+            "h": 1085,
+            "bytes": 324007
+          },
+          {
+            "src": "gallery/_web/california-3200.avif",
+            "w": 3200,
+            "h": 1446,
+            "bytes": 529187
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/california-640.jpg",
+            "w": 640,
+            "h": 289,
+            "bytes": 44445
+          },
+          {
+            "src": "gallery/_web/california-1024.jpg",
+            "w": 1024,
+            "h": 463,
+            "bytes": 107216
+          },
+          {
+            "src": "gallery/_web/california-1600.jpg",
+            "w": 1600,
+            "h": 723,
+            "bytes": 260160
+          },
+          {
+            "src": "gallery/_web/california-2400.jpg",
+            "w": 2400,
+            "h": 1085,
+            "bytes": 578157
+          },
+          {
+            "src": "gallery/_web/california-3200.jpg",
+            "w": 3200,
+            "h": 1446,
+            "bytes": 997156
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/California_2xUpsampled_reddragon.jpg",
+          "width": 7116,
+          "height": 3216,
+          "bytes": 13259710
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/california-3200.jpg",
+          "width": 3200,
+          "height": 1446,
+          "bytes": 997156
         }
       ]
     },
@@ -96,32 +377,150 @@
       "description": "Wings of glowing hydrogen split by a dark dust lane, wrapped around Sadr — the bright star at the heart of Cygnus.",
       "skyTarget": "IC 1318",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/Butterfly_Mosaic_Original_2X Upsampled.jpg",
       "width": 6132,
       "height": 9422,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiVq7pts9xcjA+RfvMTgCqPStnQLhDObd1G6bCgkjBpPYumk5akN0IxOwALAdPmorXktLezYxzW9wSGOHVAQ49etFRc29mZekxWbEG/VFhPG5s5JqtqdqLa7doVKw7vkyecdRVPPHtTzIz8uc4HU1djPmTjaxKL65X7ksmPc5oqFZCOhGPpRRYAACOZ9z/2Q==",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDj05OK1FtvKskyC0kvIwOMelVINPnuYZJYdpEYywzggVcs9WEVr5UyvvQ/JIhGQPTmpfkaQVviKEV3LDt2NgDjb2P19ajdt77mGSaKKqxHM7WP/9k=",
       "color": "#1d1010",
       "srcset": [
         {
-          "src": "gallery/_web/butterfly-800.jpg",
-          "w": 521
+          "src": "gallery/_web/butterfly-640.jpg",
+          "w": 417
+        },
+        {
+          "src": "gallery/_web/butterfly-1024.jpg",
+          "w": 666
         },
         {
           "src": "gallery/_web/butterfly-1600.jpg",
           "w": 1041
         },
         {
-          "src": "gallery/_web/butterfly-2600.jpg",
-          "w": 1692
+          "src": "gallery/_web/butterfly-2400.jpg",
+          "w": 1562
+        },
+        {
+          "src": "gallery/_web/butterfly-3200.jpg",
+          "w": 2083
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/butterfly-640.avif",
+            "w": 417,
+            "h": 640,
+            "bytes": 56053
+          },
+          {
+            "src": "gallery/_web/butterfly-1024.avif",
+            "w": 666,
+            "h": 1024,
+            "bytes": 107999
+          },
+          {
+            "src": "gallery/_web/butterfly-1600.avif",
+            "w": 1041,
+            "h": 1600,
+            "bytes": 219711
+          },
+          {
+            "src": "gallery/_web/butterfly-2400.avif",
+            "w": 1562,
+            "h": 2400,
+            "bytes": 416033
+          },
+          {
+            "src": "gallery/_web/butterfly-3200.avif",
+            "w": 2083,
+            "h": 3200,
+            "bytes": 611391
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/butterfly-640.jpg",
+            "w": 417,
+            "h": 640,
+            "bytes": 86500
+          },
+          {
+            "src": "gallery/_web/butterfly-1024.jpg",
+            "w": 666,
+            "h": 1024,
+            "bytes": 193782
+          },
+          {
+            "src": "gallery/_web/butterfly-1600.jpg",
+            "w": 1041,
+            "h": 1600,
+            "bytes": 389344
+          },
+          {
+            "src": "gallery/_web/butterfly-2400.jpg",
+            "w": 1562,
+            "h": 2400,
+            "bytes": 725226
+          },
+          {
+            "src": "gallery/_web/butterfly-3200.jpg",
+            "w": 2083,
+            "h": 3200,
+            "bytes": 1140684
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Butterfly_Mosaic_Original_2X Upsampled.jpg",
+          "width": 6132,
+          "height": 9422,
+          "bytes": 18663586
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/butterfly-3200.jpg",
+          "width": 2083,
+          "height": 3200,
+          "bytes": 1140684
         }
       ]
     },
@@ -136,32 +535,150 @@
       "description": "Gas and dust slowly getting blasted away by the star Gamma Cassiopeiae next door. It genuinely looks like a ghost mid-drift.",
       "skyTarget": "IC 63",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/IC_63_Phoenix_3XUpsampled.jpg",
       "width": 5589,
       "height": 3141,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiB34p4H7s8Ak9/SmDrUisApGPofShlxt1Fhklt5EmjZ42HKOOPypHdncsxLMxySepNSz3L3EMSSYPlZw3cgnNQ9qaZLST0G9xS9hRRSBCjpSd6KKYj//Z",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjhUywNKW24G1S2CcZA/nUIp2aCla2o55HkILszEAAEnOB2optFMk//9k=",
       "color": "#0c0508",
       "srcset": [
         {
-          "src": "gallery/_web/ghost-of-cassiopeia-800.jpg",
-          "w": 800
+          "src": "gallery/_web/ghost-of-cassiopeia-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/ghost-of-cassiopeia-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/ghost-of-cassiopeia-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/ghost-of-cassiopeia-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/ghost-of-cassiopeia-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/ghost-of-cassiopeia-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-640.avif",
+            "w": 640,
+            "h": 360,
+            "bytes": 51120
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-1024.avif",
+            "w": 1024,
+            "h": 575,
+            "bytes": 100429
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-1600.avif",
+            "w": 1600,
+            "h": 899,
+            "bytes": 180770
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-2400.avif",
+            "w": 2400,
+            "h": 1349,
+            "bytes": 292684
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-3200.avif",
+            "w": 3200,
+            "h": 1798,
+            "bytes": 407247
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-640.jpg",
+            "w": 640,
+            "h": 360,
+            "bytes": 77391
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-1024.jpg",
+            "w": 1024,
+            "h": 575,
+            "bytes": 173987
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-1600.jpg",
+            "w": 1600,
+            "h": 899,
+            "bytes": 337106
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-2400.jpg",
+            "w": 2400,
+            "h": 1349,
+            "bytes": 583386
+          },
+          {
+            "src": "gallery/_web/ghost-of-cassiopeia-3200.jpg",
+            "w": 3200,
+            "h": 1798,
+            "bytes": 861355
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/IC_63_Phoenix_3XUpsampled.jpg",
+          "width": 5589,
+          "height": 3141,
+          "bytes": 5187197
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/ghost-of-cassiopeia-3200.jpg",
+          "width": 3200,
+          "height": 1798,
+          "bytes": 861355
         }
       ]
     },
@@ -176,32 +693,150 @@
       "description": "A spiral galaxy caught tugging on its smaller neighbor, NGC 5195. The gravitational tug-of-war lights up new stars along its arms.",
       "skyTarget": "M51",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
       "width": 2187,
       "height": 3780,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjaSnDk1Yv7NrGURvk5AYMVxkUAVKKOPWigB+Sealubua5EYmcsIxhc9hUOPyoIoAA/9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkjSGrFm0KXKm4BMXIbAyelQPjedpyM8Z9KACkNFFAH//Z",
       "color": "#0c0c0c",
       "srcset": [
         {
-          "src": "gallery/_web/whirlpool-800.jpg",
-          "w": 463
+          "src": "gallery/_web/whirlpool-640.jpg",
+          "w": 370
+        },
+        {
+          "src": "gallery/_web/whirlpool-1024.jpg",
+          "w": 592
         },
         {
           "src": "gallery/_web/whirlpool-1600.jpg",
           "w": 926
         },
         {
-          "src": "gallery/_web/whirlpool-2600.jpg",
-          "w": 1504
+          "src": "gallery/_web/whirlpool-2400.jpg",
+          "w": 1389
+        },
+        {
+          "src": "gallery/_web/whirlpool-3200.jpg",
+          "w": 1851
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/whirlpool-640.avif",
+            "w": 370,
+            "h": 640,
+            "bytes": 11175
+          },
+          {
+            "src": "gallery/_web/whirlpool-1024.avif",
+            "w": 592,
+            "h": 1024,
+            "bytes": 28744
+          },
+          {
+            "src": "gallery/_web/whirlpool-1600.avif",
+            "w": 926,
+            "h": 1600,
+            "bytes": 79441
+          },
+          {
+            "src": "gallery/_web/whirlpool-2400.avif",
+            "w": 1389,
+            "h": 2400,
+            "bytes": 166005
+          },
+          {
+            "src": "gallery/_web/whirlpool-3200.avif",
+            "w": 1851,
+            "h": 3200,
+            "bytes": 252093
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/whirlpool-640.jpg",
+            "w": 370,
+            "h": 640,
+            "bytes": 28748
+          },
+          {
+            "src": "gallery/_web/whirlpool-1024.jpg",
+            "w": 592,
+            "h": 1024,
+            "bytes": 76423
+          },
+          {
+            "src": "gallery/_web/whirlpool-1600.jpg",
+            "w": 926,
+            "h": 1600,
+            "bytes": 197082
+          },
+          {
+            "src": "gallery/_web/whirlpool-2400.jpg",
+            "w": 1389,
+            "h": 2400,
+            "bytes": 422958
+          },
+          {
+            "src": "gallery/_web/whirlpool-3200.jpg",
+            "w": 1851,
+            "h": 3200,
+            "bytes": 682217
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+          "width": 2187,
+          "height": 3780,
+          "bytes": 3152731
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/whirlpool-3200.jpg",
+          "width": 1851,
+          "height": 3200,
+          "bytes": 682217
         }
       ]
     },
@@ -216,32 +851,150 @@
       "description": "Dark dust lanes carve a surprisingly good map of North America into this huge cloud of glowing hydrogen near Deneb.",
       "skyTarget": "NGC 7000",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/North_3xResampled.jpg",
       "width": 5508,
       "height": 9792,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDCtpGYhQe1Wy7W0Xm7wEBwTWTFI0fKnPsau3Mb3NmiwHIIG76+lSzoi7rTcm/tCI88c0VimN1Yg9RwaKfKifay7Egxu56Vat2aNvNRmVV9KrNweKdvYryTigmLsPZFZidnU560U3JooA//2Q==",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDGtn3ggtxT5r0W8nlZL8A/SqMTMrqV6qc1NOsUyeYEKuW5yeKk3UnbTcr/AHW9akLkntwKKKZmf//Z",
       "color": "#2b191b",
       "srcset": [
         {
-          "src": "gallery/_web/north-america-800.jpg",
-          "w": 450
+          "src": "gallery/_web/north-america-640.jpg",
+          "w": 360
+        },
+        {
+          "src": "gallery/_web/north-america-1024.jpg",
+          "w": 576
         },
         {
           "src": "gallery/_web/north-america-1600.jpg",
           "w": 900
         },
         {
-          "src": "gallery/_web/north-america-2600.jpg",
-          "w": 1462
+          "src": "gallery/_web/north-america-2400.jpg",
+          "w": 1350
+        },
+        {
+          "src": "gallery/_web/north-america-3200.jpg",
+          "w": 1800
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/north-america-640.avif",
+            "w": 360,
+            "h": 640,
+            "bytes": 37498
+          },
+          {
+            "src": "gallery/_web/north-america-1024.avif",
+            "w": 576,
+            "h": 1024,
+            "bytes": 87812
+          },
+          {
+            "src": "gallery/_web/north-america-1600.avif",
+            "w": 900,
+            "h": 1600,
+            "bytes": 218962
+          },
+          {
+            "src": "gallery/_web/north-america-2400.avif",
+            "w": 1350,
+            "h": 2400,
+            "bytes": 506526
+          },
+          {
+            "src": "gallery/_web/north-america-3200.avif",
+            "w": 1800,
+            "h": 3200,
+            "bytes": 868560
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/north-america-640.jpg",
+            "w": 360,
+            "h": 640,
+            "bytes": 56878
+          },
+          {
+            "src": "gallery/_web/north-america-1024.jpg",
+            "w": 576,
+            "h": 1024,
+            "bytes": 141782
+          },
+          {
+            "src": "gallery/_web/north-america-1600.jpg",
+            "w": 900,
+            "h": 1600,
+            "bytes": 349528
+          },
+          {
+            "src": "gallery/_web/north-america-2400.jpg",
+            "w": 1350,
+            "h": 2400,
+            "bytes": 796634
+          },
+          {
+            "src": "gallery/_web/north-america-3200.jpg",
+            "w": 1800,
+            "h": 3200,
+            "bytes": 1405155
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/North_3xResampled.jpg",
+          "width": 5508,
+          "height": 9792,
+          "bytes": 5619889
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/north-america-3200.jpg",
+          "width": 1800,
+          "height": 3200,
+          "bytes": 1405155
         }
       ]
     },
@@ -256,32 +1009,150 @@
       "description": "A face-on spiral nearly twice the size of the Milky Way, dotted with enormous star-forming regions.",
       "skyTarget": "M101",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/M101_3xUpsmpled.jpg",
       "width": 5625,
       "height": 8370,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABYDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiKKKtPp80doLll/dk460AVaKKKAAdalaeRkCFjtHbNRUE0AKoUn5iAP/Z",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjaKfFsEimQZUHkU64MbTMYFKoT8oJyaAIqKKKAP/Z",
       "color": "#050405",
       "srcset": [
         {
-          "src": "gallery/_web/pinwheel-800.jpg",
-          "w": 538
+          "src": "gallery/_web/pinwheel-640.jpg",
+          "w": 430
+        },
+        {
+          "src": "gallery/_web/pinwheel-1024.jpg",
+          "w": 688
         },
         {
           "src": "gallery/_web/pinwheel-1600.jpg",
           "w": 1075
         },
         {
-          "src": "gallery/_web/pinwheel-2600.jpg",
-          "w": 1747
+          "src": "gallery/_web/pinwheel-2400.jpg",
+          "w": 1613
+        },
+        {
+          "src": "gallery/_web/pinwheel-3200.jpg",
+          "w": 2151
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/pinwheel-640.avif",
+            "w": 430,
+            "h": 640,
+            "bytes": 12441
+          },
+          {
+            "src": "gallery/_web/pinwheel-1024.avif",
+            "w": 688,
+            "h": 1024,
+            "bytes": 21557
+          },
+          {
+            "src": "gallery/_web/pinwheel-1600.avif",
+            "w": 1075,
+            "h": 1600,
+            "bytes": 38585
+          },
+          {
+            "src": "gallery/_web/pinwheel-2400.avif",
+            "w": 1613,
+            "h": 2400,
+            "bytes": 66925
+          },
+          {
+            "src": "gallery/_web/pinwheel-3200.avif",
+            "w": 2151,
+            "h": 3200,
+            "bytes": 102143
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/pinwheel-640.jpg",
+            "w": 430,
+            "h": 640,
+            "bytes": 26433
+          },
+          {
+            "src": "gallery/_web/pinwheel-1024.jpg",
+            "w": 688,
+            "h": 1024,
+            "bytes": 51290
+          },
+          {
+            "src": "gallery/_web/pinwheel-1600.jpg",
+            "w": 1075,
+            "h": 1600,
+            "bytes": 104500
+          },
+          {
+            "src": "gallery/_web/pinwheel-2400.jpg",
+            "w": 1613,
+            "h": 2400,
+            "bytes": 224458
+          },
+          {
+            "src": "gallery/_web/pinwheel-3200.jpg",
+            "w": 2151,
+            "h": 3200,
+            "bytes": 399135
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/M101_3xUpsmpled.jpg",
+          "width": 5625,
+          "height": 8370,
+          "bytes": 9112292
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/pinwheel-3200.jpg",
+          "width": 2151,
+          "height": 3200,
+          "bytes": 399135
         }
       ]
     },
@@ -296,32 +1167,150 @@
       "description": "A bubble blown by a Wolf-Rayet star — a massive sun burning hard and fast before it goes supernova. The wings are a bonus.",
       "skyTarget": "NGC 2359",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/Thor_Original_2XUpsampled.jpg",
       "width": 7240,
       "height": 3984,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDifxqSCFp5RGg+duFHqajqWCQRuGI5HOaYC3VrNaS+VOhR8AlT1GaiGMEknPYVJPKZpi7Mz54yxyaj/n3oADQKKKACkBwwxxQAAAAUUAf/2Q==",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAANABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDj6nECfZWmMoVgcCMg5PuKgpSzbduTj0pgIOM5FFA5IFFAH//Z",
       "color": "#07070a",
       "srcset": [
         {
-          "src": "gallery/_web/thors-helmet-800.jpg",
-          "w": 800
+          "src": "gallery/_web/thors-helmet-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/thors-helmet-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/thors-helmet-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/thors-helmet-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/thors-helmet-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/thors-helmet-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/thors-helmet-640.avif",
+            "w": 640,
+            "h": 352,
+            "bytes": 35526
+          },
+          {
+            "src": "gallery/_web/thors-helmet-1024.avif",
+            "w": 1024,
+            "h": 563,
+            "bytes": 67267
+          },
+          {
+            "src": "gallery/_web/thors-helmet-1600.avif",
+            "w": 1600,
+            "h": 880,
+            "bytes": 124952
+          },
+          {
+            "src": "gallery/_web/thors-helmet-2400.avif",
+            "w": 2400,
+            "h": 1321,
+            "bytes": 217852
+          },
+          {
+            "src": "gallery/_web/thors-helmet-3200.avif",
+            "w": 3200,
+            "h": 1761,
+            "bytes": 318830
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/thors-helmet-640.jpg",
+            "w": 640,
+            "h": 352,
+            "bytes": 62708
+          },
+          {
+            "src": "gallery/_web/thors-helmet-1024.jpg",
+            "w": 1024,
+            "h": 563,
+            "bytes": 128370
+          },
+          {
+            "src": "gallery/_web/thors-helmet-1600.jpg",
+            "w": 1600,
+            "h": 880,
+            "bytes": 238188
+          },
+          {
+            "src": "gallery/_web/thors-helmet-2400.jpg",
+            "w": 2400,
+            "h": 1321,
+            "bytes": 443117
+          },
+          {
+            "src": "gallery/_web/thors-helmet-3200.jpg",
+            "w": 3200,
+            "h": 1761,
+            "bytes": 705861
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Thor_Original_2XUpsampled.jpg",
+          "width": 7240,
+          "height": 3984,
+          "bytes": 2677703
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/thors-helmet-3200.jpg",
+          "width": 3200,
+          "height": 1761,
+          "bytes": 705861
         }
       ]
     },
@@ -336,32 +1325,150 @@
       "description": "A visitor from the outer solar system, tail streaming behind it courtesy of sunlight and the solar wind.",
       "skyTarget": "",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/CometMinimalV1_2xUpsampled.jpg",
       "width": 4040,
       "height": 7388,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjgDtLAcDgn0pKUZIwM464oxTANzf3jRSUUAPWV0yEYrkYOOM0ylpKaKYH/9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk8cA5HPak6U4bdpJJ3dhjim0wCiiigD//2Q==",
       "color": "#0a0a0d",
       "srcset": [
         {
-          "src": "gallery/_web/comet-800.jpg",
-          "w": 437
+          "src": "gallery/_web/comet-640.jpg",
+          "w": 350
+        },
+        {
+          "src": "gallery/_web/comet-1024.jpg",
+          "w": 560
         },
         {
           "src": "gallery/_web/comet-1600.jpg",
           "w": 875
         },
         {
-          "src": "gallery/_web/comet-2600.jpg",
-          "w": 1422
+          "src": "gallery/_web/comet-2400.jpg",
+          "w": 1312
+        },
+        {
+          "src": "gallery/_web/comet-3200.jpg",
+          "w": 1750
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/comet-640.avif",
+            "w": 350,
+            "h": 640,
+            "bytes": 25305
+          },
+          {
+            "src": "gallery/_web/comet-1024.avif",
+            "w": 560,
+            "h": 1024,
+            "bytes": 82584
+          },
+          {
+            "src": "gallery/_web/comet-1600.avif",
+            "w": 875,
+            "h": 1600,
+            "bytes": 264361
+          },
+          {
+            "src": "gallery/_web/comet-2400.avif",
+            "w": 1312,
+            "h": 2400,
+            "bytes": 699159
+          },
+          {
+            "src": "gallery/_web/comet-3200.avif",
+            "w": 1750,
+            "h": 3200,
+            "bytes": 1255950
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/comet-640.jpg",
+            "w": 350,
+            "h": 640,
+            "bytes": 49491
+          },
+          {
+            "src": "gallery/_web/comet-1024.jpg",
+            "w": 560,
+            "h": 1024,
+            "bytes": 132105
+          },
+          {
+            "src": "gallery/_web/comet-1600.jpg",
+            "w": 875,
+            "h": 1600,
+            "bytes": 377947
+          },
+          {
+            "src": "gallery/_web/comet-2400.jpg",
+            "w": 1312,
+            "h": 2400,
+            "bytes": 966688
+          },
+          {
+            "src": "gallery/_web/comet-3200.jpg",
+            "w": 1750,
+            "h": 3200,
+            "bytes": 1788154
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/CometMinimalV1_2xUpsampled.jpg",
+          "width": 4040,
+          "height": 7388,
+          "bytes": 21994615
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/comet-3200.jpg",
+          "width": 1750,
+          "height": 3200,
+          "bytes": 1788154
         }
       ]
     },
@@ -376,32 +1483,150 @@
       "description": "Probably the most famous silhouette in the sky: a pillar of cold dust a light-year tall, backlit by glowing hydrogen.",
       "skyTarget": "IC 434",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/IC434_Original_Finalized_2xUpsampled.jpg",
       "width": 3942,
       "height": 2292,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAATACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDnNKtIbmQme4WBQOWYZxUWY/MZSVAzwfWpLeWOK0faVVmGGDDcD9PQ1RVhuy67h6ZxSvcv4LMsSwqPuEMevBzUZiYDLKR+FRKSOlPVz3JoE2mMooopkhSiAACiigR//9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDn4EhWxllkWTzMgLjGAfeoN8RX5gQfpTGmZolQ4IXoe9R5OMZ4FLcq9tiXYMcMDRUYopkn/9k=",
       "color": "#140f0f",
       "srcset": [
         {
-          "src": "gallery/_web/horsehead-800.jpg",
-          "w": 800
+          "src": "gallery/_web/horsehead-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/horsehead-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/horsehead-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/horsehead-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/horsehead-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/horsehead-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/horsehead-640.avif",
+            "w": 640,
+            "h": 372,
+            "bytes": 16132
+          },
+          {
+            "src": "gallery/_web/horsehead-1024.avif",
+            "w": 1024,
+            "h": 595,
+            "bytes": 38454
+          },
+          {
+            "src": "gallery/_web/horsehead-1600.avif",
+            "w": 1600,
+            "h": 930,
+            "bytes": 89728
+          },
+          {
+            "src": "gallery/_web/horsehead-2400.avif",
+            "w": 2400,
+            "h": 1395,
+            "bytes": 175792
+          },
+          {
+            "src": "gallery/_web/horsehead-3200.avif",
+            "w": 3200,
+            "h": 1861,
+            "bytes": 263957
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/horsehead-640.jpg",
+            "w": 640,
+            "h": 372,
+            "bytes": 36147
+          },
+          {
+            "src": "gallery/_web/horsehead-1024.jpg",
+            "w": 1024,
+            "h": 595,
+            "bytes": 90749
+          },
+          {
+            "src": "gallery/_web/horsehead-1600.jpg",
+            "w": 1600,
+            "h": 930,
+            "bytes": 210989
+          },
+          {
+            "src": "gallery/_web/horsehead-2400.jpg",
+            "w": 2400,
+            "h": 1395,
+            "bytes": 427597
+          },
+          {
+            "src": "gallery/_web/horsehead-3200.jpg",
+            "w": 3200,
+            "h": 1861,
+            "bytes": 675392
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/IC434_Original_Finalized_2xUpsampled.jpg",
+          "width": 3942,
+          "height": 2292,
+          "bytes": 502695
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/horsehead-3200.jpg",
+          "width": 3200,
+          "height": 1861,
+          "bytes": 675392
         }
       ]
     },
@@ -416,32 +1641,150 @@
       "description": "The brightest reflection nebula in the sky — starlight bouncing off dust at the edge of the Orion complex.",
       "skyTarget": "M78",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/M78_3xUpsampled_W.jpg",
       "width": 2560,
       "height": 4438,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABIDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKKKMjGNvOevemAUUUUALinzTSTsHlcswUKD7DgUyigP/2Q==",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDlaOh5GKVApdRIxVCeSBkgfSkx75pgLRRRQB//2Q==",
       "color": "#0f0d11",
       "srcset": [
         {
-          "src": "gallery/_web/m78-800.jpg",
-          "w": 461
+          "src": "gallery/_web/m78-640.jpg",
+          "w": 369
+        },
+        {
+          "src": "gallery/_web/m78-1024.jpg",
+          "w": 591
         },
         {
           "src": "gallery/_web/m78-1600.jpg",
           "w": 923
         },
         {
-          "src": "gallery/_web/m78-2600.jpg",
-          "w": 1500
+          "src": "gallery/_web/m78-2400.jpg",
+          "w": 1384
+        },
+        {
+          "src": "gallery/_web/m78-3200.jpg",
+          "w": 1846
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/m78-640.avif",
+            "w": 369,
+            "h": 640,
+            "bytes": 5706
+          },
+          {
+            "src": "gallery/_web/m78-1024.avif",
+            "w": 591,
+            "h": 1024,
+            "bytes": 9686
+          },
+          {
+            "src": "gallery/_web/m78-1600.avif",
+            "w": 923,
+            "h": 1600,
+            "bytes": 16182
+          },
+          {
+            "src": "gallery/_web/m78-2400.avif",
+            "w": 1384,
+            "h": 2400,
+            "bytes": 26638
+          },
+          {
+            "src": "gallery/_web/m78-3200.avif",
+            "w": 1846,
+            "h": 3200,
+            "bytes": 36839
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/m78-640.jpg",
+            "w": 369,
+            "h": 640,
+            "bytes": 13583
+          },
+          {
+            "src": "gallery/_web/m78-1024.jpg",
+            "w": 591,
+            "h": 1024,
+            "bytes": 27669
+          },
+          {
+            "src": "gallery/_web/m78-1600.jpg",
+            "w": 923,
+            "h": 1600,
+            "bytes": 54128
+          },
+          {
+            "src": "gallery/_web/m78-2400.jpg",
+            "w": 1384,
+            "h": 2400,
+            "bytes": 101032
+          },
+          {
+            "src": "gallery/_web/m78-3200.jpg",
+            "w": 1846,
+            "h": 3200,
+            "bytes": 159166
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/M78_3xUpsampled_W.jpg",
+          "width": 2560,
+          "height": 4438,
+          "bytes": 161868
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/m78-3200.jpg",
+          "width": 1846,
+          "height": 3200,
+          "bytes": 159166
         }
       ]
     },
@@ -456,32 +1799,150 @@
       "description": "A busy star-forming pocket in Cassiopeia. Tilt your head and it's clearly mid-chomp.",
       "skyTarget": "NGC 281",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/NGC281.JPG",
       "width": 3042,
       "height": 5067,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDiKKns4fOm2kZGOvpVnUbH7NgEcsuVA+tFna4aXsZ1FOZSpweCO1FAF/TLiOFxv2rjnJ71fv8AV7NmVo4gzqu0FeB+NYFFNNpWFZN83UdI5kkZ26sc0U2ikAAAAAAAAADP/9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjgpboM0h4rW0a3jkf94wwfWqt9AsLcurOT91TnAp20uCd3YrLI6AhWKg+hptFFID/2Q==",
       "color": "#0e0f11",
       "srcset": [
         {
-          "src": "gallery/_web/pacman-800.jpg",
-          "w": 480
+          "src": "gallery/_web/pacman-640.jpg",
+          "w": 384
+        },
+        {
+          "src": "gallery/_web/pacman-1024.jpg",
+          "w": 615
         },
         {
           "src": "gallery/_web/pacman-1600.jpg",
           "w": 961
         },
         {
-          "src": "gallery/_web/pacman-2600.jpg",
-          "w": 1561
+          "src": "gallery/_web/pacman-2400.jpg",
+          "w": 1441
+        },
+        {
+          "src": "gallery/_web/pacman-3200.jpg",
+          "w": 1921
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/pacman-640.avif",
+            "w": 384,
+            "h": 640,
+            "bytes": 31313
+          },
+          {
+            "src": "gallery/_web/pacman-1024.avif",
+            "w": 615,
+            "h": 1024,
+            "bytes": 63847
+          },
+          {
+            "src": "gallery/_web/pacman-1600.avif",
+            "w": 961,
+            "h": 1600,
+            "bytes": 128474
+          },
+          {
+            "src": "gallery/_web/pacman-2400.avif",
+            "w": 1441,
+            "h": 2400,
+            "bytes": 228576
+          },
+          {
+            "src": "gallery/_web/pacman-3200.avif",
+            "w": 1921,
+            "h": 3200,
+            "bytes": 321260
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/pacman-640.jpg",
+            "w": 384,
+            "h": 640,
+            "bytes": 63985
+          },
+          {
+            "src": "gallery/_web/pacman-1024.jpg",
+            "w": 615,
+            "h": 1024,
+            "bytes": 133888
+          },
+          {
+            "src": "gallery/_web/pacman-1600.jpg",
+            "w": 961,
+            "h": 1600,
+            "bytes": 249286
+          },
+          {
+            "src": "gallery/_web/pacman-2400.jpg",
+            "w": 1441,
+            "h": 2400,
+            "bytes": 441564
+          },
+          {
+            "src": "gallery/_web/pacman-3200.jpg",
+            "w": 1921,
+            "h": 3200,
+            "bytes": 666961
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/NGC281.JPG",
+          "width": 3042,
+          "height": 5067,
+          "bytes": 1430683
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/pacman-3200.jpg",
+          "width": 1921,
+          "height": 3200,
+          "bytes": 666961
         }
       ]
     },
@@ -496,32 +1957,150 @@
       "description": "A huge stellar nursery in the Perseus Arm, hollowed out by the winds of its newborn star clusters.",
       "skyTarget": "IC 1848",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/Soul_3xUpsampled_Original.jpg",
       "width": 6528,
       "height": 3672,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAASACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkIIfOJJztHUDrSzReW33GX/eqe2vEtNhjUOer7l7+lOkuYrpyCdmcEZHT2qbu5pZW8yokTE5HNK6lCARzV+KS2QyoJMqoAU4+97/hVW8eNpcRZIHShO7BxSV7lSk9aKKozFH3hTgTvw60UUAf/9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDmra1aaMuF3Y/AD3qLyWLlMc0Lcyrja2OMYA4Ipy3bKo+RCQQc4647UtS/dEkjMYGfXFFLPctPt3YH0ooV+pLtfQ//2Q==",
       "color": "#1b100e",
       "srcset": [
         {
-          "src": "gallery/_web/soul-800.jpg",
-          "w": 800
+          "src": "gallery/_web/soul-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/soul-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/soul-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/soul-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/soul-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/soul-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/soul-640.avif",
+            "w": 640,
+            "h": 360,
+            "bytes": 42750
+          },
+          {
+            "src": "gallery/_web/soul-1024.avif",
+            "w": 1024,
+            "h": 576,
+            "bytes": 109096
+          },
+          {
+            "src": "gallery/_web/soul-1600.avif",
+            "w": 1600,
+            "h": 900,
+            "bytes": 277434
+          },
+          {
+            "src": "gallery/_web/soul-2400.avif",
+            "w": 2400,
+            "h": 1350,
+            "bytes": 625506
+          },
+          {
+            "src": "gallery/_web/soul-3200.avif",
+            "w": 3200,
+            "h": 1800,
+            "bytes": 1046544
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/soul-640.jpg",
+            "w": 640,
+            "h": 360,
+            "bytes": 61072
+          },
+          {
+            "src": "gallery/_web/soul-1024.jpg",
+            "w": 1024,
+            "h": 576,
+            "bytes": 153104
+          },
+          {
+            "src": "gallery/_web/soul-1600.jpg",
+            "w": 1600,
+            "h": 900,
+            "bytes": 386798
+          },
+          {
+            "src": "gallery/_web/soul-2400.jpg",
+            "w": 2400,
+            "h": 1350,
+            "bytes": 892252
+          },
+          {
+            "src": "gallery/_web/soul-3200.jpg",
+            "w": 3200,
+            "h": 1800,
+            "bytes": 1564994
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Soul_3xUpsampled_Original.jpg",
+          "width": 6528,
+          "height": 3672,
+          "bytes": 16005252
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/soul-3200.jpg",
+          "width": 3200,
+          "height": 1800,
+          "bytes": 1564994
         }
       ]
     },
@@ -536,32 +2115,150 @@
       "description": "The eastern edge of the Cygnus Loop — the still-expanding shockwave from a star that blew up thousands of years ago.",
       "skyTarget": "NGC 6992",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
       "width": 5317,
       "height": 3203,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAATACADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDi4hHu/eBmH+y2KdIYAcIjYx3PIP1qEHB6ZoNMCXyd7YhO/wBuhqIgg4PBFKrFWBB5FT3T/aMTBQGPD49fWkVa6uQEUlFFMkKcGf/Z",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkUZBndGH+pNIWRuq7fQimYxRTAfJEYwrZ3KwyGHeikDZQoeR1HsaKBs//2Q==",
       "color": "#070406",
       "srcset": [
         {
-          "src": "gallery/_web/eastern-veil-800.jpg",
-          "w": 800
+          "src": "gallery/_web/eastern-veil-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/eastern-veil-1024.jpg",
+          "w": 1024
         },
         {
           "src": "gallery/_web/eastern-veil-1600.jpg",
           "w": 1600
         },
         {
-          "src": "gallery/_web/eastern-veil-2600.jpg",
-          "w": 2600
+          "src": "gallery/_web/eastern-veil-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/eastern-veil-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/eastern-veil-640.avif",
+            "w": 640,
+            "h": 386,
+            "bytes": 29025
+          },
+          {
+            "src": "gallery/_web/eastern-veil-1024.avif",
+            "w": 1024,
+            "h": 617,
+            "bytes": 76463
+          },
+          {
+            "src": "gallery/_web/eastern-veil-1600.avif",
+            "w": 1600,
+            "h": 964,
+            "bytes": 169568
+          },
+          {
+            "src": "gallery/_web/eastern-veil-2400.avif",
+            "w": 2400,
+            "h": 1446,
+            "bytes": 305124
+          },
+          {
+            "src": "gallery/_web/eastern-veil-3200.avif",
+            "w": 3200,
+            "h": 1928,
+            "bytes": 461113
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/eastern-veil-640.jpg",
+            "w": 640,
+            "h": 386,
+            "bytes": 50769
+          },
+          {
+            "src": "gallery/_web/eastern-veil-1024.jpg",
+            "w": 1024,
+            "h": 617,
+            "bytes": 117603
+          },
+          {
+            "src": "gallery/_web/eastern-veil-1600.jpg",
+            "w": 1600,
+            "h": 964,
+            "bytes": 265354
+          },
+          {
+            "src": "gallery/_web/eastern-veil-2400.jpg",
+            "w": 2400,
+            "h": 1446,
+            "bytes": 553175
+          },
+          {
+            "src": "gallery/_web/eastern-veil-3200.jpg",
+            "w": 3200,
+            "h": 1928,
+            "bytes": 909092
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/NGC_6992_Interpret_Mosaic_3xUpsampled.jpg",
+          "width": 5317,
+          "height": 3203,
+          "bytes": 7005881
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/eastern-veil-3200.jpg",
+          "width": 3200,
+          "height": 1928,
+          "bytes": 909092
         }
       ]
     },
@@ -576,32 +2273,466 @@
       "description": "Dust lit up blue by a hot young star, blooming inside a dark molecular cloud.",
       "skyTarget": "NGC 7023",
       "visible": true,
-      "capture": {
-        "telescope": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "integration": "",
-        "date": "",
-        "location": ""
-      },
       "original": "gallery/Iris_Finalized_3xUpsampled.jpg",
       "width": 5814,
       "height": 10866,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABIMDRANCxIQDhAUExIVGywdGxgYGzYnKSAsQDlEQz85Pj1HUGZXR0thTT0+WXlaYWltcnNyRVV9hnxvhWZwcm7/2wBDARMUFBsXGzQdHTRuST5Jbm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm5ubm7/wAARCAAgABEDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDis0UhNOdWjbbICrDsaQCUUUUANPU4pSSxyTk+9JQKoBefSik4opDP/9k=",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKShSA3z5I9utJmgBKWiimB//2Q==",
       "color": "#040404",
       "srcset": [
         {
-          "src": "gallery/_web/iris-800.jpg",
-          "w": 428
+          "src": "gallery/_web/iris-640.jpg",
+          "w": 342
+        },
+        {
+          "src": "gallery/_web/iris-1024.jpg",
+          "w": 548
         },
         {
           "src": "gallery/_web/iris-1600.jpg",
           "w": 856
         },
         {
-          "src": "gallery/_web/iris-2600.jpg",
-          "w": 1391
+          "src": "gallery/_web/iris-2400.jpg",
+          "w": 1284
+        },
+        {
+          "src": "gallery/_web/iris-3200.jpg",
+          "w": 1712
+        }
+      ],
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/iris-640.avif",
+            "w": 342,
+            "h": 640,
+            "bytes": 15186
+          },
+          {
+            "src": "gallery/_web/iris-1024.avif",
+            "w": 548,
+            "h": 1024,
+            "bytes": 30972
+          },
+          {
+            "src": "gallery/_web/iris-1600.avif",
+            "w": 856,
+            "h": 1600,
+            "bytes": 58609
+          },
+          {
+            "src": "gallery/_web/iris-2400.avif",
+            "w": 1284,
+            "h": 2400,
+            "bytes": 117726
+          },
+          {
+            "src": "gallery/_web/iris-3200.avif",
+            "w": 1712,
+            "h": 3200,
+            "bytes": 207656
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/iris-640.jpg",
+            "w": 342,
+            "h": 640,
+            "bytes": 34304
+          },
+          {
+            "src": "gallery/_web/iris-1024.jpg",
+            "w": 548,
+            "h": 1024,
+            "bytes": 68807
+          },
+          {
+            "src": "gallery/_web/iris-1600.jpg",
+            "w": 856,
+            "h": 1600,
+            "bytes": 148505
+          },
+          {
+            "src": "gallery/_web/iris-2400.jpg",
+            "w": 1284,
+            "h": 2400,
+            "bytes": 340208
+          },
+          {
+            "src": "gallery/_web/iris-3200.jpg",
+            "w": 1712,
+            "h": 3200,
+            "bytes": 620662
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Iris_Finalized_3xUpsampled.jpg",
+          "width": 5814,
+          "height": 10866,
+          "bytes": 17065580
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/iris-3200.jpg",
+          "width": 1712,
+          "height": 3200,
+          "bytes": 620662
+        }
+      ]
+    },
+    {
+      "id": "eagle",
+      "title": "The Eagle Nebula",
+      "catalog": "Messier 16",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Serpens",
+      "distance": "≈ 7,000 light-years",
+      "skyTarget": "M16",
+      "palette": "SHO",
+      "description": "The Pillars of Creation and the Spire rise from a cavern of ionised gas, mapped in the Hubble palette.",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "original": "gallery/Beautiful_3xUpsampled_Eagle_SHO.jpg",
+      "width": 5847,
+      "height": 7536,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYABMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDlVTd04pXQocH61csTHHIGkjR0PZqtXs9tIiiGMLt4xtH6Gp5ncvlVjIyaKsO0e87cY+lFVdisiBWZT1Iz2pGcsPpRRTsTcTcaKKKYj//Z",
+      "color": "#1e1615",
+      "srcset": [
+        {
+          "src": "gallery/_web/eagle-640.jpg",
+          "w": 497
+        },
+        {
+          "src": "gallery/_web/eagle-1024.jpg",
+          "w": 794
+        },
+        {
+          "src": "gallery/_web/eagle-1600.jpg",
+          "w": 1241
+        },
+        {
+          "src": "gallery/_web/eagle-2400.jpg",
+          "w": 1862
+        },
+        {
+          "src": "gallery/_web/eagle-3200.jpg",
+          "w": 2483
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/eagle-640.avif",
+            "w": 497,
+            "h": 640,
+            "bytes": 62803
+          },
+          {
+            "src": "gallery/_web/eagle-1024.avif",
+            "w": 794,
+            "h": 1024,
+            "bytes": 115585
+          },
+          {
+            "src": "gallery/_web/eagle-1600.avif",
+            "w": 1241,
+            "h": 1600,
+            "bytes": 199161
+          },
+          {
+            "src": "gallery/_web/eagle-2400.avif",
+            "w": 1862,
+            "h": 2400,
+            "bytes": 307290
+          },
+          {
+            "src": "gallery/_web/eagle-3200.avif",
+            "w": 2483,
+            "h": 3200,
+            "bytes": 430911
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/eagle-640.jpg",
+            "w": 497,
+            "h": 640,
+            "bytes": 96492
+          },
+          {
+            "src": "gallery/_web/eagle-1024.jpg",
+            "w": 794,
+            "h": 1024,
+            "bytes": 201640
+          },
+          {
+            "src": "gallery/_web/eagle-1600.jpg",
+            "w": 1241,
+            "h": 1600,
+            "bytes": 366746
+          },
+          {
+            "src": "gallery/_web/eagle-2400.jpg",
+            "w": 1862,
+            "h": 2400,
+            "bytes": 604714
+          },
+          {
+            "src": "gallery/_web/eagle-3200.jpg",
+            "w": 2483,
+            "h": 3200,
+            "bytes": 867546
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Beautiful_3xUpsampled_Eagle_SHO.jpg",
+          "width": 5847,
+          "height": 7536,
+          "bytes": 1680858
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/eagle-3200.jpg",
+          "width": 2483,
+          "height": 3200,
+          "bytes": 867546
+        }
+      ]
+    },
+    {
+      "id": "lagoon",
+      "title": "The Lagoon Nebula",
+      "catalog": "Messier 8",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Sagittarius",
+      "distance": "≈ 4,100 light-years",
+      "skyTarget": "M8",
+      "palette": "SHO",
+      "description": "A giant star-forming cloud in the heart of the Milky Way, its hourglass core lit by the young cluster NGC 6530.",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "original": "gallery/Lagoon_2XUpsampled_SHO_DeepDark_V1.jpg",
+      "width": 6672,
+      "height": 3944,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDl4YjJGSD+FRDAGG/I1ZsLtYQ0bJv3dPaoJWDynA4PWk1YabfQPJJjMg+6veikk4QAHiihbA9D/9k=",
+      "color": "#110f0a",
+      "srcset": [
+        {
+          "src": "gallery/_web/lagoon-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/lagoon-1024.jpg",
+          "w": 1024
+        },
+        {
+          "src": "gallery/_web/lagoon-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/lagoon-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/lagoon-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/lagoon-640.avif",
+            "w": 640,
+            "h": 378,
+            "bytes": 48788
+          },
+          {
+            "src": "gallery/_web/lagoon-1024.avif",
+            "w": 1024,
+            "h": 605,
+            "bytes": 109289
+          },
+          {
+            "src": "gallery/_web/lagoon-1600.avif",
+            "w": 1600,
+            "h": 946,
+            "bytes": 220699
+          },
+          {
+            "src": "gallery/_web/lagoon-2400.avif",
+            "w": 2400,
+            "h": 1419,
+            "bytes": 402796
+          },
+          {
+            "src": "gallery/_web/lagoon-3200.avif",
+            "w": 3200,
+            "h": 1892,
+            "bytes": 596803
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/lagoon-640.jpg",
+            "w": 640,
+            "h": 378,
+            "bytes": 69919
+          },
+          {
+            "src": "gallery/_web/lagoon-1024.jpg",
+            "w": 1024,
+            "h": 605,
+            "bytes": 169154
+          },
+          {
+            "src": "gallery/_web/lagoon-1600.jpg",
+            "w": 1600,
+            "h": 946,
+            "bytes": 371453
+          },
+          {
+            "src": "gallery/_web/lagoon-2400.jpg",
+            "w": 2400,
+            "h": 1419,
+            "bytes": 720427
+          },
+          {
+            "src": "gallery/_web/lagoon-3200.jpg",
+            "w": 3200,
+            "h": 1892,
+            "bytes": 1127795
+          }
+        ]
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Lagoon_2XUpsampled_SHO_DeepDark_V1.jpg",
+          "width": 6672,
+          "height": 3944,
+          "bytes": 2074889
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/lagoon-3200.jpg",
+          "width": 3200,
+          "height": 1892,
+          "bytes": 1127795
         }
       ]
     }

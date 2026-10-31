@@ -1,8 +1,10 @@
 /* ============================================================
    Cosmos Person — gallery admin
-   Curates gallery.json and publishes changes as a single commit
-   through the GitHub API. Requires a fine-grained personal access
-   token with Contents read/write on this repository.
+   Curates gallery.json (schema v3) and publishes changes as a single
+   commit through the GitHub API. Requires a fine-grained personal
+   access token with Contents read/write on this repository.
+   Web derivatives and photo pages are built by the GitHub Action
+   (.github/workflows/build.yml) after each publish.
    ============================================================ */
 
 (function () {
@@ -13,8 +15,7 @@
     const API = 'https://api.github.com';
     const TOKEN_KEY = 'cosmos-admin-token';
 
-    const DERIVATIVE_SIZES = [800, 1600, 2600];
-    const JPEG_QUALITY = 0.85;
+    const THUMB_EDGE = 360;            // admin-only preview of a staged upload
 
     const CATEGORY_OPTIONS = [
         ['nebulae', 'Nebulae'],
@@ -30,15 +31,26 @@
         'Irregular Galaxy', 'Globular Cluster', 'Open Cluster', 'Comet', 'Star Field'
     ];
 
-    const CAPTURE_FIELDS = [
-        ['telescope', 'Telescope', 'e.g. William Optics RedCat 51'],
-        ['camera', 'Camera', 'e.g. ZWO ASI2600MC Pro'],
+    const ACQ_FIELDS = [
+        ['optics', 'Optics', 'e.g. William Optics RedCat 51'],
+        ['camera', 'Camera', 'e.g. ZWO ASI2600MM Pro'],
         ['mount', 'Mount', 'e.g. Sky-Watcher EQ6-R Pro'],
-        ['filters', 'Filters', 'e.g. Optolong L-eXtreme'],
-        ['integration', 'Integration', 'e.g. Ha 16 × 600″ = 2h 40′ · total 8h'],
-        ['date', 'Capture date', 'e.g. March 2026'],
-        ['location', 'Location', 'e.g. Bortle 4 · backyard observatory']
+        ['filters', 'Filters', 'e.g. Antlia 3 nm SHO'],
+        ['guiding', 'Guiding', 'e.g. ASI120MM Mini · PHD2'],
+        ['software', 'Software', 'e.g. PixInsight, NINA'],
+        ['location', 'Location', 'e.g. Keystone, Colorado'],
+        ['bortle', 'Bortle class', 'e.g. 3'],
+        ['integration', 'Integration (if subs are not listed)', 'e.g. 12h 40m'],
+        ['notes', 'Notes', 'anything else worth saying']
     ];
+
+    const PALETTES = ['SHO', 'HOO', 'HaRGB', 'LRGB', 'RGB', 'OSC', 'Hα', 'Starless'];
+
+    const EMPTY_ACQUISITION = {
+        optics: '', camera: '', mount: '', filters: '', guiding: '', software: '',
+        location: '', bortle: '', integration: '', subs: [], nights: [],
+        conditions: { seeing: '', transparency: '' }, notes: ''
+    };
 
     const state = {
         token: null,
@@ -166,14 +178,74 @@
         const file = await gh(`/repos/${OWNER}/${REPO}/contents/gallery.json?ref=${encodeURIComponent(state.branch)}`);
         state.manifestSha = file.sha;
         const json = JSON.parse(new TextDecoder().decode(base64ToBytes(file.content)));
-        if (json.version !== 2) {
-            throw new Error('gallery.json in the repository is not schema v2. Run tools/build_derivatives.py and push first.');
+        if (![2, 3].includes(json.version)) {
+            throw new Error('gallery.json in the repository is not schema v2 or v3. Run tools/build.py and push first.');
         }
+        normalizeManifest(json);
         state.baseline = json;
         state.manifest = clone(json);
         state.staged.clear();
         state.deletions.clear();
         renderAll();
+    }
+
+    /* ---------- Schema helpers ---------- */
+
+    function normalizeManifest(m) {
+        m.settings = m.settings || {};
+        if (typeof m.settings.hero === 'string' || !m.settings.hero) {
+            m.settings.hero = { id: m.settings.hero || '', focal: [0.5, 0.5] };
+        }
+        m.collections = m.collections || [];
+        (m.images || []).forEach(normalizeEntry);
+        m.version = 3;
+    }
+
+    function normalizeEntry(e) {
+        if (!e.acquisition) {
+            const cap = e.capture || {};
+            e.acquisition = Object.assign(clone(EMPTY_ACQUISITION), {
+                optics: cap.telescope || '', camera: cap.camera || '', mount: cap.mount || '',
+                filters: cap.filters || '', integration: cap.integration || '', location: cap.location || ''
+            });
+            if (cap.date && !e.date) e.date = cap.date;
+        } else {
+            e.acquisition = Object.assign(clone(EMPTY_ACQUISITION), e.acquisition);
+        }
+        delete e.capture;
+        e.sources = e.sources || { avif: [], jpg: (e.srcset || []).map(s => ({ src: s.src, w: s.w })) };
+        e.srcset = e.srcset || [];
+        ['subtitle', 'story', 'alt', 'palette', 'date', 'licence'].forEach(k => { if (e[k] === undefined) e[k] = ''; });
+        ['tags', 'collections', 'badges'].forEach(k => { if (!Array.isArray(e[k])) e[k] = []; });
+        if (e.featured === undefined) e.featured = false;
+        if (!e.layout) e.layout = { span: 1, focal: [0.5, 0.5] };
+        if (e.visible === undefined) e.visible = true;
+        e.integration_seconds = integrationSeconds(e.acquisition);
+        return e;
+    }
+
+    function integrationSeconds(acq) {
+        return (acq.subs || []).reduce((t, s) => t + (Number(s.count) || 0) * (Number(s.seconds) || 0), 0);
+    }
+
+    function formatDuration(sec) {
+        if (!sec) return '';
+        const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60);
+        return h && m ? `${h}h ${String(m).padStart(2, '0')}m` : (h ? `${h}h` : `${m}m`);
+    }
+
+    function heroId() {
+        const h = state.manifest.settings.hero;
+        return typeof h === 'string' ? h : (h && h.id) || '';
+    }
+
+    function setHero(id) {
+        const h = state.manifest.settings.hero;
+        state.manifest.settings.hero = { id, focal: (h && h.focal) || [0.5, 0.5] };
+    }
+
+    function isBuilt(entry) {
+        return !!(entry.sources && entry.sources.jpg && entry.sources.jpg.length);
     }
 
     /* =========================================================
@@ -206,12 +278,9 @@
     function markDirty() { updateToolbar(); }
 
     function thumbSrc(entry) {
-        const first = entry.srcset && entry.srcset[0];
-        if (first && state.staged.has(first.src)) {
-            const item = state.staged.get(first.src);
-            if (!item.objectUrl) item.objectUrl = URL.createObjectURL(item.blob);
-            return item.objectUrl;
-        }
+        const staged = state.staged.get(entry.original);
+        if (staged && staged.thumbUrl) return staged.thumbUrl;
+        const first = entry.sources && entry.sources.jpg && entry.sources.jpg[0];
         if (first && state.repoTree.has(first.src)) return rawUrl(first.src);
         if (first) return first.src;          // freshly built locally but not yet in repo
         return entry.placeholder || '';
@@ -229,8 +298,9 @@
         row.dataset.id = entry.id;
         if (entry.visible === false) row.classList.add('is-hidden');
 
-        const isNew = entry.srcset.some(s => state.staged.has(s.src));
-        const isHero = state.manifest.settings.hero === entry.id;
+        const isNew = state.staged.has(entry.original);
+        const isHero = heroId() === entry.id;
+        const built = isBuilt(entry);
 
         const main = document.createElement('div');
         main.className = 'row-main';
@@ -248,10 +318,13 @@
         main.querySelector('.row-thumb img').src = thumbSrc(entry);
         main.querySelector('.row-title').textContent = entry.title;
         main.querySelector('.row-sub').textContent =
-            [entry.catalog, entry.type, `${entry.width}×${entry.height}`].filter(Boolean).join(' · ');
+            [entry.catalog, entry.type, entry.palette, formatDuration(entry.integration_seconds) || entry.acquisition.integration,
+                `${entry.width}×${entry.height}`].filter(Boolean).join(' · ');
 
         const flags = main.querySelector('.row-flags');
         if (isNew) flags.appendChild(chip('new', 'New'));
+        else if (!built) flags.appendChild(chip('new', 'Building'));
+        if (entry.featured) flags.appendChild(chip('hero', 'Featured'));
         if (isHero) flags.appendChild(chip('hero', 'Hero'));
         flags.appendChild(flagBtn(
             entry.visible !== false ? eyeIcon() : eyeOffIcon(),
@@ -302,25 +375,36 @@
         grid.className = 'editor-grid';
         grid.append(
             textField(entry, 'title', 'Title'),
+            textField(entry, 'subtitle', 'Subtitle', 'one line under the title, e.g. A stellar nursery in Cepheus'),
             textField(entry, 'catalog', 'Catalog designation'),
             typeField(entry),
             categoryField(entry),
             textField(entry, 'constellation', 'Constellation'),
             textField(entry, 'distance', 'Distance', 'e.g. ≈ 2,600 light-years'),
-            textField(entry, 'skyTarget', 'Sky map target', 'e.g. NGC 7000 — powers “View on Sky Map”')
+            textField(entry, 'skyTarget', 'Sky map target', 'e.g. NGC 7000 — powers “View on Sky Map”'),
+            paletteField(entry),
+            textField(entry, 'date', 'Capture date', 'YYYY-MM or YYYY-MM-DD (sorts newest first)'),
+            checkField(entry, 'featured', 'Featured — spans a full row in the grid')
         );
 
         const desc = document.createElement('div');
         desc.className = 'editor-full';
-        desc.appendChild(textAreaField(entry, 'description', 'Description'));
+        desc.append(
+            textAreaField(entry, 'description', 'Description (one or two sentences, shown everywhere)'),
+            textAreaField(entry, 'story', 'Story (photo page only; blank lines separate paragraphs, *italics* and [links](https://…) work)')
+        );
 
         const capCaption = document.createElement('div');
         capCaption.className = 'editor-caption';
-        capCaption.textContent = 'Capture details (shown in the photo viewer)';
+        capCaption.textContent = 'Acquisition (the technical card on the photo page and in the viewer)';
 
         const capGrid = document.createElement('div');
         capGrid.className = 'editor-grid';
-        CAPTURE_FIELDS.forEach(([key, label, hint]) => capGrid.appendChild(captureField(entry, key, label, hint)));
+        ACQ_FIELDS.forEach(([key, label, hint]) => capGrid.appendChild(acqField(entry, key, label, hint)));
+
+        const subs = document.createElement('div');
+        subs.className = 'editor-full';
+        subs.appendChild(subsField(entry));
 
         const actions = document.createElement('div');
         actions.className = 'editor-actions';
@@ -328,10 +412,10 @@
         const heroBtn = document.createElement('button');
         heroBtn.type = 'button';
         heroBtn.className = 'btn';
-        heroBtn.textContent = state.manifest.settings.hero === entry.id ? 'Current hero image' : 'Set as hero image';
-        heroBtn.disabled = state.manifest.settings.hero === entry.id;
+        heroBtn.textContent = heroId() === entry.id ? 'Current hero image' : 'Set as hero image';
+        heroBtn.disabled = heroId() === entry.id;
         heroBtn.addEventListener('click', () => {
-            state.manifest.settings.hero = entry.id;
+            setHero(entry.id);
             markDirty();
             renderList();
         });
@@ -355,7 +439,7 @@
         right.append(meta, remove);
         actions.append(left, right);
 
-        ed.append(grid, desc, capCaption, capGrid, actions);
+        ed.append(grid, desc, capCaption, capGrid, subs, actions);
         return ed;
     }
 
@@ -392,14 +476,67 @@
         return fieldWrap(label, input);
     }
 
-    function captureField(entry, key, label, hint) {
+    function acqField(entry, key, label, hint) {
         const input = document.createElement('input');
         input.type = 'text';
-        entry.capture = entry.capture || {};
-        input.value = entry.capture[key] || '';
+        input.value = entry.acquisition[key] || '';
         if (hint) input.placeholder = hint;
-        input.addEventListener('input', () => { entry.capture[key] = input.value; markDirty(); });
+        input.addEventListener('input', () => { entry.acquisition[key] = input.value; markDirty(); });
         return fieldWrap(label, input);
+    }
+
+    function checkField(entry, key, label) {
+        const wrap = document.createElement('label');
+        wrap.className = 'check field-check';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = !!entry[key];
+        input.addEventListener('change', () => { entry[key] = input.checked; markDirty(); renderList(); });
+        const span = document.createElement('span');
+        span.textContent = label;
+        wrap.append(input, span);
+        return wrap;
+    }
+
+    function paletteField(entry) {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.setAttribute('list', 'palette-suggestions');
+        input.value = entry.palette || '';
+        input.placeholder = 'e.g. SHO, HOO, LRGB';
+        if (!document.getElementById('palette-suggestions')) {
+            const dl = document.createElement('datalist');
+            dl.id = 'palette-suggestions';
+            PALETTES.forEach(t => { const o = document.createElement('option'); o.value = t; dl.appendChild(o); });
+            document.body.appendChild(dl);
+        }
+        input.addEventListener('input', () => { entry.palette = input.value.trim(); markDirty(); });
+        return fieldWrap('Palette', input);
+    }
+
+    /* Subframes as text, one per line: "Hα 48 × 300" — parsed into acquisition.subs */
+    function subsField(entry) {
+        const input = document.createElement('textarea');
+        input.rows = 4;
+        input.placeholder = 'One filter per line, e.g.\nHα 48 × 300\nOIII 47 × 300\nSII 48 × 300';
+        input.value = (entry.acquisition.subs || []).map(s => `${s.filter} ${s.count} × ${s.seconds}`).join('\n');
+        const summary = document.createElement('span');
+        summary.className = 'field-label';
+        const update = () => {
+            const subs = [];
+            input.value.split(/\n/).forEach(line => {
+                const m = /^\s*(.+?)\s+(\d+)\s*[x×*]\s*(\d+(?:\.\d+)?)\s*(?:s|sec|″)?\s*$/i.exec(line);
+                if (m) subs.push({ filter: m[1].trim(), count: Number(m[2]), seconds: Number(m[3]) });
+            });
+            entry.acquisition.subs = subs;
+            entry.integration_seconds = integrationSeconds(entry.acquisition);
+            summary.textContent = subs.length ? `Total integration ${formatDuration(entry.integration_seconds)}` : 'Total integration —';
+        };
+        update();
+        input.addEventListener('input', () => { update(); markDirty(); });
+        const wrap = fieldWrap('Subframes (filter, count × seconds)', input);
+        wrap.appendChild(summary);
+        return wrap;
     }
 
     function typeField(entry) {
@@ -448,30 +585,29 @@
         const entry = state.manifest.images.find(i => i.id === id);
         if (!entry) return;
 
-        const isNew = entry.srcset.some(s => state.staged.has(s.src));
+        const isNew = state.staged.has(entry.original);
+        const files = () => [entry.original,
+            ...((entry.sources && entry.sources.jpg) || []).map(s => s.src),
+            ...((entry.sources && entry.sources.avif) || []).map(s => s.src)];
         if (isNew) {
-            // Staged upload — just unstage everything.
-            [entry.original, ...entry.srcset.map(s => s.src)].forEach(p => {
-                const item = state.staged.get(p);
-                if (item && item.objectUrl) URL.revokeObjectURL(item.objectUrl);
-                state.staged.delete(p);
-            });
+            // Staged upload — just unstage it.
+            const item = state.staged.get(entry.original);
+            if (item && item.thumbUrl) URL.revokeObjectURL(item.thumbUrl);
+            state.staged.delete(entry.original);
         } else {
             if (!confirm(`Remove “${entry.title}” from the gallery?\n\nThe image files stay in the repository; you can add it back later from the “In the repository” list.`)) {
                 return;
             }
             const alsoDelete = confirm('Also delete its files from the repository on publish?\n\nOK = delete files permanently (recoverable only via git history)\nCancel = keep the files');
             if (alsoDelete) {
-                [entry.original, ...entry.srcset.map(s => s.src)]
-                    .filter(p => state.repoTree.has(p))
-                    .forEach(p => state.deletions.add(p));
+                files().filter(p => state.repoTree.has(p)).forEach(p => state.deletions.add(p));
             }
         }
 
         state.manifest.images = state.manifest.images.filter(i => i.id !== id);
-        if (state.manifest.settings.hero === id) {
+        if (heroId() === id) {
             const firstVisible = state.manifest.images.find(i => i.visible !== false);
-            state.manifest.settings.hero = firstVisible ? firstVisible.id : '';
+            setHero(firstVisible ? firstVisible.id : '');
         }
         markDirty();
         renderAll();
@@ -479,7 +615,7 @@
 
     function discardChanges() {
         if (!confirm('Discard all unpublished changes?')) return;
-        state.staged.forEach(item => { if (item.objectUrl) URL.revokeObjectURL(item.objectUrl); });
+        state.staged.forEach(item => { if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl); });
         state.staged.clear();
         state.deletions.clear();
         state.manifest = clone(state.baseline);
@@ -533,7 +669,7 @@
     }
 
     /* =========================================================
-       Uploads — client-side derivative generation
+       Uploads — the original only; the GitHub Action builds the rest
        ========================================================= */
 
     async function onUploadFiles(e) {
@@ -561,26 +697,20 @@
         const id = uniqueId(slugify(baseTitle));
         const safeName = file.name.replace(/[^\w.\-]+/g, '_');
         const originalPath = `gallery/${safeName}`;
-
-        // Derivatives
-        const srcset = [];
-        for (const target of DERIVATIVE_SIZES) {
-            const scaled = scaleBitmap(bitmap, target);
-            const blob = await canvasToJpeg(scaled.canvas);
-            const path = `gallery/_web/${id}-${target}.jpg`;
-            state.staged.set(path, { blob, label: `${id}-${target}.jpg` });
-            srcset.push({ src: path, w: scaled.width });
-            if (Math.max(bitmap.width, bitmap.height) <= target) break;
+        if (state.manifest.images.some(i => i.original === originalPath) || state.staged.has(originalPath)) {
+            throw new Error('A photo with this file name is already in the gallery.');
         }
 
-        const tiny = scaleBitmap(bitmap, 32);
-        const placeholder = tiny.canvas.toDataURL('image/jpeg', 0.5);
+        const tiny = scaleBitmap(bitmap, 24);
+        const placeholder = tiny.canvas.toDataURL('image/jpeg', 0.4);
         const color = averageColor(tiny.canvas);
+        const thumb = scaleBitmap(bitmap, THUMB_EDGE);
+        const thumbBlob = await canvasToJpeg(thumb.canvas);
 
-        state.staged.set(originalPath, { blob: file, label: safeName });
+        state.staged.set(originalPath, { blob: file, label: safeName, thumbUrl: URL.createObjectURL(thumbBlob) });
 
         const dbType = detected ? detected.obj.type : '';
-        state.manifest.images.push({
+        state.manifest.images.push(normalizeEntry({
             id,
             title: baseTitle,
             catalog: detected ? detected.key.replace(/^(M|NGC|IC|SH2)(\d)/, '$1 $2') : '',
@@ -591,14 +721,15 @@
             description: '',
             skyTarget: detected ? detected.key : '',
             visible: true,
-            capture: { telescope: '', camera: '', mount: '', filters: '', integration: '', date: '', location: '' },
             original: originalPath,
             width: bitmap.width,
             height: bitmap.height,
             placeholder,
             color,
-            srcset
-        });
+            srcset: [],
+            sources: { avif: [], jpg: [] },
+            downloads: []
+        }));
         if (bitmap.close) bitmap.close();
     }
 
@@ -636,7 +767,7 @@
         return new Promise((resolve, reject) => {
             canvas.toBlob(
                 (blob) => blob ? resolve(blob) : reject(new Error('JPEG encoding failed.')),
-                'image/jpeg', JPEG_QUALITY
+                'image/jpeg', 0.8
             );
         });
     }
@@ -766,10 +897,10 @@
         }
 
         // Keep the hero pointing at a visible photograph
-        const heroEntry = state.manifest.images.find(i => i.id === state.manifest.settings.hero);
+        const heroEntry = state.manifest.images.find(i => i.id === heroId());
         if (!heroEntry || heroEntry.visible === false) {
             const firstVisible = state.manifest.images.find(i => i.visible !== false);
-            state.manifest.settings.hero = firstVisible ? firstVisible.id : '';
+            setHero(firstVisible ? firstVisible.id : '');
         }
         state.manifest.updated = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
 
@@ -858,13 +989,13 @@
             // Fold staged files into our view of the repo
             for (const [path] of uploads) state.repoTree.set(path, { sha: 'new', size: 0 });
             state.deletions.forEach(path => state.repoTree.delete(path));
-            state.staged.forEach(item => { if (item.objectUrl) URL.revokeObjectURL(item.objectUrl); });
+            state.staged.forEach(item => { if (item.thumbUrl) URL.revokeObjectURL(item.thumbUrl); });
             state.staged.clear();
             state.deletions.clear();
             state.baseline = clone(state.manifest);
 
             $('publish-title').textContent = 'Published';
-            note.textContent = 'Changes are committed. GitHub Pages usually rebuilds within a minute or two — then the live site shows your changes.';
+            note.textContent = 'Changes are committed. The build runs on GitHub for a few minutes (web versions, photo pages), then GitHub Pages redeploys — allow five minutes before the live site shows everything.';
             $('publish-actions').hidden = false;
             renderAll();
         } catch (err) {

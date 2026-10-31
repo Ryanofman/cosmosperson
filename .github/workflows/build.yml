@@ -1,0 +1,84 @@
+# Builds derivatives (AVIF + JPEG), the v3 manifest and the photo pages whenever
+# an original or the manifest changes, then commits the results back so GitHub
+# Pages serves them. Ryan's workflow: upload an original and edit its card in
+# the admin (or drop a file in gallery/ and push), and this does the rest.
+#
+# If the live site does not update after this workflow has committed, open
+# Settings → Pages and make sure the source is the main branch (root).
+
+name: Build gallery
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "gallery/**"
+      - "!gallery/_web/**"
+      - "images/**"
+      - "!images/_web/**"
+      - "gallery.json"
+      - "tools/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild every derivative, not only the missing ones"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: build-gallery
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Pillow
+        run: python -m pip install --quiet "pillow>=11.3"
+
+      - name: Build derivatives, manifest and pages
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            python tools/build.py --force
+          else
+            python tools/build.py
+          fi
+
+      - name: Commit results
+        id: commit
+        run: |
+          git config user.name "cosmosperson-build"
+          git config user.email "build@cosmosperson.com"
+          git add -A gallery/_web images/_web gallery.json photo sitemap.xml
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "Build gallery derivatives and pages [skip ci]"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Pushes made with the workflow token do not start other workflows, so ask
+      # Pages for a build explicitly. Harmless if Pages already picked it up.
+      - name: Request a Pages build
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds"

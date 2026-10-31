@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{description}}">
+    <meta name="author" content="Cosmos Person">
+    <title>{{page_title}}</title>
+    <link rel="canonical" href="{{canonical}}">
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="{{site_title}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="{{og_image}}">
+    <meta property="og:image:width" content="{{og_width}}">
+    <meta property="og:image:height" content="{{og_height}}">
+    <meta property="og:image:alt" content="{{alt}}">
+    <meta property="og:url" content="{{canonical}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{og_image}}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="preload" href="/gallery.json" as="fetch" crossorigin="anonymous">
+    <link rel="modulepreload" href="/vendor/photoswipe/photoswipe-lightbox.esm.min.js">
+
+    <link rel="stylesheet" href="/site.css">
+    <link rel="stylesheet" href="/vendor/photoswipe/photoswipe.min.css">
+    <link rel="stylesheet" href="/gallery.css">
+
+    <script type="application/ld+json">{{json_ld}}</script>
+</head>
+
+<body class="photo-body" data-photo="{{id}}" data-index="{{index}}">
+
+    <header class="site-header scrolled" id="site-header">
+        <div class="header-inner">
+            <a href="/" class="wordmark" aria-label="Cosmos Person">C<svg class="cat-o" viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"
+                        stroke-linecap="round" />
+                </svg>smos<span>&thinsp;Person</span></a>
+            <nav class="site-nav" aria-label="Site">
+                <a href="/#gallery" class="active">Photos</a>
+                <a href="/explore.html" class="nav-accent">Explore<span class="nav-x"> the Universe</span></a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="photo-page">
+        <section class="photo-stage" id="photo-stage" style="--ph-color: {{color}}">
+            <a class="photo-open" id="photo-open" href="{{largest_jpg}}" aria-label="Open {{title}} in the viewer">
+                <picture>
+                    {{avif_source}}
+                    <img id="photo-image" src="{{largest_jpg}}" srcset="{{jpg_srcset}}"
+                        sizes="(max-width: 900px) 100vw, 92vw" width="{{width}}" height="{{height}}" alt="{{alt}}"
+                        fetchpriority="high" decoding="async" style="background-image: url('{{placeholder}}')">
+                </picture>
+            </a>
+            <p class="photo-stage-hint label">Tap to view full screen · arrow keys for the next photo</p>
+        </section>
+
+        <header class="photo-head">
+            <p class="label photo-kicker">{{kicker}}</p>
+            <h1 class="display photo-title">{{title}}</h1>
+            <p class="photo-subtitle">{{subtitle}}</p>
+            <p class="photo-meta">{{meta_html}}</p>
+            <div class="photo-actions">
+                <button class="text-link" id="btn-view" type="button">Full screen</button>
+                {{sky_link}}
+                <a class="text-link" href="{{largest_jpg}}" id="btn-download">Downloads</a>
+                <button class="text-link" id="btn-share" type="button">Copy link</button>
+                <a class="text-link" href="/#gallery">All photos</a>
+            </div>
+            <div class="photo-badges">{{badges_html}}</div>
+        </header>
+
+        <div class="photo-columns {{has_text}}">
+            <article class="photo-story">
+                <div class="photo-description">{{description_html}}</div>
+                <div class="photo-story-text">{{story_html}}</div>
+            </article>
+
+            <aside class="photo-card" id="photo-card">
+                {{card_html}}
+                <section class="card-group" id="downloads">
+                    <h3 class="label">Downloads</h3>
+                    <ul class="downloads">{{downloads_html}}</ul>
+                    <p class="licence">{{licence}}</p>
+                </section>
+            </aside>
+        </div>
+
+        <nav class="photo-nav" aria-label="Previous and next photo">
+            <a class="photo-nav-link prev" href="/photo/{{prev_id}}/" rel="prev">
+                <span class="label">Previous</span>
+                <span class="photo-nav-title">{{prev_title}}</span>
+            </a>
+            <a class="photo-nav-link next" href="/photo/{{next_id}}/" rel="next">
+                <span class="label">Next</span>
+                <span class="photo-nav-title">{{next_title}}</span>
+            </a>
+        </nav>
+
+        <section class="photo-related">
+            <p class="label">More like this</p>
+            <div class="mini-grid">{{related_html}}</div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a href="/" class="footer-wordmark" aria-label="Cosmos Person">C<svg class="cat-o" viewBox="0 0 24 24"
+                aria-hidden="true">
+                <path d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+            </svg>smos Person</a>
+        <div class="footer-links">
+            <a href="/#gallery">Photos</a>
+            <a href="/explore.html">Explore the Universe</a>
+            <a href="{{instagram}}" target="_blank" rel="noopener">Instagram</a>
+            <a href="mailto:{{email}}">Contact</a>
+        </div>
+        <p class="footer-fine">
+            © 2025–{{year}} Cosmos Person. All photos by me.
+            <a href="/admin.html" aria-label="Site administration">·</a>
+        </p>
+    </footer>
+
+    <script src="/celestial-database.js"></script>
+    <script type="module" src="/viewer.js"></script>
+</body>
+
+</html>

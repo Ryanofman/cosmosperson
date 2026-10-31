@@ -3,8 +3,11 @@
   "configurations": [
     {
       "name": "cosmosperson",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["tools/devserver.py", "8123"],
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "tools/devserver.py",
+        "8123"
+      ],
       "port": 8123
     }
   ]

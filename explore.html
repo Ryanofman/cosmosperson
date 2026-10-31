@@ -9,10 +9,11 @@
     <meta name="author" content="Cosmos Person">
 
     <title>Explore the Universe — Cosmos Person</title>
+    <link rel="canonical" href="https://cosmosperson.com/explore.html">
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
@@ -30,18 +31,15 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap"
         rel="stylesheet">
 
-    <!-- Aladin Lite -->
-    <link rel="stylesheet" href="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.min.css" />
-
-    <link rel="stylesheet" href="site.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/site.css">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body class="explore-page">
     <!-- Header -->
     <header class="site-header">
         <div class="header-inner">
-            <a href="index.html" class="wordmark" aria-label="Cosmos Person">C<svg class="cat-o"
+            <a href="/" class="wordmark" aria-label="Cosmos Person">C<svg class="cat-o"
                     viewBox="0 0 24 24" aria-hidden="true">
                     <path
                         d="M6.34 7.84 L4.6 1.6 L10.61 5.62 A8 8 0 0 1 13.39 5.62 L19.4 1.6 L17.66 7.84 A8 8 0 1 1 6.34 7.84 Z"
@@ -49,8 +47,8 @@
                         stroke-linecap="round" />
                 </svg>smos<span>&thinsp;Person</span></a>
             <nav class="site-nav" aria-label="Site">
-                <a href="index.html#gallery">Photos</a>
-                <a href="explore.html" class="active">Explore<span class="nav-x"> the Universe</span></a>
+                <a href="/#gallery">Photos</a>
+                <a href="/explore.html" class="active">Explore<span class="nav-x"> the Universe</span></a>
             </nav>
         </div>
     </header>
@@ -62,6 +60,14 @@
 
     <!-- Aladin Lite container -->
     <div id="aladin-lite-div"></div>
+
+    <!-- Shown only if the sky engine cannot start -->
+    <div class="sky-fallback" id="sky-fallback" hidden>
+        <p class="label">The sky map couldn't load</p>
+        <p>The star charts come from an observatory server that isn't answering right now.
+            The photos are all still here.</p>
+        <a href="/#gallery" class="btn solid">See the Photos</a>
+    </div>
 
     <!-- Control panel -->
     <aside class="control-panel" id="control-panel">
@@ -134,12 +140,34 @@
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js"></script>
-    <script src="config.js"></script>
-    <script src="celestial-database.js"></script>
-    <script src="app.js"></script>
+    <!-- Scripts: Aladin Lite is served from this site (vendor/aladin-lite, LGPL),
+         with the CDS server as a fallback. The sky survey tiles still come from CDS. -->
+    <script type="module">
+        window.__aladinReady = (async () => {
+            try {
+                const mod = await import('/vendor/aladin-lite/aladin.js');
+                const A = mod.default || mod.A || window.A;
+                if (A && A.init) await A.init;
+                window.A = A;
+                return !!A;
+            } catch (err) {
+                console.warn('Vendored Aladin Lite failed, trying CDS:', err);
+            }
+            return new Promise((resolve) => {
+                const s = document.createElement('script');
+                s.src = 'https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js';
+                s.onload = async () => {
+                    try { if (window.A && window.A.init) await window.A.init; resolve(!!window.A); }
+                    catch (err) { resolve(false); }
+                };
+                s.onerror = () => resolve(false);
+                document.head.appendChild(s);
+            });
+        })();
+    </script>
+    <script src="/config.js"></script>
+    <script src="/celestial-database.js"></script>
+    <script src="/app.js"></script>
 </body>
 
 </html>

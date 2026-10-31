@@ -1,464 +1,456 @@
 /* ============================================================
-   Cosmos Person — gallery page
-   Consumes gallery.json (schema v2, written by tools/build_derivatives.py
-   and by the admin interface).
+   Cosmos Person — gallery page (index.html)
+   Consumes gallery.json (schema v3, written by tools/build.py and the admin).
+   Renders the hero, the filter/sort/search controls, the grid, and opens the
+   viewer (viewer.js) over the grid with real /photo/<id>/ URLs.
    ============================================================ */
 
-(function () {
-    'use strict';
+import { createViewer, loadManifest, integrationLabel, formatDate, srcsetOf } from '/viewer.js';
 
-    const CATEGORY_LABELS = {
-        'nebulae': 'Nebulae',
-        'galaxies': 'Galaxies',
-        'star-clusters': 'Star Clusters',
-        'solar-system': 'Solar System',
-        'wide-field': 'Wide Field'
-    };
+const CATEGORY_LABELS = {
+    'nebulae': 'Nebulae',
+    'galaxies': 'Galaxies',
+    'star-clusters': 'Star Clusters',
+    'solar-system': 'Solar System',
+    'wide-field': 'Wide Field'
+};
 
-    const GRID_SIZES = '(max-width: 720px) 96vw, (max-width: 1200px) 46vw, 30vw';
+const FACETS = {
+    category: { param: 'c', label: 'Type', value: e => e.category || 'nebulae', display: v => CATEGORY_LABELS[v] || v },
+    palette: { param: 'palette', label: 'Palette', value: e => e.palette || '', display: v => v },
+    constellation: { param: 'con', label: 'Constellation', value: e => e.constellation || '', display: v => v },
+    year: { param: 'year', label: 'Year', value: e => e.year || '', display: v => v },
+    type: { param: 'type', label: 'Object', value: e => e.type || '', display: v => v }
+};
 
-    let allImages = [];   // visible images, manifest order
-    let shown = [];       // current filter applied
-    let heroId = '';
-    let lbIndex = -1;
-    let openedViaHash = false;
+const SORTS = {
+    curated: { label: 'Curated order', fn: null },
+    newest: { label: 'Newest first', fn: (a, b) => (b.date || b.year || '').localeCompare(a.date || a.year || '') },
+    integration: { label: 'Most integration', fn: (a, b) => (b.integration_seconds || 0) - (a.integration_seconds || 0) },
+    title: { label: 'Title A–Z', fn: (a, b) => a.title.localeCompare(b.title) }
+};
 
-    const $ = (id) => document.getElementById(id);
+const GRID_SIZES = '(max-width: 720px) 100vw, (max-width: 1100px) 50vw, 40vw';
 
-    document.addEventListener('DOMContentLoaded', init);
+const $ = (id) => document.getElementById(id);
 
-    async function init() {
-        $('year').textContent = new Date().getFullYear();
-        setupHeader();
-        setupLightboxChrome();
+let settings = {};
+let all = [];          // visible photos, curated order
+let shown = [];        // after filters and sort
+let viewer = null;
+const filters = { category: 'all', palette: '', constellation: '', year: '', type: '', q: '', sort: 'curated' };
 
-        let manifest;
-        try {
-            const res = await fetch('gallery.json', { cache: 'no-cache' });
-            manifest = await res.json();
-        } catch (err) {
-            console.error('Failed to load gallery manifest', err);
-            $('grid').innerHTML = '<p class="grid-empty">The photos couldn’t load. Give it a refresh.</p>';
-            finishLoading();
-            return;
-        }
+document.addEventListener('DOMContentLoaded', init);
 
-        allImages = (manifest.images || []).filter(img => img.visible !== false);
-        heroId = manifest.settings && manifest.settings.hero;
+async function init() {
+    $('year').textContent = new Date().getFullYear();
+    setupHeader();
 
-        renderHero();
-        renderFilters();
-        applyFilter('all');
+    let manifest;
+    try {
+        manifest = await loadManifest();
+    } catch (err) {
+        console.error('Failed to load gallery manifest', err);
+        $('grid').innerHTML = '<p class="grid-empty">The photos couldn’t load. Give it a refresh.</p>';
         finishLoading();
-        openFromHash();
-        window.addEventListener('hashchange', openFromHash);
-
-        // Arriving from the sky atlas ("Collection" links use #gallery):
-        // make sure the anchor holds even if the browser restored scroll early.
-        if (location.hash === '#gallery') {
-            setTimeout(() => {
-                if (window.scrollY < 100) {
-                    const root = document.documentElement;
-                    root.style.scrollBehavior = 'auto';
-                    $('gallery').scrollIntoView();
-                    root.style.scrollBehavior = '';
-                }
-            }, 150);
-        }
+        return;
     }
 
-    function finishLoading() {
-        const el = $('page-loading');
-        el.classList.add('done');
-        setTimeout(() => el.remove(), 800);
-    }
+    settings = manifest.settings || {};
+    // Photos whose web versions have not been built yet (an upload published minutes
+    // ago) are skipped until the build commits them.
+    all = (manifest.images || []).filter(img => img.visible !== false && img.sources && img.sources.jpg && img.sources.jpg.length);
 
-    /* ---------- Header ---------- */
+    applySiteSettings();
+    renderHero();
+    readURL();
+    renderControls();
+    applyFilters({ replaceUrl: false });
+    finishLoading();
+    openFromLegacyHash();
 
-    function setupHeader() {
-        const header = $('site-header');
-        const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll();
-    }
-
-    /* ---------- Hero ---------- */
-
-    function renderHero() {
-        const entry = allImages.find(i => i.id === heroId) || allImages[0];
-        if (!entry) return;
-
-        const media = $('hero-media');
-        media.style.backgroundColor = entry.color || '';
-        media.style.backgroundImage = `url("${entry.placeholder}")`;
-        media.style.backgroundSize = 'cover';
-        media.style.backgroundPosition = 'center';
-
-        const img = new Image();
-        img.alt = '';
-        img.srcset = srcsetAttr(entry);
-        img.sizes = '100vw';
-        img.src = largest(entry).src;
-        img.fetchPriority = 'high';
-        img.addEventListener('load', () => img.classList.add('loaded'));
-        media.appendChild(img);
-
-        const credit = [entry.title, entry.catalog].filter(Boolean).join(' · ');
-        $('hero-credit').textContent = credit;
-    }
-
-    /* ---------- Filters ---------- */
-
-    function renderFilters() {
-        const counts = {};
-        allImages.forEach(i => {
-            const c = i.category || 'nebulae';
-            counts[c] = (counts[c] || 0) + 1;
-        });
-
-        const cats = Object.keys(CATEGORY_LABELS).filter(c => counts[c]);
-        const host = $('filters');
-        host.innerHTML = '';
-
-        const mk = (key, label) => {
-            const b = document.createElement('button');
-            b.className = 'filter-btn';
-            b.dataset.filter = key;
-            b.textContent = label;
-            b.setAttribute('role', 'tab');
-            b.addEventListener('click', () => applyFilter(key));
-            host.appendChild(b);
-            return b;
-        };
-
-        mk('all', 'All');
-        cats.forEach(c => mk(c, CATEGORY_LABELS[c] || c));
-
-        if (cats.length < 2) host.style.display = 'none';
-    }
-
-    function applyFilter(key) {
-        shown = key === 'all' ? allImages.slice() : allImages.filter(i => (i.category || 'nebulae') === key);
-
-        document.querySelectorAll('.filter-btn').forEach(b => {
-            const active = b.dataset.filter === key;
-            b.classList.toggle('active', active);
-            b.setAttribute('aria-selected', active);
-        });
-
-        $('collection-count').textContent =
-            shown.length + (shown.length === 1 ? ' photo' : ' photos');
-
-        renderGrid();
-    }
-
-    /* ---------- Grid ---------- */
-
-    function renderGrid() {
-        const grid = $('grid');
-        grid.innerHTML = '';
-
-        if (!shown.length) {
-            grid.innerHTML = '<p class="grid-empty">Nothing here yet.</p>';
-            return;
-        }
-
-        const io = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('in-view');
-                    io.unobserve(e.target);
-                }
-            });
-        }, { rootMargin: '0px 0px -4% 0px', threshold: 0.05 });
-
-        shown.forEach((entry, idx) => {
-            const card = document.createElement('figure');
-            card.className = 'card';
-            card.tabIndex = 0;
-            card.setAttribute('role', 'button');
-            card.setAttribute('aria-label', entry.title);
-            card.style.backgroundColor = entry.color || '';
-            card.style.backgroundImage = `url("${entry.placeholder}")`;
-
-            const img = document.createElement('img');
-            img.alt = `${entry.title}${entry.catalog ? ' — ' + entry.catalog : ''}`;
-            img.loading = idx < 3 ? 'eager' : 'lazy';
-            img.decoding = 'async';
-            img.width = entry.width;
-            img.height = entry.height;
-            img.srcset = srcsetAttr(entry);
-            img.sizes = GRID_SIZES;
-            img.src = entry.srcset[0].src;
-            img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-            card.appendChild(img);
-
-            const cap = document.createElement('figcaption');
-            cap.className = 'card-caption';
-            const meta = [entry.type, entry.constellation].filter(Boolean).join(' · ');
-            cap.innerHTML = `<h3></h3><p></p>`;
-            cap.querySelector('h3').textContent = entry.title;
-            cap.querySelector('p').textContent = meta;
-            card.appendChild(cap);
-
-            const open = () => openLightbox(idx);
-            card.addEventListener('click', open);
-            card.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
-            });
-
-            grid.appendChild(card);
-            io.observe(card);
-        });
-    }
-
-    /* ---------- Lightbox ---------- */
-
-    function setupLightboxChrome() {
-        $('lb-close').addEventListener('click', closeLightbox);
-        $('lb-prev').addEventListener('click', () => step(-1));
-        $('lb-next').addEventListener('click', () => step(1));
-        $('lb-info').addEventListener('click', toggleDetails);
-
-        $('lightbox').addEventListener('click', e => {
-            if (e.target === $('lightbox') || e.target === $('lb-stage')) closeLightbox();
-        });
-
-        // Click-to-zoom: 1:1 with pan, centred on the click point
-        $('lb-image').addEventListener('click', e => {
-            e.stopPropagation();
-            toggleZoom(e);
-        });
-
-        document.addEventListener('keydown', e => {
-            if (!$('lightbox').classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            else if (e.key === 'ArrowLeft') step(-1);
-            else if (e.key === 'ArrowRight') step(1);
-            else if (e.key.toLowerCase() === 'i') toggleDetails();
-            else if (e.key.toLowerCase() === 'z') toggleZoom();
-        });
-
-        // Swipe navigation (disabled while zoomed — scrolling pans instead)
-        let touchX = null;
-        $('lb-stage').addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
-        $('lb-stage').addEventListener('touchend', e => {
-            if (touchX === null || $('lb-stage').classList.contains('zoomed')) { touchX = null; return; }
-            const dx = e.changedTouches[0].clientX - touchX;
-            touchX = null;
-            if (Math.abs(dx) > 44) step(dx > 0 ? -1 : 1);
-        }, { passive: true });
-
-        window.addEventListener('popstate', () => {
-            if ($('lightbox').classList.contains('active') && !location.hash.startsWith('#photo=')) {
-                hideLightbox();
+    if (location.hash === '#gallery') {
+        setTimeout(() => {
+            if (window.scrollY < 100) {
+                const root = document.documentElement;
+                root.style.scrollBehavior = 'auto';
+                $('gallery').scrollIntoView();
+                root.style.scrollBehavior = '';
             }
+        }, 150);
+    }
+}
+
+function finishLoading() {
+    const el = $('page-loading');
+    el.classList.add('done');
+    setTimeout(() => el.remove(), 800);
+}
+
+/* ---------- Settings ---------- */
+
+function applySiteSettings() {
+    const grid = settings.grid || {};
+    const theme = settings.theme || {};
+    const site = settings.site || {};
+    const root = document.documentElement;
+    if (theme.accent) {
+        root.style.setProperty('--accent', theme.accent);
+        root.style.setProperty('--accent-dim', theme.accent + '59');
+        root.style.setProperty('--accent-faint', theme.accent + '1f');
+    }
+    const g = $('grid');
+    if (grid.row_height) g.style.setProperty('--row-h', grid.row_height + 'px');
+    if (grid.gutter !== undefined) g.style.setProperty('--gutter', grid.gutter + 'px');
+    g.className = 'grid ' + (['justified', 'masonry', 'uniform'].includes(grid.style) ? grid.style : 'justified')
+        + ' captions-' + (['always', 'hover', 'none'].includes(grid.captions) ? grid.captions : 'hover');
+
+    if (site.tagline) $('hero-kicker').textContent = site.tagline;
+    if (site.lede) $('hero-sub').textContent = site.lede;
+    if (site.statement) $('statement-text').textContent = site.statement;
+}
+
+/* ---------- Header ---------- */
+
+function setupHeader() {
+    const header = $('site-header');
+    const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+
+/* ---------- Hero ---------- */
+
+function renderHero() {
+    const hero = settings.hero || {};
+    const heroId = typeof hero === 'string' ? hero : hero.id;
+    const entry = all.find(i => i.id === heroId) || all[0];
+    if (!entry) return;
+
+    const media = $('hero-media');
+    media.style.backgroundColor = entry.color || '';
+    media.style.backgroundImage = `url("${entry.placeholder}")`;
+    media.style.backgroundSize = 'cover';
+    media.style.backgroundPosition = 'center';
+    const focal = (hero.focal && hero.focal.length === 2) ? hero.focal : [0.5, 0.5];
+
+    const jpg = entry.sources.jpg;
+    const avif = entry.sources.avif || [];
+    const picture = document.createElement('picture');
+    if (avif.length) {
+        const s = document.createElement('source');
+        s.type = 'image/avif';
+        s.srcset = srcsetOf(avif);
+        s.sizes = '100vw';
+        picture.appendChild(s);
+    }
+    const img = new Image();
+    img.alt = '';
+    img.srcset = srcsetOf(jpg);
+    img.sizes = '100vw';
+    img.src = '/' + encodeURI(jpg[jpg.length - 1].src);
+    img.fetchPriority = 'high';
+    img.decoding = 'async';
+    img.style.setProperty('--focal', `${focal[0] * 100}% ${focal[1] * 100}%`);
+    img.addEventListener('load', () => img.classList.add('loaded'));
+    picture.appendChild(img);
+    media.appendChild(picture);
+
+    const credit = $('hero-credit');
+    credit.textContent = [entry.title, entry.catalog].filter(Boolean).join(' · ');
+    credit.href = `/photo/${encodeURIComponent(entry.id)}/`;
+}
+
+/* ---------- URL state ---------- */
+
+function readURL() {
+    const p = new URLSearchParams(location.search);
+    filters.category = p.get('c') || 'all';
+    filters.palette = p.get('palette') || '';
+    filters.constellation = p.get('con') || '';
+    filters.year = p.get('year') || '';
+    filters.type = p.get('type') || '';
+    filters.q = p.get('q') || '';
+    filters.sort = SORTS[p.get('sort')] ? p.get('sort') : ((settings.index && settings.index.default_sort) || 'curated');
+}
+
+function writeURL() {
+    const p = new URLSearchParams();
+    if (filters.category !== 'all') p.set('c', filters.category);
+    if (filters.palette) p.set('palette', filters.palette);
+    if (filters.constellation) p.set('con', filters.constellation);
+    if (filters.year) p.set('year', filters.year);
+    if (filters.type) p.set('type', filters.type);
+    if (filters.q) p.set('q', filters.q);
+    const def = (settings.index && settings.index.default_sort) || 'curated';
+    if (filters.sort !== def) p.set('sort', filters.sort);
+    const qs = p.toString();
+    history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + (location.hash === '#gallery' ? '#gallery' : ''));
+}
+
+/* ---------- Controls ---------- */
+
+function renderControls() {
+    const index = settings.index || {};
+    const facets = Array.isArray(index.facets) ? index.facets : ['category', 'palette', 'constellation', 'year'];
+
+    // Category chips
+    const counts = {};
+    all.forEach(e => { const c = e.category || 'nebulae'; counts[c] = (counts[c] || 0) + 1; });
+    const host = $('filters');
+    host.innerHTML = '';
+    const mk = (key, label, count) => {
+        const b = document.createElement('button');
+        b.className = 'filter-btn';
+        b.dataset.filter = key;
+        b.setAttribute('role', 'tab');
+        b.textContent = label;
+        if (count !== undefined && index.show_counts !== false) {
+            const s = document.createElement('small');
+            s.textContent = count;
+            b.appendChild(s);
+        }
+        b.addEventListener('click', () => { filters.category = key; applyFilters(); });
+        host.appendChild(b);
+    };
+    mk('all', 'All', all.length);
+    Object.keys(CATEGORY_LABELS).filter(c => counts[c]).forEach(c => mk(c, CATEGORY_LABELS[c], counts[c]));
+    if (!facets.includes('category') || Object.keys(counts).length < 2) host.style.display = 'none';
+
+    // Toolbar: search, facet selects, sort
+    const bar = $('toolbar');
+    bar.innerHTML = '';
+
+    if (index.show_search !== false) {
+        const wrap = document.createElement('label');
+        wrap.className = 'control search';
+        const input = document.createElement('input');
+        input.type = 'search';
+        input.placeholder = 'Search names and catalogues';
+        input.setAttribute('aria-label', 'Search photos');
+        input.value = filters.q;
+        let t = null;
+        input.addEventListener('input', () => {
+            clearTimeout(t);
+            t = setTimeout(() => { filters.q = input.value.trim(); applyFilters(); }, 160);
         });
+        wrap.appendChild(input);
+        bar.appendChild(wrap);
+    }
 
-        // Auto-hide chrome after idle (never while the details drawer is open)
-        ['mousemove', 'touchstart', 'keydown'].forEach(evt =>
-            $('lightbox').addEventListener(evt, wakeChrome, { passive: true })
-        );
-        document.addEventListener('keydown', () => {
-            if ($('lightbox').classList.contains('active')) wakeChrome();
+    facets.filter(f => f !== 'category' && FACETS[f]).forEach(f => {
+        const def = FACETS[f];
+        const values = [...new Set(all.map(def.value).filter(Boolean))].sort();
+        if (values.length < 2) return;
+        const wrap = document.createElement('label');
+        wrap.className = 'control';
+        const sel = document.createElement('select');
+        sel.setAttribute('aria-label', def.label);
+        sel.dataset.facet = f;
+        const any = document.createElement('option');
+        any.value = '';
+        any.textContent = def.label;
+        sel.appendChild(any);
+        values.forEach(v => {
+            const o = document.createElement('option');
+            o.value = v;
+            o.textContent = def.display(v);
+            sel.appendChild(o);
         });
+        sel.value = values.includes(filters[f]) ? filters[f] : '';
+        sel.classList.toggle('set', !!sel.value);
+        sel.addEventListener('change', () => { filters[f] = sel.value; applyFilters(); });
+        wrap.appendChild(sel);
+        bar.appendChild(wrap);
+    });
+
+    const spacer = document.createElement('span');
+    spacer.className = 'spacer';
+    bar.appendChild(spacer);
+
+    const clear = document.createElement('button');
+    clear.className = 'text-link clear-filters';
+    clear.id = 'clear-filters';
+    clear.type = 'button';
+    clear.textContent = 'Clear';
+    clear.addEventListener('click', () => {
+        Object.assign(filters, { category: 'all', palette: '', constellation: '', year: '', type: '', q: '' });
+        renderControls();
+        applyFilters();
+    });
+    bar.appendChild(clear);
+
+    const sortWrap = document.createElement('label');
+    sortWrap.className = 'control';
+    const sort = document.createElement('select');
+    sort.setAttribute('aria-label', 'Sort');
+    Object.entries(SORTS).forEach(([k, v]) => {
+        const o = document.createElement('option');
+        o.value = k;
+        o.textContent = v.label;
+        sort.appendChild(o);
+    });
+    sort.value = filters.sort;
+    sort.addEventListener('change', () => { filters.sort = sort.value; applyFilters(); });
+    sortWrap.appendChild(sort);
+    bar.appendChild(sortWrap);
+}
+
+function syncControls() {
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        const active = b.dataset.filter === filters.category;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', active);
+    });
+    document.querySelectorAll('.toolbar select[data-facet]').forEach(sel => {
+        sel.classList.toggle('set', !!sel.value);
+    });
+    const dirty = filters.category !== 'all' || filters.palette || filters.constellation || filters.year || filters.type || filters.q;
+    $('clear-filters').classList.toggle('show', !!dirty);
+}
+
+/* ---------- Filtering ---------- */
+
+function matchesQuery(e, q) {
+    if (!q) return true;
+    const hay = [e.title, e.subtitle, e.catalog, e.type, e.constellation, e.palette, e.skyTarget, (e.tags || []).join(' ')]
+        .join(' ').toLowerCase();
+    return q.toLowerCase().split(/\s+/).every(w => hay.includes(w));
+}
+
+function applyFilters(opts = {}) {
+    let list = all.filter(e =>
+        (filters.category === 'all' || (e.category || 'nebulae') === filters.category) &&
+        (!filters.palette || (e.palette || '') === filters.palette) &&
+        (!filters.constellation || (e.constellation || '') === filters.constellation) &&
+        (!filters.year || (e.year || '') === filters.year) &&
+        (!filters.type || (e.type || '') === filters.type) &&
+        matchesQuery(e, filters.q)
+    );
+    const sorter = SORTS[filters.sort] && SORTS[filters.sort].fn;
+    if (sorter) list = list.slice().sort(sorter);
+    if (settings.index && settings.index.featured_first) {
+        list = [...list.filter(e => e.featured), ...list.filter(e => !e.featured)];
+    }
+    shown = list;
+
+    syncControls();
+    if (opts.replaceUrl !== false) writeURL();
+    $('collection-count').textContent = shown.length + (shown.length === 1 ? ' photo' : ' photos');
+    renderGrid();
+
+    if (viewer) viewer.lightbox.destroy();
+    viewer = createViewer(shown, { pushUrls: true });
+}
+
+/* ---------- Grid ---------- */
+
+function captionFields() {
+    const g = settings.grid || {};
+    return Array.isArray(g.caption_fields) && g.caption_fields.length ? g.caption_fields : ['title', 'catalog', 'integration'];
+}
+
+function captionValue(entry, field) {
+    switch (field) {
+        case 'title': return entry.title;
+        case 'catalog': return entry.catalog;
+        case 'integration': return integrationLabel(entry);
+        case 'palette': return entry.palette;
+        case 'constellation': return entry.constellation;
+        case 'type': return entry.type;
+        case 'date': return formatDate(entry.date) || entry.year;
+        case 'distance': return entry.distance;
+        default: return '';
+    }
+}
+
+function renderGrid() {
+    const grid = $('grid');
+    grid.innerHTML = '';
+
+    if (!shown.length) {
+        grid.innerHTML = '<p class="grid-empty">Nothing matches. Try clearing a filter.</p>';
+        return;
     }
 
-    let chromeTimer = null;
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+            if (en.isIntersecting) { en.target.classList.add('in-view'); io.unobserve(en.target); }
+        });
+    }, { rootMargin: '200px 0px', threshold: 0 });
 
-    function wakeChrome() {
-        const lb = $('lightbox');
-        lb.classList.remove('chrome-hidden');
-        clearTimeout(chromeTimer);
-        chromeTimer = setTimeout(() => {
-            if (!lb.classList.contains('active')) return;
-            if ($('lb-details').classList.contains('open')) return;
-            lb.classList.add('chrome-hidden');
-        }, 3000);
-    }
+    const fields = captionFields();
 
-    function toggleZoom(e) {
-        const stage = $('lb-stage');
-        const img = $('lb-image');
-        const zoomingIn = !stage.classList.contains('zoomed');
+    shown.forEach((entry, idx) => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = `/photo/${encodeURIComponent(entry.id)}/`;
+        card.setAttribute('aria-label', entry.title);
+        card.style.setProperty('--ar', (entry.width / entry.height).toFixed(4));
+        card.style.setProperty('--ph-color', entry.color || '#0e1013');
+        card.style.setProperty('--ph-image', `url("${entry.placeholder}")`);
+        const focal = entry.layout && entry.layout.focal;
+        if (focal && focal.length === 2) card.style.setProperty('--focal', `${focal[0] * 100}% ${focal[1] * 100}%`);
+        const span = entry.layout && entry.layout.span;
+        if (entry.featured || span >= 2) card.classList.add(entry.width / entry.height >= 1.6 || span === 3 ? 'full' : 'span-2');
 
-        if (zoomingIn) {
-            // Remember where the user clicked, as a fraction of the displayed image
-            const rect = img.getBoundingClientRect();
-            const fx = e ? (e.clientX - rect.left) / rect.width : 0.5;
-            const fy = e ? (e.clientY - rect.top) / rect.height : 0.5;
-            stage.classList.add('zoomed');
-            stage.scrollLeft = img.clientWidth * fx - stage.clientWidth / 2;
-            stage.scrollTop = img.clientHeight * fy - stage.clientHeight / 2;
-        } else {
-            stage.classList.remove('zoomed');
+        const picture = document.createElement('picture');
+        const avif = entry.sources.avif || [];
+        const jpg = entry.sources.jpg;
+        if (avif.length) {
+            const s = document.createElement('source');
+            s.type = 'image/avif';
+            s.srcset = srcsetOf(avif);
+            s.sizes = GRID_SIZES;
+            picture.appendChild(s);
         }
-    }
-
-    function openFromHash() {
-        const m = location.hash.match(/^#photo=(.+)$/);
-        if (!m) return;
-        const id = decodeURIComponent(m[1]);
-        const idx = shown.findIndex(i => i.id === id);
-        if (idx >= 0 && lbIndex !== idx) {
-            openedViaHash = true;
-            openLightbox(idx, { pushed: true });
-        }
-    }
-
-    function openLightbox(idx, opts = {}) {
-        lbIndex = idx;
-        const lb = $('lightbox');
-        lb.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        if (!opts.pushed) {
-            history.pushState(null, '', '#photo=' + encodeURIComponent(shown[idx].id));
-        }
-        showEntry();
-        wakeChrome();
-    }
-
-    function showEntry() {
-        const entry = shown[lbIndex];
-        if (!entry) return;
-
-        $('lb-stage').classList.remove('zoomed');
-        const img = $('lb-image');
-        img.classList.remove('loaded');
-        img.alt = entry.title;
-        img.srcset = srcsetAttr(entry);
-        img.sizes = '92vw';
-        img.src = largest(entry).src;
-        if (img.complete) img.classList.add('loaded');
+        const img = document.createElement('img');
+        img.alt = entry.alt || `${entry.title}${entry.catalog ? ' — ' + entry.catalog : ''}`;
+        img.loading = idx < 4 ? 'eager' : 'lazy';
+        if (idx < 2) img.fetchPriority = 'high';
+        img.decoding = 'async';
+        img.width = entry.width;
+        img.height = entry.height;
+        img.srcset = srcsetOf(jpg);
+        img.sizes = GRID_SIZES;
+        img.src = '/' + encodeURI(jpg[0].src);
+        if (img.complete && img.naturalWidth) img.classList.add('loaded');
         else img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+        picture.appendChild(img);
+        card.appendChild(picture);
 
-        $('lb-title').textContent = entry.title;
+        const cap = document.createElement('figcaption');
+        cap.className = 'card-caption';
+        const title = document.createElement('span');
+        title.className = 'c-title';
+        title.textContent = captionValue(entry, fields[0]) || entry.title;
+        const sub = document.createElement('span');
+        sub.className = 'c-sub';
+        sub.textContent = fields.slice(1).map(f => captionValue(entry, f)).filter(Boolean).join(' · ');
+        cap.append(title, sub);
+        card.appendChild(cap);
 
-        const metaBits = [entry.catalog, entry.constellation, entry.distance]
-            .filter(Boolean)
-            .map(t => `<span></span>`);
-        $('lb-meta').innerHTML = metaBits.join('');
-        [entry.catalog, entry.constellation, entry.distance].filter(Boolean)
-            .forEach((t, i) => { $('lb-meta').children[i].textContent = t; });
-
-        $('lb-counter').textContent = `${lbIndex + 1} / ${shown.length}`;
-
-        const sky = $('lb-sky');
-        if (entry.skyTarget) {
-            sky.hidden = false;
-            sky.href = 'explore.html?goto=' + encodeURIComponent(entry.skyTarget);
-        } else {
-            sky.hidden = true;
-        }
-        $('lb-full').href = entry.original;
-
-        renderDetails(entry);
-        history.replaceState(null, '', '#photo=' + encodeURIComponent(entry.id));
-
-        // Preload neighbours
-        [lbIndex - 1, lbIndex + 1].forEach(i => {
-            const n = shown[(i + shown.length) % shown.length];
-            if (n) { const pre = new Image(); pre.src = largest(n).src; }
+        card.addEventListener('click', (e) => {
+            if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return; // let new-tab clicks through
+            e.preventDefault();
+            viewer.open(idx);
         });
+
+        grid.appendChild(card);
+        io.observe(card);
+    });
+}
+
+/* Legacy deep links: index.html#photo=<id> (older shares and explore.html) */
+function openFromLegacyHash() {
+    const m = location.hash.match(/^#photo=(.+)$/);
+    if (!m) return;
+    const id = decodeURIComponent(m[1]);
+    history.replaceState(null, '', location.pathname + location.search);
+    if (!shown.some(e => e.id === id)) {
+        Object.assign(filters, { category: 'all', palette: '', constellation: '', year: '', type: '', q: '' });
+        renderControls();
+        applyFilters();
     }
-
-    function renderDetails(entry) {
-        $('lb-description').textContent = entry.description || '';
-        $('lb-description').style.display = entry.description ? '' : 'none';
-
-        const specs = [];
-        if (entry.type) specs.push(['Object Type', entry.type]);
-        if (entry.constellation) specs.push(['Constellation', entry.constellation]);
-        if (entry.distance) specs.push(['Distance', entry.distance]);
-
-        // Astrometry from the celestial catalog, when the object resolves
-        if (entry.skyTarget && typeof findCelestialObject === 'function') {
-            const obj = findCelestialObject(entry.skyTarget);
-            if (obj) specs.push(['Position', formatRA(obj.ra) + '  ·  ' + formatDec(obj.dec)]);
-        }
-
-        const cap = entry.capture || {};
-        const captureLabels = {
-            telescope: 'Telescope', camera: 'Camera', mount: 'Mount',
-            filters: 'Filters', integration: 'Integration', date: 'Captured', location: 'Location'
-        };
-        Object.keys(captureLabels).forEach(k => {
-            if (cap[k]) specs.push([captureLabels[k], cap[k]]);
-        });
-        if (entry.width && entry.height) {
-            specs.push(['Resolution', `${entry.width.toLocaleString()} × ${entry.height.toLocaleString()} px`]);
-        }
-
-        const host = $('lb-specs');
-        host.innerHTML = '';
-        specs.forEach(([dt, dd]) => {
-            const wrap = document.createElement('div');
-            wrap.className = 'lb-spec';
-            const dtEl = document.createElement('dt');
-            dtEl.textContent = dt;
-            const ddEl = document.createElement('dd');
-            ddEl.textContent = dd;
-            wrap.append(dtEl, ddEl);
-            host.appendChild(wrap);
-        });
-    }
-
-    function toggleDetails() {
-        const details = $('lb-details');
-        const open = !details.classList.contains('open');
-        details.classList.toggle('open', open);
-        $('lb-info').classList.toggle('toggled', open);
-        $('lb-info').setAttribute('aria-expanded', open);
-    }
-
-    function step(dir) {
-        lbIndex = (lbIndex + dir + shown.length) % shown.length;
-        showEntry();
-    }
-
-    function closeLightbox() {
-        if (location.hash.startsWith('#photo=') && !openedViaHash) {
-            history.back();               // pops our pushed state; popstate handler hides
-        } else {
-            history.replaceState(null, '', location.pathname + location.search);
-            hideLightbox();
-        }
-    }
-
-    function hideLightbox() {
-        $('lightbox').classList.remove('active');
-        $('lightbox').classList.remove('chrome-hidden');
-        $('lb-stage').classList.remove('zoomed');
-        $('lb-details').classList.remove('open');
-        $('lb-info').classList.remove('toggled');
-        clearTimeout(chromeTimer);
-        document.body.style.overflow = '';
-        lbIndex = -1;
-        openedViaHash = false;
-    }
-
-    /* ---------- Helpers ---------- */
-
-    function formatRA(ra) {
-        const hours = ra / 15;
-        const h = Math.floor(hours);
-        const m = Math.round((hours - h) * 60);
-        return `RA ${h}ʰ ${String(m).padStart(2, '0')}ᵐ`;
-    }
-
-    function formatDec(dec) {
-        const sign = dec < 0 ? '−' : '+';
-        const abs = Math.abs(dec);
-        const d = Math.floor(abs);
-        const m = Math.round((abs - d) * 60);
-        return `Dec ${sign}${d}° ${String(m).padStart(2, '0')}′`;
-    }
-
-    function srcsetAttr(entry) {
-        return entry.srcset.map(s => `${encodeURI(s.src)} ${s.w}w`).join(', ');
-    }
-
-    function largest(entry) {
-        return entry.srcset[entry.srcset.length - 1];
-    }
-})();
+    viewer.openId(id);
+}

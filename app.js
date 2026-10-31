@@ -108,16 +108,18 @@ async function loadPhotos() {
         const res = await fetch('gallery.json', { cache: 'no-cache' });
         const manifest = await res.json();
         (manifest.images || [])
-            .filter(img => img.visible !== false && img.skyTarget)
+            .filter(img => img.visible !== false && (img.skyTarget || (img.solve && img.solve.status === 'solved')))
             .forEach(img => {
-                const obj = findCelestialObject(img.skyTarget);
-                if (!obj) return;
-                byKey.set(obj.key, {
-                    id: obj.key,
+                const obj = img.skyTarget ? findCelestialObject(img.skyTarget) : null;
+                const solved = img.solve && img.solve.status === 'solved' ? img.solve : null;
+                if (!obj && !solved) return;
+                const key = obj ? obj.key : 'photo:' + img.id;
+                byKey.set(key, {
+                    id: key,
                     name: img.title,
-                    ra: obj.ra,
-                    dec: obj.dec,
-                    type: img.type || obj.type || '',
+                    ra: solved ? solved.ra : obj.ra,      // the plate-solved centre beats the catalogue
+                    dec: solved ? solved.dec : obj.dec,
+                    type: img.type || (obj && obj.type) || '',
                     meta: [img.catalog, img.constellation, img.distance].filter(Boolean),
                     description: img.description || '',
                     viewerUrl: viewerSizeFrom(img),

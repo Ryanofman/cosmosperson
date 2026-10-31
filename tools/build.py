@@ -10,7 +10,10 @@ What it does
      (titles, text, acquisition data, order, visibility, settings).
   4. Pre-renders one page per photo at photo/<id>/index.html from
      tools/templates/photo.html, plus sitemap.xml.
-  5. Removes orphaned derivatives from gallery/_web/.
+  5. Builds a Deep Zoom tile pyramid per photo (and per version) under tiles/.
+  6. Optionally plate-solves photos through nova.astrometry.net when
+     ASTROMETRY_API_KEY is set (see tools/solve.py).
+  7. Removes orphaned derivatives, tiles and pages.
 
 Idempotent and incremental: existing derivatives are kept unless --force.
 Runs the same way on a laptop and in GitHub Actions. Needs Python 3.10+ and
@@ -19,16 +22,22 @@ Pillow 11.3+ (AVIF support is built in from that version).
     python tools/build.py            # build what is missing
     python tools/build.py --force    # rebuild every derivative
     python tools/build.py --no-pages # skip page rendering
+    python tools/build.py --no-tiles # skip the deep-zoom pyramids
+    ASTROMETRY_API_KEY=... python tools/build.py --solve-limit 3
 """
 
 from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import html
 import io
 import json
+import math
+import os
 import re
+import shutil
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -55,11 +64,20 @@ SITE_NAME = "Cosmos Person"
 
 # Long-edge targets. 640/1024 feed the grid, 1600/2400/3200 the viewer and pages.
 SIZES = [640, 1024, 1600, 2400, 3200]
+HERO_SIZE = 5120           # one extra size for the hero photo only, so a wide band stays sharp on big screens
 EXPLORE_SIZE = 1600
 AVIF_QUALITY = 70          # measured 30 Oct 2026: q65-75 ≈ JPEG q82 4:4:4 fidelity at ~40 % smaller
 AVIF_SPEED = 6
 JPEG_QUALITY = 85
 PLACEHOLDER_EDGE = 24
+
+# Deep Zoom (DZI) pyramids for the OpenSeadragon viewer
+TILES_DIR = ROOT / "tiles"
+TILE_SIZE = 256
+TILE_OVERLAP = 1
+TILE_FORMAT = "webp"       # decoded by every current browser; ~30 % smaller than JPEG at equal quality
+TILE_QUALITY = 88
+TILE_MAX_EDGE = 6000       # default long edge of a pyramid; settings.tiles.max_edge / per-photo zoom.max_edge override
 
 Image.MAX_IMAGE_PIXELS = None  # large mosaics are expected and trusted (local files)
 
@@ -72,7 +90,20 @@ CATEGORY_LABELS = {
 }
 
 DEFAULT_SETTINGS = {
-    "hero": {"id": "", "focal": [0.5, 0.5]},
+    "hero": {
+        "id": "",                     # photo id; empty = first photo
+        "version": "",                # a version id (e.g. "starless") or empty for the main image
+        "focal": [0.5, 0.5],          # crop focus, 0-1 from the left / top (cover mode)
+        "focal_mobile": None,         # optional separate focus for phones
+        "fit": "cover",               # cover: crop to the band | frame: show the whole (wide) image
+        "height": 88,                 # band height in vh; in frame mode this is the cap
+        "height_mobile": 78,
+        "scrim": 1.0,                 # darkening of the gradient over the image, 0 (none) to 1.5
+        "text": "center",             # center | bottom | below
+        "motion": True,               # slow settle on load
+        "credit": True,               # show the photo title at the bottom right
+        "anchor": None,               # {"point": [x, y], "x": 0.5, "gap": 24}: that point of the image always sits just below the buttons
+    },
     "grid": {
         "style": "justified",          # justified | masonry | uniform
         "row_height": 300,             # target row height on desktop, px
@@ -87,6 +118,8 @@ DEFAULT_SETTINGS = {
         "show_search": True,
     },
     "viewer": {"open_as": "overlay", "show_card": True},
+    "tiles": {"max_edge": TILE_MAX_EDGE, "base": ""},   # base "" = this site; later e.g. an R2 bucket URL
+    "sky": {"survey": "P/DSS2/color"},                    # survey behind the Sky panel on photo pages
     "theme": {"accent": "#7cd1c8"},
     "site": {
         "title": "Cosmos Person",
@@ -118,6 +151,40 @@ EMPTY_ACQUISITION = {
 # Metadata for originals that are in gallery/ but were never in the manifest.
 # Anything already in gallery.json wins over this table.
 KNOWN_ORIGINALS = {
+    "MW1.jpg": {
+        "id": "milky-way",
+        "title": "The Milky Way",
+        "rotate": 180,              # the file is stored upside down (orientation tag says normal)
+        "catalog": "",
+        "type": "Milky Way",
+        "category": "wide-field",
+        "constellation": "",
+        "distance": "",
+        "skyTarget": "",
+        "description": "",
+    },
+    "IC1396_2xUpsampled_Starreduced.jpg": {
+        "id": "elephants-trunk",
+        "title": "The Elephant's Trunk Nebula",
+        "catalog": "IC 1396",
+        "type": "Emission Nebula",
+        "category": "nebulae",
+        "constellation": "Cepheus",
+        "distance": "≈ 2,400 light-years",
+        "skyTarget": "IC1396",
+        "description": "",
+    },
+    "M33_Finalized_2XResampled.jpg": {
+        "id": "triangulum",
+        "title": "The Triangulum Galaxy",
+        "catalog": "Messier 33",
+        "type": "Spiral Galaxy",
+        "category": "galaxies",
+        "constellation": "Triangulum",
+        "distance": "≈ 2.7 million light-years",
+        "skyTarget": "M33",
+        "description": "",
+    },
     "Beautiful_3xUpsampled_Eagle_SHO.jpg": {
         "id": "eagle",
         "title": "The Eagle Nebula",
@@ -148,6 +215,41 @@ KNOWN_ORIGINALS = {
 # ----------------------------------------------------------------------------
 # Imaging helpers
 # ----------------------------------------------------------------------------
+
+def strip_jpeg_metadata(path: Path) -> bool:
+    """Drop EXIF and XMP (APP1) segments from a JPEG without re-encoding it, keeping the
+    ICC profile. Originals are served as downloads, so a camera serial must never ship.
+    Returns True when the file was rewritten."""
+    data = path.read_bytes()
+    if data[:2] != b"\xff\xd8":
+        return False
+    out = bytearray(b"\xff\xd8")
+    i = 2
+    changed = False
+    while i + 4 <= len(data):
+        if data[i] != 0xFF:
+            out += data[i:]
+            break
+        marker = data[i + 1]
+        if marker == 0xD8 or 0xD0 <= marker <= 0xD7 or marker == 0x01 or marker == 0xFF:
+            out += data[i:i + 2]
+            i += 2
+            continue
+        if marker == 0xDA:                      # start of scan: the rest is image data
+            out += data[i:]
+            break
+        seg_len = int.from_bytes(data[i + 2:i + 4], "big")
+        seg = data[i:i + 2 + seg_len]
+        payload = seg[4:]
+        if marker == 0xE1 and (payload.startswith(b"Exif\x00") or payload.startswith(b"http://ns.adobe.com/xap/")):
+            changed = True                      # dropped
+        else:
+            out += seg
+        i += 2 + seg_len
+    if changed:
+        path.write_bytes(bytes(out))
+    return changed
+
 
 def load_image(path: Path) -> Image.Image:
     """Open, honour EXIF orientation, convert to sRGB, drop everything else."""
@@ -207,6 +309,138 @@ def average_color(img: Image.Image) -> str:
     px = img.resize((1, 1), Image.LANCZOS).getpixel((0, 0))
     r, g, b = (max(0, int(c * 0.6)) for c in px[:3])
     return f"#{r:02x}{g:02x}{b:02x}"
+
+
+def file_hash(path: Path) -> str:
+    h = hashlib.sha1()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()[:16]
+
+
+def make_derivatives(img: Image.Image, stem: str, force: bool, referenced: set,
+                     sizes: list | None = None) -> tuple[list, list]:
+    """AVIF + JPEG at every size in SIZES (never upscaled) into gallery/_web/<stem>-<size>.<fmt>."""
+    w, h = img.size
+    avif_list, jpg_list = [], []
+    have_avif = True
+    for target in (sizes or SIZES):
+        derived = None
+        for fmt, store in (("avif", avif_list), ("jpg", jpg_list)):
+            out_path = GALLERY_WEB / f"{stem}-{target}.{fmt}"
+            if force or not out_path.exists():
+                if derived is None:
+                    derived = resize_long_edge(img, target)
+                if fmt == "avif":
+                    if have_avif:
+                        have_avif = save_avif(derived, out_path)
+                else:
+                    save_jpeg(derived, out_path)
+            if out_path.exists():
+                dw, dh = Image.open(out_path).size
+                store.append({
+                    "src": f"gallery/_web/{out_path.name}",
+                    "w": dw,
+                    "h": dh,
+                    "bytes": out_path.stat().st_size,
+                })
+                referenced.add(out_path.name)
+        if max(w, h) <= target:
+            break  # never upscale
+    return avif_list, jpg_list
+
+
+def tile_signature(src_hash: str, max_edge: int, rotate: int = 0) -> str:
+    return f"{src_hash}:{rotate}:{max_edge}:{TILE_SIZE}:{TILE_OVERLAP}:{TILE_FORMAT}:{TILE_QUALITY}"
+
+
+def apply_rotation(img: Image.Image, rotate: int) -> Image.Image:
+    """rotate = clockwise degrees (0, 90, 180, 270) from the manifest; the file itself is left alone."""
+    rot = int(rotate or 0) % 360
+    if rot == 0:
+        return img
+    return img.rotate(-rot, expand=True)
+
+
+def build_tiles(img: Image.Image, photo_id: str, version: str, max_edge: int,
+                signature: str, previous: dict | None, force: bool) -> dict:
+    """Deep Zoom pyramid at tiles/<id>/<version>_files/<level>/<col>_<row>.webp + tiles/<id>/<version>.dzi.
+
+    Rebuilt only when the original's bytes or the tile settings change, so the
+    GitHub Action never re-encodes (and re-commits) an unchanged pyramid.
+    """
+    out_dir = TILES_DIR / photo_id / f"{version}_files"
+    dzi_path = TILES_DIR / photo_id / f"{version}.dzi"
+    if (not force and previous and previous.get("signature") == signature
+            and dzi_path.exists() and out_dir.exists()):
+        return previous
+
+    base = resize_long_edge(img, max_edge)
+    w, h = base.size
+    levels = math.ceil(math.log2(max(w, h))) + 1
+    if out_dir.exists():
+        shutil.rmtree(out_dir)
+    out_dir.mkdir(parents=True)
+    count = 0
+    total = 0
+    for level in range(levels - 1, -1, -1):
+        scale = 2 ** (levels - 1 - level)
+        lw, lh = max(1, math.ceil(w / scale)), max(1, math.ceil(h / scale))
+        level_img = base if (lw, lh) == (w, h) else base.resize((lw, lh), Image.LANCZOS, reducing_gap=2.0)
+        ldir = out_dir / str(level)
+        ldir.mkdir()
+        cols, rows = math.ceil(lw / TILE_SIZE), math.ceil(lh / TILE_SIZE)
+        for col in range(cols):
+            for row in range(rows):
+                x0 = max(0, col * TILE_SIZE - TILE_OVERLAP)
+                y0 = max(0, row * TILE_SIZE - TILE_OVERLAP)
+                x1 = min(lw, (col + 1) * TILE_SIZE + TILE_OVERLAP)
+                y1 = min(lh, (row + 1) * TILE_SIZE + TILE_OVERLAP)
+                tile_path = ldir / f"{col}_{row}.{TILE_FORMAT}"
+                level_img.crop((x0, y0, x1, y1)).save(tile_path, "WEBP", quality=TILE_QUALITY, method=4)
+                count += 1
+                total += tile_path.stat().st_size
+    dzi_path.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        f'<Image xmlns="http://schemas.microsoft.com/deepzoom/2008" Format="{TILE_FORMAT}" '
+        f'Overlap="{TILE_OVERLAP}" TileSize="{TILE_SIZE}">\n  <Size Width="{w}" Height="{h}"/>\n</Image>\n',
+        encoding="utf-8",
+    )
+    print(f"     tiles {version}: {w}x{h}, {levels} levels, {count} tiles, {total / 1e6:.1f} MB")
+    return {
+        "dzi": f"tiles/{photo_id}/{version}.dzi",
+        "files": f"tiles/{photo_id}/{version}_files/",
+        "width": w,
+        "height": h,
+        "tile_size": TILE_SIZE,
+        "overlap": TILE_OVERLAP,
+        "format": TILE_FORMAT,
+        "levels": levels,
+        "tiles": count,
+        "bytes": total,
+        "signature": signature,
+    }
+
+
+def remove_orphan_tiles(manifest_images: list) -> None:
+    if not TILES_DIR.exists():
+        return
+    keep: dict[str, set] = {}
+    for e in manifest_images:
+        keep[e["id"]] = set((e.get("tiles") or {}).keys())
+    for d in TILES_DIR.iterdir():
+        if not d.is_dir():
+            continue
+        if d.name not in keep:
+            shutil.rmtree(d)
+            print(f"  -- removed tiles for {d.name}")
+            continue
+        for item in d.iterdir():
+            name = item.name[:-6] if item.name.endswith("_files") else item.stem
+            if name not in keep[d.name]:
+                shutil.rmtree(item) if item.is_dir() else item.unlink()
+                print(f"  -- removed tiles {d.name}/{item.name}")
 
 
 def slugify(name: str) -> str:
@@ -271,6 +505,7 @@ def migrate_entry(prev: dict) -> dict:
     entry.setdefault("badges", [])
     entry.setdefault("layout", {"span": 1, "focal": [0.5, 0.5]})
     entry.setdefault("visible", True)
+    entry.setdefault("versions", [])        # [{"id": "hoo", "label": "HOO", "original": "gallery/x.jpg"}]
     return entry
 
 
@@ -347,6 +582,32 @@ def lookup_object(db: dict, name: str):
     return db.get(key2)
 
 
+def entry_coords(entry: dict, db: dict):
+    """(ra, dec) in degrees: the plate solve when there is one, else the catalogue."""
+    solve = entry.get("solve") or {}
+    if solve.get("status") == "solved" and "ra" in solve and "dec" in solve:
+        return (float(solve["ra"]), float(solve["dec"]))
+    return lookup_object(db, entry.get("skyTarget") or entry.get("catalog", ""))
+
+
+def angular_separation(a, b) -> float:
+    """Great-circle distance in degrees between two (ra, dec) pairs."""
+    ra1, dec1, ra2, dec2 = (math.radians(x) for x in (a[0], a[1], b[0], b[1]))
+    h = (math.sin((dec2 - dec1) / 2) ** 2
+         + math.cos(dec1) * math.cos(dec2) * math.sin((ra2 - ra1) / 2) ** 2)
+    return math.degrees(2 * math.asin(min(1.0, math.sqrt(h))))
+
+
+def format_fov(fov) -> str:
+    try:
+        w, h = float(fov[0]), float(fov[1])
+    except (TypeError, ValueError, IndexError):
+        return ""
+    if max(w, h) >= 1:
+        return f"{w:.1f}° × {h:.1f}°"
+    return f"{w * 60:.0f}′ × {h * 60:.0f}′"
+
+
 def format_ra(ra: float) -> str:
     hours = ra / 15
     h = int(hours)
@@ -370,10 +631,20 @@ def format_dec(dec: float) -> str:
 # Portfolio build
 # ----------------------------------------------------------------------------
 
-def build_portfolio(force: bool, previous: dict) -> dict:
+def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
     prev_images = previous.get("images", []) if previous.get("version") in (2, 3) else []
     prev_by_id = {img["id"]: img for img in prev_images}
     prev_order = [img["id"] for img in prev_images]
+    settings = migrate_settings(previous)
+    default_max_edge = int((settings.get("tiles") or {}).get("max_edge") or TILE_MAX_EDGE)
+
+    # Files that are alternate versions of a photo are never their own entry
+    version_files: set[str] = set()
+    for img in prev_images:
+        for v in img.get("versions") or []:
+            orig = str(v.get("original", ""))
+            if orig.startswith("gallery/"):
+                version_files.add(orig.split("/", 1)[1])
 
     # The list of originals: manifest order first, then anything new in gallery/
     filenames: list[str] = []
@@ -382,7 +653,8 @@ def build_portfolio(force: bool, previous: dict) -> dict:
         if orig.startswith("gallery/"):
             filenames.append(orig.split("/", 1)[1])
     for p in sorted(GALLERY_DIR.iterdir()):
-        if p.is_file() and p.suffix.lower() in {".jpg", ".jpeg", ".png"} and p.name not in filenames:
+        if (p.is_file() and p.suffix.lower() in {".jpg", ".jpeg", ".png"}
+                and p.name not in filenames and p.name not in version_files):
             filenames.append(p.name)
 
     images = []
@@ -390,7 +662,21 @@ def build_portfolio(force: bool, previous: dict) -> dict:
     for filename in filenames:
         src = GALLERY_DIR / filename
         if not src.exists():
-            print(f"  !! missing original, skipping: {filename}")
+            # Never throw away what was typed by hand: keep the entry, hidden and
+            # flagged, and leave its existing web files alone. Delete it in the
+            # admin (or from gallery.json) once the removal is deliberate.
+            prev = next((e for e in prev_images if e.get("original") == f"gallery/{filename}"), None)
+            if prev is not None:
+                kept = migrate_entry(prev)
+                kept["visible"] = False
+                kept["missing_original"] = True
+                for lst in (kept.get("sources") or {}).values():
+                    for item in lst:
+                        referenced.add(Path(item["src"]).name)
+                images.append(kept)
+                print(f"  !! original missing for '{kept['id']}' ({filename}); entry kept but hidden")
+            else:
+                print(f"  !! missing original, skipping: {filename}")
             continue
 
         known = KNOWN_ORIGINALS.get(filename, {})
@@ -401,36 +687,64 @@ def build_portfolio(force: bool, previous: dict) -> dict:
             prev = {"id": img_id, **base}
         entry = migrate_entry(prev)
         img_id = entry["id"]
+        if entry.pop("missing_original", False):
+            entry["visible"] = True
+            print(f"     original is back for '{img_id}'; shown again")
 
-        img = load_image(src)
+        if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+            print(f"     stripped EXIF/XMP from the original {src.name}")
+        rotate = int(entry.get("rotate") or 0) % 360
+        src_hash = file_hash(src)
+        source_sig = f"{src_hash}:{rotate}"
+        # Web versions are regenerated when the file's bytes or the rotation change
+        # (a replaced file with the same name, for example), not only when missing.
+        entry_force = force or entry.get("source") != source_sig
+        img = apply_rotation(load_image(src), rotate)
         w, h = img.size
-        print(f"  {img_id:<22} {w}x{h}")
+        print(f"  {img_id:<22} {w}x{h}" + (f" (rotated {rotate}°)" if rotate else "") + (" rebuilding" if entry_force and not force else ""))
 
-        avif_list, jpg_list = [], []
-        have_avif = True
-        for target in SIZES:
-            derived = None
-            for fmt, store in (("avif", avif_list), ("jpg", jpg_list)):
-                out_path = GALLERY_WEB / f"{img_id}-{target}.{fmt}"
-                if force or not out_path.exists():
-                    if derived is None:
-                        derived = resize_long_edge(img, target)
-                    if fmt == "avif":
-                        if have_avif:
-                            have_avif = save_avif(derived, out_path)
-                    else:
-                        save_jpeg(derived, out_path)
-                if out_path.exists():
-                    dw, dh = Image.open(out_path).size
-                    store.append({
-                        "src": f"gallery/_web/{out_path.name}",
-                        "w": dw,
-                        "h": dh,
-                        "bytes": out_path.stat().st_size,
-                    })
-                    referenced.add(out_path.name)
-            if max(w, h) <= target:
-                break  # never upscale
+        is_hero = img_id == (settings.get("hero") or {}).get("id")
+        avif_list, jpg_list = make_derivatives(img, img_id, entry_force, referenced,
+                                               SIZES + [HERO_SIZE] if is_hero else None)
+        entry["source"] = source_sig
+
+        # Deep-zoom pyramid for the main image
+        max_edge = int((entry.get("zoom") or {}).get("max_edge") or default_max_edge)
+        prev_tiles = entry.get("tiles") or {}
+        tile_info: dict = {}
+        if tiles:
+            sig = tile_signature(src_hash, max_edge, rotate)
+            tile_info["main"] = build_tiles(img, img_id, "main", max_edge, sig, prev_tiles.get("main"), force)
+        else:
+            tile_info = prev_tiles
+
+        # Alternate versions (other palettes, starless, single filter ...)
+        versions = []
+        for v in entry.get("versions") or []:
+            vorig = str(v.get("original", ""))
+            vsrc = ROOT / vorig
+            if not vorig or not vsrc.exists():
+                print(f"     !! version file missing, skipping: {vorig}")
+                continue
+            vid = slugify(v.get("id") or v.get("label") or vsrc.stem)
+            if vsrc.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(vsrc):
+                print(f"     stripped EXIF/XMP from the original {vsrc.name}")
+            v_hash = file_hash(vsrc)
+            v_sig = f"{v_hash}:{rotate}"
+            v_force = force or v.get("source") != v_sig
+            vimg = apply_rotation(load_image(vsrc), rotate)
+            vw, vh = vimg.size
+            v_avif, v_jpg = make_derivatives(vimg, f"{img_id}--{vid}", v_force, referenced)
+            version = {**v, "id": vid, "label": v.get("label") or vid.upper(), "original": vorig,
+                       "width": vw, "height": vh, "bytes": vsrc.stat().st_size,
+                       "sources": {"avif": v_avif, "jpg": v_jpg}, "source": v_sig}
+            if tiles:
+                vsig = tile_signature(v_hash, max_edge, rotate)
+                tile_info[vid] = build_tiles(vimg, img_id, vid, max_edge, vsig, prev_tiles.get(vid), force)
+            versions.append(version)
+            print(f"     version {vid}: {vw}x{vh}")
+        if not tiles:
+            tile_info = {k: v for k, v in prev_tiles.items() if k == "main" or any(x["id"] == k for x in versions)}
 
         entry.update({
             "title": entry.get("title") or Path(filename).stem,
@@ -449,8 +763,15 @@ def build_portfolio(force: bool, previous: dict) -> dict:
             "srcset": [{"src": s["src"], "w": s["w"]} for s in jpg_list],   # kept for explore.html
             "sources": {"avif": avif_list, "jpg": jpg_list},
         })
+        entry["versions"] = versions
+        if tile_info:
+            entry["tiles"] = tile_info
+        else:
+            entry.pop("tiles", None)
         entry["integration_seconds"] = integration_seconds(entry["acquisition"])
         entry["year"] = year_of(entry)
+
+        # Download ladder: full resolution, then the large and medium web JPEGs
         entry["downloads"] = [{
             "label": "Full resolution JPEG",
             "url": entry["original"],
@@ -458,14 +779,20 @@ def build_portfolio(force: bool, previous: dict) -> dict:
             "height": h,
             "bytes": src.stat().st_size,
         }]
-        if jpg_list and jpg_list[-1]["w"] < w:
-            big = jpg_list[-1]
+        for size, label in ((HERO_SIZE, "Extra large JPEG"), (3200, "Large JPEG"), (1600, "Medium JPEG")):
+            if size >= max(w, h):
+                continue
+            d = next((j for j in jpg_list if max(j["w"], j["h"]) == size), None)
+            if d:
+                entry["downloads"].append({"label": label, "url": d["src"], "width": d["w"],
+                                           "height": d["h"], "bytes": d["bytes"]})
+        for v in versions:
             entry["downloads"].append({
-                "label": "Large JPEG",
-                "url": big["src"],
-                "width": big["w"],
-                "height": big["h"],
-                "bytes": big["bytes"],
+                "label": f"Full resolution JPEG · {v['label']}",
+                "url": v["original"],
+                "width": v["width"],
+                "height": v["height"],
+                "bytes": v["bytes"],
             })
         images.append(entry)
 
@@ -476,7 +803,9 @@ def build_portfolio(force: bool, previous: dict) -> dict:
                 f.unlink()
                 print(f"  -- removed orphan derivative {f.name}")
 
-    settings = migrate_settings(previous)
+    if tiles:
+        remove_orphan_tiles(images)
+
     ids = {e["id"] for e in images}
     if settings["hero"].get("id") not in ids:
         settings["hero"]["id"] = "california" if "california" in ids else (images[0]["id"] if images else "")
@@ -499,9 +828,13 @@ def build_explore_derivatives(force: bool) -> None:
             continue
         out_path = IMAGES_WEB / f"{src.stem}-{EXPLORE_SIZE}.jpg"
         if not force and out_path.exists():
+            if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+                print(f"     stripped EXIF/XMP from the original {src.name}")
             count += 1
             continue
         try:
+            if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+                print(f"     stripped EXIF/XMP from the original {src.name}")
             img = load_image(src)
         except Exception as exc:
             print(f"  !! unreadable, skipping: {src.name} ({exc})")
@@ -556,9 +889,16 @@ def card_rows(entry: dict, db: dict) -> str:
         obj.append(("Constellation", entry["constellation"]))
     if entry.get("distance"):
         obj.append(("Distance", entry["distance"]))
-    pos = lookup_object(db, entry.get("skyTarget") or entry.get("catalog", ""))
+    solve = entry.get("solve") or {}
+    solved = solve.get("status") == "solved"
+    pos = entry_coords(entry, db)
     if pos:
-        obj.append(("Position (J2000)", f"RA {format_ra(pos[0])} · Dec {format_dec(pos[1])}"))
+        where = "centre, plate-solved" if solved else "J2000"
+        obj.append((f"Position ({where})", f"RA {format_ra(pos[0])} · Dec {format_dec(pos[1])}"))
+    if solved and solve.get("objects"):
+        names = [str(n) for n in solve["objects"]][:8]
+        more = len(solve["objects"]) - len(names)
+        obj.append(("In the field", ", ".join(names) + (f" +{more} more" if more > 0 else "")))
     groups.append(("Object", obj))
 
     gear = []
@@ -596,6 +936,16 @@ def card_rows(entry: dict, db: dict) -> str:
     groups.append(("Capture", cap))
 
     img_rows = [("Resolution", f"{entry['width']:,} × {entry['height']:,} px")]
+    if solved:
+        fov = format_fov(solve.get("fov"))
+        if fov:
+            img_rows.append(("Field of view", fov))
+        if solve.get("pixscale"):
+            img_rows.append(("Scale", f"{float(solve['pixscale']):.2f}″ per pixel"))
+        if solve.get("orientation") is not None:
+            img_rows.append(("Orientation", f"Up is {float(solve['orientation']):.1f}° E of N"))
+    if entry.get("versions"):
+        img_rows.append(("Versions", ", ".join([entry.get("palette") or "Original"] + [v["label"] for v in entry["versions"]])))
     groups.append(("Image", img_rows))
 
     out = []
@@ -628,20 +978,72 @@ def card_rows(entry: dict, db: dict) -> str:
     return "\n".join(out)
 
 
-def related_photos(entry: dict, images: list, n: int = 4) -> list:
+def related_photos(entry: dict, images: list, db: dict, n: int = 4) -> list:
+    """Nearest on the sky first (plate solve or catalogue position), then the old heuristics."""
     others = [e for e in images if e["id"] != entry["id"]]
+    here = entry_coords(entry, db)
+
     def score(e):
-        s = 0
+        s = 0.0
+        there = entry_coords(e, db) if here else None
+        sep = angular_separation(here, there) if there else None
+        if sep is not None:
+            if sep < 3:
+                s += 6
+            elif sep < 10:
+                s += 4
+            elif sep < 25:
+                s += 2
+            s += max(0.0, 1 - sep / 180)   # tie-break: closer is better
         if e.get("constellation") and e["constellation"] == entry.get("constellation"):
-            s += 3
-        if e.get("category") == entry.get("category"):
             s += 2
+        if e.get("category") == entry.get("category"):
+            s += 1
         if e.get("type") == entry.get("type"):
             s += 1
         if e.get("palette") and e["palette"] == entry.get("palette"):
             s += 1
         return -s
     return sorted(others, key=score)[:n]
+
+
+def stage_tools(entry: dict, db: dict) -> str:
+    """Buttons under the photo: deep zoom, labels, grid, sky, versions. Enhanced by astro.js."""
+    solve = entry.get("solve") or {}
+    solved = solve.get("status") == "solved"
+    has_tiles = bool((entry.get("tiles") or {}).get("main"))
+    coords = entry_coords(entry, db)
+    out = []
+    if has_tiles:
+        out.append('<button class="stage-tool" type="button" data-tool="zoom" title="Deep zoom (Z)">'
+                   '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/>'
+                   '<path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg><span>Deep zoom</span></button>')
+    if solved and solve.get("annotations"):
+        out.append('<button class="stage-tool" type="button" data-tool="labels" aria-pressed="false" title="Object labels (L)">'
+                   '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/>'
+                   '<path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span>Labels</span></button>')
+    if solved and solve.get("wcs"):
+        out.append('<button class="stage-tool" type="button" data-tool="grid" aria-pressed="false" title="RA/Dec grid (G)">'
+                   '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>'
+                   '<span>Grid</span></button>')
+    if (entry.get("mosaic") or {}).get("panels"):
+        out.append('<button class="stage-tool" type="button" data-tool="panels" aria-pressed="false" title="Mosaic panels (P)">'
+                   '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/>'
+                   '<path d="M12 3v18M3 12h18"/></svg><span>Panels</span></button>')
+    if coords:
+        out.append('<button class="stage-tool" type="button" data-tool="sky" aria-pressed="false" title="Where it is on the sky (S)">'
+                   '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/>'
+                   '<path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>Sky</span></button>')
+    versions = entry.get("versions") or []
+    if versions:
+        main_label = entry.get("palette") or "Original"
+        buttons = [f'<button type="button" data-version="main" class="is-on" aria-pressed="true">{esc(main_label)}</button>']
+        buttons += [f'<button type="button" data-version="{esc(v["id"])}" aria-pressed="false">{esc(v["label"])}</button>'
+                    for v in versions]
+        out.append(f'<div class="stage-versions" role="group" aria-label="Versions">{"".join(buttons)}</div>')
+    if solved and format_fov(solve.get("fov")):
+        out.append(f'<span class="stage-fov label" title="Field of view, plate-solved">{esc(format_fov(solve["fov"]))}</span>')
+    return "".join(out)
 
 
 def mini_card(e: dict) -> str:
@@ -750,7 +1152,11 @@ def render_pages(manifest: dict) -> None:
             "prev_title": esc(prev_e["title"]),
             "next_id": esc(next_e["id"]),
             "next_title": esc(next_e["title"]),
-            "related_html": "".join(mini_card(e) for e in related_photos(entry, visible)),
+            "related_html": "".join(mini_card(e) for e in related_photos(entry, visible, db)),
+            "stage_tools_html": stage_tools(entry, db),
+            "has_tiles": "has-tiles" if (entry.get("tiles") or {}).get("main") else "",
+            "tiles_base": esc((manifest["settings"].get("tiles") or {}).get("base", "")),
+            "explore_link": esc(f"/explore.html?goto={entry['skyTarget']}") if entry.get("skyTarget") else "/explore.html",
             "json_ld": json.dumps(json_ld, ensure_ascii=False).replace("</", "<\\/"),
             "site_title": esc(site.get("title", SITE_NAME)),
             "instagram": esc(site.get("instagram", "")),
@@ -786,17 +1192,33 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--force", action="store_true", help="regenerate derivative files even if they exist")
     parser.add_argument("--no-pages", action="store_true", help="skip rendering photo pages")
+    parser.add_argument("--no-tiles", action="store_true", help="skip building deep-zoom pyramids")
+    parser.add_argument("--no-solve", action="store_true", help="never contact astrometry.net, even with a key")
+    parser.add_argument("--solve-limit", type=int, default=3,
+                        help="plate-solve at most N unsolved photos per run (default 3; 0 = no limit)")
+    parser.add_argument("--resolve", action="append", default=[], metavar="ID",
+                        help="re-solve this photo even if it already has a solve")
     args = parser.parse_args()
 
     previous = {}
     if MANIFEST.exists():
         previous = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
-    print("Portfolio derivatives (gallery/_web):")
-    manifest = build_portfolio(args.force, previous)
+    print("Portfolio derivatives (gallery/_web) and tiles (tiles/):")
+    manifest = build_portfolio(args.force, previous, tiles=not args.no_tiles)
 
     print("Explore derivatives (images/_web):")
     build_explore_derivatives(args.force)
+
+    api_key = os.environ.get("ASTROMETRY_API_KEY", "").strip()
+    if api_key and not args.no_solve:
+        print("Plate solving (nova.astrometry.net):")
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from solve import solve_entries  # noqa: E402  (tools/solve.py)
+        solve_entries(manifest["images"], api_key, ROOT, load_celestial_db(),
+                      limit=args.solve_limit, force_ids=set(args.resolve))
+    elif args.resolve:
+        print("  !! --resolve needs ASTROMETRY_API_KEY in the environment")
 
     # Keep the previous timestamp when nothing else changed, so a no-op build
     # (the GitHub Action after a merge, for example) does not create a commit.
@@ -810,7 +1232,10 @@ def main() -> int:
         render_pages(manifest)
 
     total = sum(f.stat().st_size for f in GALLERY_WEB.glob("*") if f.is_file()) / 1e6
-    print(f"\nWrote gallery.json v3 with {len(manifest['images'])} images; gallery/_web totals {total:.1f} MB")
+    tiles_total = sum(f.stat().st_size for f in TILES_DIR.rglob("*") if f.is_file()) / 1e6 if TILES_DIR.exists() else 0
+    solved = sum(1 for e in manifest["images"] if (e.get("solve") or {}).get("status") == "solved")
+    print(f"\nWrote gallery.json v3 with {len(manifest['images'])} images ({solved} plate-solved); "
+          f"gallery/_web {total:.1f} MB; tiles {tiles_total:.1f} MB")
     return 0
 
 

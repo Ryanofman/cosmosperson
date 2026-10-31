@@ -62,16 +62,31 @@
     </header>
 
     <main class="photo-page">
-        <section class="photo-stage" id="photo-stage" style="--ph-color: #2b191b">
-            <a class="photo-open" id="photo-open" href="/gallery/_web/north-america-3200.jpg" aria-label="Open The North America Nebula in the viewer">
-                <picture>
-                    <source type="image/avif" srcset="/gallery/_web/north-america-640.avif 360w, /gallery/_web/north-america-1024.avif 576w, /gallery/_web/north-america-1600.avif 900w, /gallery/_web/north-america-2400.avif 1350w, /gallery/_web/north-america-3200.avif 1800w" sizes="(max-width: 900px) 100vw, 92vw">
-                    <img id="photo-image" src="/gallery/_web/north-america-3200.jpg" srcset="/gallery/_web/north-america-640.jpg 360w, /gallery/_web/north-america-1024.jpg 576w, /gallery/_web/north-america-1600.jpg 900w, /gallery/_web/north-america-2400.jpg 1350w, /gallery/_web/north-america-3200.jpg 1800w"
-                        sizes="(max-width: 900px) 100vw, 92vw" width="5508" height="9792" alt="The North America Nebula (NGC 7000), Emission Nebula, in Cygnus"
-                        fetchpriority="high" decoding="async" style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDGtn3ggtxT5r0W8nlZL8A/SqMTMrqV6qc1NOsUyeYEKuW5yeKk3UnbTcr/AHW9akLkntwKKKZmf//Z')">
-                </picture>
-            </a>
+        <section class="photo-stage has-tiles" id="photo-stage" style="--ph-color: #2b191b; --ar: 5508 / 9792"
+            data-tiles-base="">
+            <div class="stage-frame" id="stage-frame">
+                <a class="photo-open" id="photo-open" href="/gallery/_web/north-america-3200.jpg" aria-label="Open The North America Nebula in the viewer">
+                    <picture>
+                        <source type="image/avif" srcset="/gallery/_web/north-america-640.avif 360w, /gallery/_web/north-america-1024.avif 576w, /gallery/_web/north-america-1600.avif 900w, /gallery/_web/north-america-2400.avif 1350w, /gallery/_web/north-america-3200.avif 1800w" sizes="(max-width: 900px) 100vw, 92vw">
+                        <img id="photo-image" src="/gallery/_web/north-america-3200.jpg" srcset="/gallery/_web/north-america-640.jpg 360w, /gallery/_web/north-america-1024.jpg 576w, /gallery/_web/north-america-1600.jpg 900w, /gallery/_web/north-america-2400.jpg 1350w, /gallery/_web/north-america-3200.jpg 1800w"
+                            sizes="(max-width: 900px) 100vw, 92vw" width="5508" height="9792" alt="The North America Nebula (NGC 7000), Emission Nebula, in Cygnus"
+                            fetchpriority="high" decoding="async" style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDGtn3ggtxT5r0W8nlZL8A/SqMTMrqV6qc1NOsUyeYEKuW5yeKk3UnbTcr/AHW9akLkntwKKKZmf//Z')">
+                    </picture>
+                </a>
+                <div class="deepzoom" id="deepzoom" hidden aria-label="Deep zoom"></div>
+            </div>
+            <div class="stage-tools" id="stage-tools"><button class="stage-tool" type="button" data-tool="zoom" title="Deep zoom (Z)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg><span>Deep zoom</span></button><button class="stage-tool" type="button" data-tool="labels" aria-pressed="false" title="Object labels (L)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span>Labels</span></button><button class="stage-tool" type="button" data-tool="grid" aria-pressed="false" title="RA/Dec grid (G)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg><span>Grid</span></button><button class="stage-tool" type="button" data-tool="sky" aria-pressed="false" title="Where it is on the sky (S)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg><span>Sky</span></button><span class="stage-fov label" title="Field of view, plate-solved">1.2° × 2.2°</span></div>
             <p class="photo-stage-hint label">Tap to view full screen · arrow keys for the next photo</p>
+        </section>
+
+        <section class="sky-panel" id="sky-panel" hidden aria-label="Where this is on the sky">
+            <div class="sky-head">
+                <p class="label">On the sky</p>
+                <p class="sky-caption" id="sky-caption"></p>
+                <button class="text-link" id="sky-close" type="button">Close</button>
+            </div>
+            <div class="sky-map" id="sky-map"></div>
+            <p class="sky-foot label">Survey imagery via CDS, Strasbourg · <a href="/explore.html?goto=NGC 7000">Open in Explore the Universe</a></p>
         </section>
 
         <header class="photo-head">
@@ -96,11 +111,11 @@
             </article>
 
             <aside class="photo-card" id="photo-card">
-                <section class="card-group"><h3 class="label">Object</h3><dl class="specs"><div class="spec"><dt>Catalogue</dt><dd>NGC 7000</dd></div><div class="spec"><dt>Object type</dt><dd>Emission Nebula</dd></div><div class="spec"><dt>Constellation</dt><dd>Cygnus</dd></div><div class="spec"><dt>Distance</dt><dd>≈ 2,600 light-years</dd></div><div class="spec"><dt>Position (J2000)</dt><dd>RA 21ʰ 01ᵐ · Dec +44° 32′</dd></div></dl></section>
-<section class="card-group"><h3 class="label">Image</h3><dl class="specs"><div class="spec"><dt>Resolution</dt><dd>5,508 × 9,792 px</dd></div></dl></section>
+                <section class="card-group"><h3 class="label">Object</h3><dl class="specs"><div class="spec"><dt>Catalogue</dt><dd>NGC 7000</dd></div><div class="spec"><dt>Object type</dt><dd>Emission Nebula</dd></div><div class="spec"><dt>Constellation</dt><dd>Cygnus</dd></div><div class="spec"><dt>Distance</dt><dd>≈ 2,600 light-years</dd></div><div class="spec"><dt>Position (centre, plate-solved)</dt><dd>RA 21ʰ 00ᵐ · Dec +43° 28′</dd></div><div class="spec"><dt>In the field</dt><dd>NGC 7000, North America Nebula</dd></div></dl></section>
+<section class="card-group"><h3 class="label">Image</h3><dl class="specs"><div class="spec"><dt>Resolution</dt><dd>5,508 × 9,792 px</dd></div><div class="spec"><dt>Field of view</dt><dd>1.2° × 2.2°</dd></div><div class="spec"><dt>Scale</dt><dd>0.79″ per pixel</dd></div><div class="spec"><dt>Orientation</dt><dd>Up is 0.4° E of N</dd></div></dl></section>
                 <section class="card-group" id="downloads">
                     <h3 class="label">Downloads</h3>
-                    <ul class="downloads"><li><a href="/gallery/North_3xResampled.jpg" download>Full resolution JPEG</a><span>5,508 × 9,792 · 5.6 MB</span></li><li><a href="/gallery/_web/north-america-3200.jpg" download>Large JPEG</a><span>1,800 × 3,200 · 1.4 MB</span></li></ul>
+                    <ul class="downloads"><li><a href="/gallery/North_3xResampled.jpg" download>Full resolution JPEG</a><span>5,508 × 9,792 · 5.6 MB</span></li><li><a href="/gallery/_web/north-america-3200.jpg" download>Large JPEG</a><span>1,800 × 3,200 · 1.4 MB</span></li><li><a href="/gallery/_web/north-america-1600.jpg" download>Medium JPEG</a><span>900 × 1,600 · 341 KB</span></li></ul>
                     <p class="licence">© Cosmos Person. All rights reserved.</p>
                 </section>
             </aside>
@@ -119,7 +134,7 @@
 
         <section class="photo-related">
             <p class="label">More like this</p>
-            <div class="mini-grid"><a class="mini-card" href="/photo/butterfly/" style="--ph-color:#1d1010"><picture><source type="image/avif" srcset="/gallery/_web/butterfly-640.avif 417w, /gallery/_web/butterfly-1024.avif 666w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/butterfly-640.jpg" srcset="/gallery/_web/butterfly-640.jpg 417w, /gallery/_web/butterfly-1024.jpg 666w" sizes="(max-width: 720px) 46vw, 23vw" width="6132" height="9422" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Butterfly Nebula</span><span class="mini-sub">IC 1318</span></a><a class="mini-card" href="/photo/eastern-veil/" style="--ph-color:#070406"><picture><source type="image/avif" srcset="/gallery/_web/eastern-veil-640.avif 640w, /gallery/_web/eastern-veil-1024.avif 1024w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/eastern-veil-640.jpg" srcset="/gallery/_web/eastern-veil-640.jpg 640w, /gallery/_web/eastern-veil-1024.jpg 1024w" sizes="(max-width: 720px) 46vw, 23vw" width="5317" height="3203" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Eastern Veil Nebula</span><span class="mini-sub">NGC 6992</span></a><a class="mini-card" href="/photo/wizard/" style="--ph-color:#0f070d"><picture><source type="image/avif" srcset="/gallery/_web/wizard-640.avif 347w, /gallery/_web/wizard-1024.avif 556w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/wizard-640.jpg" srcset="/gallery/_web/wizard-640.jpg 347w, /gallery/_web/wizard-1024.jpg 556w" sizes="(max-width: 720px) 46vw, 23vw" width="3916" height="7216" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Wizard Nebula</span><span class="mini-sub">NGC 7380 · Sh2-142</span></a><a class="mini-card" href="/photo/california/" style="--ph-color:#21030a"><picture><source type="image/avif" srcset="/gallery/_web/california-640.avif 640w, /gallery/_web/california-1024.avif 1024w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/california-640.jpg" srcset="/gallery/_web/california-640.jpg 640w, /gallery/_web/california-1024.jpg 1024w" sizes="(max-width: 720px) 46vw, 23vw" width="7116" height="3216" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The California Nebula</span><span class="mini-sub">NGC 1499</span></a></div>
+            <div class="mini-grid"><a class="mini-card" href="/photo/butterfly/" style="--ph-color:#1d1010"><picture><source type="image/avif" srcset="/gallery/_web/butterfly-640.avif 417w, /gallery/_web/butterfly-1024.avif 666w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/butterfly-640.jpg" srcset="/gallery/_web/butterfly-640.jpg 417w, /gallery/_web/butterfly-1024.jpg 666w" sizes="(max-width: 720px) 46vw, 23vw" width="6132" height="9422" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Butterfly Nebula</span><span class="mini-sub">IC 1318</span></a><a class="mini-card" href="/photo/eastern-veil/" style="--ph-color:#070406"><picture><source type="image/avif" srcset="/gallery/_web/eastern-veil-640.avif 640w, /gallery/_web/eastern-veil-1024.avif 1024w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/eastern-veil-640.jpg" srcset="/gallery/_web/eastern-veil-640.jpg 640w, /gallery/_web/eastern-veil-1024.jpg 1024w" sizes="(max-width: 720px) 46vw, 23vw" width="5317" height="3203" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Eastern Veil Nebula</span><span class="mini-sub">NGC 6992</span></a><a class="mini-card" href="/photo/elephants-trunk/" style="--ph-color:#260b10"><picture><source type="image/avif" srcset="/gallery/_web/elephants-trunk-640.avif 640w, /gallery/_web/elephants-trunk-1024.avif 1024w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/elephants-trunk-640.jpg" srcset="/gallery/_web/elephants-trunk-640.jpg 640w, /gallery/_web/elephants-trunk-1024.jpg 1024w" sizes="(max-width: 720px) 46vw, 23vw" width="5984" height="3624" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Elephant&#x27;s Trunk Nebula</span><span class="mini-sub">IC 1396</span></a><a class="mini-card" href="/photo/wizard/" style="--ph-color:#0f070d"><picture><source type="image/avif" srcset="/gallery/_web/wizard-640.avif 347w, /gallery/_web/wizard-1024.avif 556w" sizes="(max-width: 720px) 46vw, 23vw"><img src="/gallery/_web/wizard-640.jpg" srcset="/gallery/_web/wizard-640.jpg 347w, /gallery/_web/wizard-1024.jpg 556w" sizes="(max-width: 720px) 46vw, 23vw" width="3916" height="7216" loading="lazy" decoding="async" alt=""></picture><span class="mini-title">The Wizard Nebula</span><span class="mini-sub">NGC 7380 · Sh2-142</span></a></div>
         </section>
     </main>
 
@@ -143,6 +158,7 @@
 
     <script src="/celestial-database.js"></script>
     <script type="module" src="/viewer.js"></script>
+    <script type="module" src="/astro.js"></script>
 </body>
 
 </html>

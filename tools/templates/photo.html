@@ -62,16 +62,31 @@
     </header>
 
     <main class="photo-page">
-        <section class="photo-stage" id="photo-stage" style="--ph-color: {{color}}">
-            <a class="photo-open" id="photo-open" href="{{largest_jpg}}" aria-label="Open {{title}} in the viewer">
-                <picture>
-                    {{avif_source}}
-                    <img id="photo-image" src="{{largest_jpg}}" srcset="{{jpg_srcset}}"
-                        sizes="(max-width: 900px) 100vw, 92vw" width="{{width}}" height="{{height}}" alt="{{alt}}"
-                        fetchpriority="high" decoding="async" style="background-image: url('{{placeholder}}')">
-                </picture>
-            </a>
+        <section class="photo-stage {{has_tiles}}" id="photo-stage" style="--ph-color: {{color}}; --ar: {{width}} / {{height}}"
+            data-tiles-base="{{tiles_base}}">
+            <div class="stage-frame" id="stage-frame">
+                <a class="photo-open" id="photo-open" href="{{largest_jpg}}" aria-label="Open {{title}} in the viewer">
+                    <picture>
+                        {{avif_source}}
+                        <img id="photo-image" src="{{largest_jpg}}" srcset="{{jpg_srcset}}"
+                            sizes="(max-width: 900px) 100vw, 92vw" width="{{width}}" height="{{height}}" alt="{{alt}}"
+                            fetchpriority="high" decoding="async" style="background-image: url('{{placeholder}}')">
+                    </picture>
+                </a>
+                <div class="deepzoom" id="deepzoom" hidden aria-label="Deep zoom"></div>
+            </div>
+            <div class="stage-tools" id="stage-tools">{{stage_tools_html}}</div>
             <p class="photo-stage-hint label">Tap to view full screen · arrow keys for the next photo</p>
+        </section>
+
+        <section class="sky-panel" id="sky-panel" hidden aria-label="Where this is on the sky">
+            <div class="sky-head">
+                <p class="label">On the sky</p>
+                <p class="sky-caption" id="sky-caption"></p>
+                <button class="text-link" id="sky-close" type="button">Close</button>
+            </div>
+            <div class="sky-map" id="sky-map"></div>
+            <p class="sky-foot label">Survey imagery via CDS, Strasbourg · <a href="{{explore_link}}">Open in Explore the Universe</a></p>
         </section>
 
         <header class="photo-head">
@@ -142,6 +157,7 @@
 
     <script src="/celestial-database.js"></script>
     <script type="module" src="/viewer.js"></script>
+    <script type="module" src="/astro.js"></script>
 </body>
 
 </html>

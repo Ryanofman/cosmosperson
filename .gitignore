@@ -69,3 +69,6 @@ stats/
 # Temporary files
 tmp/
 temp/
+
+# Python
+__pycache__/

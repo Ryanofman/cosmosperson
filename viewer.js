@@ -85,7 +85,10 @@ export function cardHTML(entry) {
     add('Object', 'Object type', entry.type);
     add('Object', 'Constellation', entry.constellation);
     add('Object', 'Distance', entry.distance);
-    if (entry.skyTarget && typeof findCelestialObject === 'function') {
+    const solve = entry.solve && entry.solve.status === 'solved' ? entry.solve : null;
+    if (solve) {
+        add('Object', 'Position (centre, plate-solved)', `RA ${formatRA(solve.ra)} · Dec ${formatDec(solve.dec)}`);
+    } else if (entry.skyTarget && typeof findCelestialObject === 'function') {
         const obj = findCelestialObject(entry.skyTarget);
         if (obj) add('Object', 'Position (J2000)', `RA ${formatRA(obj.ra)} · Dec ${formatDec(obj.dec)}`);
     }
@@ -106,6 +109,11 @@ export function cardHTML(entry) {
     add('Capture', 'Location', acq.location ? acq.location + (acq.bortle ? ` · Bortle ${acq.bortle}` : '') : '');
     add('Capture', 'Notes', acq.notes);
     add('Image', 'Resolution', `${entry.width.toLocaleString()} × ${entry.height.toLocaleString()} px`);
+    if (solve && solve.fov && solve.fov.length === 2) {
+        const [w, h] = solve.fov.map(Number);
+        add('Image', 'Field of view', Math.max(w, h) >= 1 ? `${w.toFixed(1)}° × ${h.toFixed(1)}°` : `${Math.round(w * 60)}′ × ${Math.round(h * 60)}′`);
+    }
+    if (solve && solve.pixscale) add('Image', 'Scale', `${Number(solve.pixscale).toFixed(2)}″ per pixel`);
 
     const groups = {};
     rows.forEach(([g, k, v]) => { (groups[g] = groups[g] || []).push([k, v]); });
@@ -135,6 +143,7 @@ function railHTML(entry) {
     const big = largestJpg(entry);
     const actions = [
         `<a class="text-link" href="/photo/${encodeURIComponent(entry.id)}/" data-page-link>Photo page</a>`,
+        (entry.tiles && entry.tiles.main) ? `<a class="text-link" href="/photo/${encodeURIComponent(entry.id)}/#zoom=1" data-page-link>Deep zoom</a>` : '',
         entry.skyTarget ? `<a class="text-link" href="/explore.html?goto=${encodeURIComponent(entry.skyTarget)}">Sky map</a>` : '',
         `<a class="text-link" href="/${encodeURI(entry.original)}" download>Full resolution</a>`,
         `<button class="text-link" type="button" data-share>Copy link</button>`
@@ -252,7 +261,20 @@ export function createViewer(entries, options = {}) {
                 el.className = 'pswp__rail';
                 el.addEventListener('click', (e) => {
                     const share = e.target.closest('[data-share]');
-                    if (share) { e.preventDefault(); copyLink(share); }
+                    if (share) { e.preventDefault(); copyLink(share); return; }
+                    // While the viewer is open the address already is the photo's page, so a
+                    // link to that page (or to its deep zoom) must be a real navigation.
+                    const link = e.target.closest('a[data-page-link]');
+                    if (link) {
+                        e.preventDefault();
+                        const target = new URL(link.href, location.href);
+                        if (target.pathname === location.pathname) {
+                            history.replaceState(null, '', target.href);
+                            location.reload();
+                        } else {
+                            location.href = target.href;
+                        }
+                    }
                 });
                 // keep gestures inside the rail from reaching the slide
                 ['pointerdown', 'pointermove', 'pointerup', 'wheel', 'touchstart', 'touchmove', 'click'].forEach(evt =>

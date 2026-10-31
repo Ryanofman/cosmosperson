@@ -121,44 +121,162 @@ function setupHeader() {
 
 /* ---------- Hero ---------- */
 
+function heroConfig() {
+    const base = typeof settings.hero === 'string' ? { id: settings.hero } : (settings.hero || {});
+    const hero = Object.assign({}, base);
+    // Try a different hero from the address bar without publishing anything, e.g.
+    //   /?hero=lagoon&fit=frame&focal=0.5,0.35&height=70&text=bottom&scrim=0.6&version=starless
+    const p = new URLSearchParams(location.search);
+    if (p.get('hero')) hero.id = p.get('hero');
+    if (p.get('fit')) hero.fit = p.get('fit');
+    if (p.get('text')) hero.text = p.get('text');
+    if (p.get('version')) hero.version = p.get('version');
+    if (p.get('height')) hero.height = +p.get('height');
+    if (p.get('scrim')) hero.scrim = +p.get('scrim');
+    if (p.get('focal')) {
+        const f = p.get('focal').split(',').map(Number);
+        if (f.length === 2 && f.every(n => !isNaN(n))) hero.focal = f;
+    }
+    if (p.get('motion')) hero.motion = p.get('motion') !== '0';
+    if (p.get('anchor') === '0') hero.anchor = null;
+    return hero;
+}
+
 function renderHero() {
-    const hero = settings.hero || {};
-    const heroId = typeof hero === 'string' ? hero : hero.id;
-    const entry = all.find(i => i.id === heroId) || all[0];
+    const hero = heroConfig();
+    const entry = all.find(i => i.id === hero.id) || all[0];
     if (!entry) return;
 
+    const section = $('hero');
     const media = $('hero-media');
+    const version = (entry.versions || []).find(v => v.id === hero.version && v.sources && v.sources.jpg && v.sources.jpg.length);
+    const sources = version ? version.sources : entry.sources;
+    const w = version ? version.width : entry.width;
+    const h = version ? version.height : entry.height;
+
+    const fit = hero.fit === 'frame' ? 'frame' : 'cover';
+    const text = ['center', 'bottom', 'below'].includes(hero.text) ? hero.text : 'center';
+    section.classList.remove('hero-cover', 'hero-frame', 'text-center', 'text-bottom', 'text-below', 'no-motion', 'no-credit');
+    section.classList.add('hero-' + fit, 'text-' + text);
+    if (hero.motion === false) section.classList.add('no-motion');
+    if (hero.credit === false) section.classList.add('no-credit');
+    const clampVh = (v, fallback) => Math.min(100, Math.max(30, Number(v) || fallback));
+    const vh = clampVh(hero.height, 88);
+    section.style.setProperty('--hero-h', vh + 'vh');
+    section.style.setProperty('--hero-hm', clampVh(hero.height_mobile, Math.min(vh, 78)) + 'vh');
+    section.style.setProperty('--hero-ar', `${w} / ${h}`);
+    const scrim = hero.scrim === undefined || hero.scrim === null ? 1 : Number(hero.scrim);
+    section.style.setProperty('--hero-scrim', String(Math.max(0, Math.min(1.5, isNaN(scrim) ? 1 : scrim))));
+
+    media.replaceChildren();
     media.style.backgroundColor = entry.color || '';
     media.style.backgroundImage = `url("${entry.placeholder}")`;
     media.style.backgroundSize = 'cover';
     media.style.backgroundPosition = 'center';
     const focal = (hero.focal && hero.focal.length === 2) ? hero.focal : [0.5, 0.5];
+    const focalMobile = (hero.focal_mobile && hero.focal_mobile.length === 2) ? hero.focal_mobile : focal;
 
-    const jpg = entry.sources.jpg;
-    const avif = entry.sources.avif || [];
+    const jpg = sources.jpg;
+    const avif = sources.avif || [];
+    // In cover mode a tall image is scaled to the band's height, so the width the
+    // browser must fetch is the band height times the aspect ratio, not the viewport width.
+    const bandH = fit === 'cover' ? Math.round(innerHeight * vh / 100) : innerWidth / (w / h);
+    const needPx = Math.ceil(Math.max(innerWidth, bandH * (w / h)));
+    const sizes = `${needPx}px`;
     const picture = document.createElement('picture');
     if (avif.length) {
         const s = document.createElement('source');
         s.type = 'image/avif';
         s.srcset = srcsetOf(avif);
-        s.sizes = '100vw';
+        s.sizes = sizes;
         picture.appendChild(s);
     }
     const img = new Image();
     img.alt = '';
     img.srcset = srcsetOf(jpg);
-    img.sizes = '100vw';
+    img.sizes = sizes;
     img.src = '/' + encodeURI(jpg[jpg.length - 1].src);
     img.fetchPriority = 'high';
     img.decoding = 'async';
     img.style.setProperty('--focal', `${focal[0] * 100}% ${focal[1] * 100}%`);
+    img.style.setProperty('--focal-m', `${focalMobile[0] * 100}% ${focalMobile[1] * 100}%`);
     img.addEventListener('load', () => img.classList.add('loaded'));
     picture.appendChild(img);
     media.appendChild(picture);
 
+    // Anchored hero: a chosen point of the image (settings.hero.anchor.point, as
+    // fractions of the image) always lands a small gap below the hero's buttons,
+    // whatever the screen size or the length of the text. The image is scaled
+    // just enough to still fill the band, so the rule holds instead of the crop.
+    const anchor = hero.anchor && Array.isArray(hero.anchor.point) && hero.anchor.point.length === 2 ? hero.anchor : null;
+    section.classList.toggle('hero-anchored', !!anchor);
+    const content = section.querySelector('.hero-content');
+    if (content) { content.style.justifyContent = ''; content.style.paddingBottom = ''; }
+    section.style.height = '';
+    if (anchor) {
+        const clamp01 = (v) => Math.min(1, Math.max(0, Number(v) || 0));
+        const ax = clamp01(anchor.point[0]), ay = clamp01(anchor.point[1]);
+        const tx = anchor.x === undefined || anchor.x === null ? 0.5 : clamp01(anchor.x);   // where the point sits across the band
+        const gap = anchor.gap === undefined || anchor.gap === null ? 24 : Number(anchor.gap);
+        const extent = clamp01(anchor.extent);          // how much of the image below the point must stay visible (the sign itself)
+        const margin = anchor.margin === undefined || anchor.margin === null ? 24 : Number(anchor.margin);
+        const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 72;
+        const configuredH = () => {
+            section.style.height = '';
+            return media.clientHeight;
+        };
+        const layout = () => {
+            const W = media.clientWidth;
+            let H = configuredH();
+            if (!W || !H || !content) return;
+            const kids = [...content.children];
+            const first = kids[0], last = section.querySelector(anchor.below || '.hero-actions') || kids[kids.length - 1];
+            const blockH = first && last ? last.getBoundingClientRect().bottom - first.getBoundingClientRect().top : 0;
+            // Scale: cover the width, and let the point sit at tx without a gap on either side
+            let s = W / w;
+            if (ax > 0) s = Math.max(s, (W * tx) / (ax * w));
+            if (ax < 1) s = Math.max(s, (W * (1 - tx)) / ((1 - ax) * w));
+            let T = 0;
+            for (let i = 0; i < 3; i++) {
+                const ih = h * s;
+                const reserve = extent * ih + gap + margin;          // room under the buttons for the sign
+                const needed = headerH + 24 + blockH + reserve;
+                if (needed > H) H = Math.ceil(needed);                // the band grows rather than cutting the sign
+                s = Math.max(s, H / h);
+                T = H - reserve + gap;                                // the point lands here
+                if (ay > 0) s = Math.max(s, T / (ay * h));            // image top stays above the band
+                if (ay < 1) s = Math.max(s, (H - T) / ((1 - ay) * h)); // image bottom stays below it
+            }
+            const iw = w * s, ih = h * s;
+            const reserve = extent * ih + gap + margin;
+            section.style.height = H > configuredH() ? `${H}px` : '';
+            content.style.justifyContent = 'flex-end';
+            content.style.paddingBottom = `${reserve}px`;
+            T = H - reserve + gap;
+            const left = Math.min(0, Math.max(W - iw, W * tx - ax * iw));
+            const top = Math.min(0, Math.max(H - ih, T - ay * ih));
+            img.style.width = `${iw}px`;
+            img.style.height = `${ih}px`;
+            img.style.left = `${left}px`;
+            img.style.top = `${top}px`;
+            img.sizes = `${Math.ceil(iw)}px`;
+        };
+        layout();
+        window.addEventListener('resize', layout);
+        if (window.ResizeObserver) {
+            const ro = new ResizeObserver(layout);
+            [...content.children].forEach(el => ro.observe(el));   // the text blocks change size, the box does not
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+        img.addEventListener('load', layout, { once: true });
+    }
+
     const credit = $('hero-credit');
-    credit.textContent = [entry.title, entry.catalog].filter(Boolean).join(' · ');
+    credit.textContent = [entry.title, entry.catalog].filter(Boolean).join(' · ') + (version ? ` · ${version.label}` : '');
     credit.href = `/photo/${encodeURIComponent(entry.id)}/`;
+    // With the text below the image the credit belongs on the image, not under the text
+    if (text === 'below') { media.appendChild(credit); media.removeAttribute('aria-hidden'); }
+    else if (credit.parentElement !== section) section.appendChild(credit);
 }
 
 /* ---------- URL state ---------- */

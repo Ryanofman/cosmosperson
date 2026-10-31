@@ -322,7 +322,8 @@
                 `${entry.width}×${entry.height}`].filter(Boolean).join(' · ');
 
         const flags = main.querySelector('.row-flags');
-        if (isNew) flags.appendChild(chip('new', 'New'));
+        if (entry.missing_original) flags.appendChild(chip('new', 'File missing'));
+        else if (isNew) flags.appendChild(chip('new', 'New'));
         else if (!built) flags.appendChild(chip('new', 'Building'));
         if (entry.featured) flags.appendChild(chip('hero', 'Featured'));
         if (isHero) flags.appendChild(chip('hero', 'Hero'));

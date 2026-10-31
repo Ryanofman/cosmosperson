@@ -1,10 +1,15 @@
-# Builds derivatives (AVIF + JPEG), the v3 manifest and the photo pages whenever
+# Builds derivatives (AVIF + JPEG), deep-zoom tiles, the v3 manifest and the photo pages whenever
 # an original or the manifest changes, then commits the results back so GitHub
 # Pages serves them. Ryan's workflow: upload an original and edit its card in
 # the admin (or drop a file in gallery/ and push), and this does the rest.
 #
 # If the live site does not update after this workflow has committed, open
 # Settings → Pages and make sure the source is the main branch (root).
+#
+# Plate solving: add a repository secret ASTROMETRY_API_KEY (Settings → Secrets
+# and variables → Actions) with the key from https://nova.astrometry.net/api_help
+# and the build solves up to three unsolved photos per run. Without the secret
+# the solve step is skipped.
 
 name: Build gallery
 
@@ -37,6 +42,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - name: Check out
         uses: actions/checkout@v4
@@ -51,7 +57,9 @@ jobs:
       - name: Install Pillow
         run: python -m pip install --quiet "pillow>=11.3"
 
-      - name: Build derivatives, manifest and pages
+      - name: Build derivatives, tiles, manifest and pages
+        env:
+          ASTROMETRY_API_KEY: ${{ secrets.ASTROMETRY_API_KEY }}
         run: |
           if [ "${{ github.event.inputs.force }}" = "true" ]; then
             python tools/build.py --force
@@ -64,7 +72,7 @@ jobs:
         run: |
           git config user.name "cosmosperson-build"
           git config user.email "build@cosmosperson.com"
-          git add -A gallery/_web images/_web gallery.json photo sitemap.xml
+          git add -A gallery/_web images/_web tiles gallery.json photo sitemap.xml
           if git diff --cached --quiet; then
             echo "Nothing changed."
             echo "changed=false" >> "$GITHUB_OUTPUT"

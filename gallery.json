@@ -1,13 +1,32 @@
 {
   "version": 3,
-  "updated": "2026-10-30T22:48:59Z",
+  "updated": "2026-10-31T07:43:04Z",
   "settings": {
     "hero": {
-      "id": "california",
+      "id": "milky-way",
+      "version": "",
       "focal": [
         0.5,
-        0.5
-      ]
+        0.55
+      ],
+      "focal_mobile": null,
+      "fit": "cover",
+      "height": 88,
+      "height_mobile": 78,
+      "scrim": 1.0,
+      "text": "center",
+      "motion": true,
+      "credit": true,
+      "anchor": {
+        "point": [
+          0.425,
+          0.788
+        ],
+        "extent": 0.115,
+        "x": 0.5,
+        "gap": 20,
+        "margin": 24
+      }
     },
     "grid": {
       "style": "justified",
@@ -34,6 +53,13 @@
     "viewer": {
       "open_as": "overlay",
       "show_card": true
+    },
+    "tiles": {
+      "max_edge": 6000,
+      "base": ""
+    },
+    "sky": {
+      "survey": "P/DSS2/color"
     },
     "theme": {
       "accent": "#7cd1c8"
@@ -205,8 +231,91 @@
           "width": 1737,
           "height": 3200,
           "bytes": 925344
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/wizard-1600.jpg",
+          "width": 868,
+          "height": 1600,
+          "bytes": 316926
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/wizard/main.dzi",
+          "files": "tiles/wizard/main_files/",
+          "width": 3256,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 437,
+          "bytes": 2058806,
+          "signature": "a05d350224f7de3b:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "a05d350224f7de3b:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380194,
+        "job": 17215838,
+        "image": {
+          "src": "gallery/_web/wizard-1600.jpg",
+          "w": 868,
+          "h": 1600
+        },
+        "ra": 341.850316,
+        "dec": 58.100859,
+        "radius": 0.6768,
+        "pixscale": 0.59342,
+        "orientation": 358.692,
+        "parity": 1.0,
+        "fov": [
+          0.64551,
+          1.18988
+        ],
+        "objects": [
+          "NGC 7380"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 7380"
+            ],
+            "type": "ngc",
+            "x": 2004,
+            "y": 3421,
+            "r": 1264
+          }
+        ],
+        "wcs": {
+          "width": 868,
+          "height": 1600,
+          "crpix": [
+            551.332649231,
+            1029.16696167
+          ],
+          "crval": [
+            341.67867322,
+            57.9329106457
+          ],
+          "cd": [
+            [
+              -0.000743267522085,
+              -1.68922651606e-05
+            ],
+            [
+              1.70650511126e-05,
+              -0.000743691026343
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "california",
@@ -363,8 +472,101 @@
           "width": 3200,
           "height": 1446,
           "bytes": 997156
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/california-1600.jpg",
+          "width": 1600,
+          "height": 723,
+          "bytes": 260160
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/california/main.dzi",
+          "files": "tiles/california/main_files/",
+          "width": 6000,
+          "height": 2712,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 371,
+          "bytes": 2587254,
+          "signature": "867059670f7e3e78:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "867059670f7e3e78:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380195,
+        "job": 17215837,
+        "image": {
+          "src": "gallery/_web/california-1600.jpg",
+          "w": 1600,
+          "h": 723
+        },
+        "ra": 60.176861,
+        "dec": 36.465322,
+        "radius": 1.2905,
+        "pixscale": 1.18985,
+        "orientation": 321.456,
+        "parity": -1.0,
+        "fov": [
+          2.35194,
+          1.06278
+        ],
+        "objects": [
+          "NGC 1499",
+          "California Nebula"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 1499"
+            ],
+            "type": "ngc",
+            "x": 4953,
+            "y": 885,
+            "r": 4034
+          },
+          {
+            "names": [
+              "IC 2005"
+            ],
+            "type": "ic",
+            "x": 1501,
+            "y": 1980,
+            "r": 9
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 723,
+          "crpix": [
+            1176.06411743,
+            313.219242096
+          ],
+          "crval": [
+            60.7693427298,
+            36.1789057307
+          ],
+          "cd": [
+            [
+              0.00114977212525,
+              -0.000916033402913
+            ],
+            [
+              -0.000915856900363,
+              -0.00114964291175
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "butterfly",
@@ -513,7 +715,7 @@
           "url": "gallery/Butterfly_Mosaic_Original_2X Upsampled.jpg",
           "width": 6132,
           "height": 9422,
-          "bytes": 18663586
+          "bytes": 18663382
         },
         {
           "label": "Large JPEG",
@@ -521,8 +723,79 @@
           "width": 2083,
           "height": 3200,
           "bytes": 1140684
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/butterfly-1600.jpg",
+          "width": 1041,
+          "height": 1600,
+          "bytes": 389344
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/butterfly/main.dzi",
+          "files": "tiles/butterfly/main_files/",
+          "width": 3905,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 521,
+          "bytes": 2825136,
+          "signature": "0935062182a22931:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "0935062182a22931:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380196,
+        "job": 17215841,
+        "image": {
+          "src": "gallery/_web/butterfly-1600.jpg",
+          "w": 1041,
+          "h": 1600
+        },
+        "ra": 306.865291,
+        "dec": 40.216053,
+        "radius": 0.9269,
+        "pixscale": 0.59354,
+        "orientation": 358.967,
+        "parity": 1.0,
+        "fov": [
+          1.011,
+          1.55388
+        ],
+        "objects": [],
+        "annotations": [],
+        "wcs": {
+          "width": 1041,
+          "height": 1600,
+          "crpix": [
+            547.467834473,
+            440.803277969
+          ],
+          "crval": [
+            306.839780569,
+            40.5655894287
+          ],
+          "cd": [
+            [
+              -0.000971585256385,
+              -1.7334034904e-05
+            ],
+            [
+              1.76927764353e-05,
+              -0.000970455345032
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "ghost-of-cassiopeia",
@@ -679,8 +952,113 @@
           "width": 3200,
           "height": 1798,
           "bytes": 861355
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/ghost-of-cassiopeia-1600.jpg",
+          "width": 1600,
+          "height": 899,
+          "bytes": 337106
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/ghost-of-cassiopeia/main.dzi",
+          "files": "tiles/ghost-of-cassiopeia/main_files/",
+          "width": 5589,
+          "height": 3141,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 404,
+          "bytes": 1669374,
+          "signature": "4ad6d487d8350fbf:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "4ad6d487d8350fbf:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380197,
+        "job": 17215842,
+        "image": {
+          "src": "gallery/_web/ghost-of-cassiopeia-1600.jpg",
+          "w": 1600,
+          "h": 899
+        },
+        "ra": 14.867,
+        "dec": 60.999899,
+        "radius": 0.7048,
+        "pixscale": 0.79155,
+        "orientation": 89.237,
+        "parity": 1.0,
+        "fov": [
+          1.22888,
+          0.69048
+        ],
+        "objects": [
+          "IC 59",
+          "IC 63",
+          "The star Navi (γ Cas",
+          "27 Cas)"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "IC 59"
+            ],
+            "type": "ic",
+            "x": 2153,
+            "y": 471,
+            "r": 379
+          },
+          {
+            "names": [
+              "IC 63"
+            ],
+            "type": "ic",
+            "x": 3197,
+            "y": 1584,
+            "r": 379
+          },
+          {
+            "names": [
+              "γ Cas / 27 Cas",
+              "Navi"
+            ],
+            "type": "bright",
+            "x": 4096,
+            "y": 54,
+            "r": 0
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 899,
+          "crpix": [
+            1180.28341675,
+            482.981647968
+          ],
+          "crval": [
+            14.9111535834,
+            60.7078829783
+          ],
+          "cd": [
+            [
+              -1.03227637754e-05,
+              0.000767914161716
+            ],
+            [
+              -0.00076804655215,
+              -1.01438974167e-05
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "whirlpool",
@@ -693,11 +1071,11 @@
       "description": "A spiral galaxy caught tugging on its smaller neighbor, NGC 5195. The gravitational tug-of-war lights up new stars along its arms.",
       "skyTarget": "M51",
       "visible": true,
-      "original": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+      "original": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x_Skydarkened.jpg",
       "width": 2187,
       "height": 3780,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkjSGrFm0KXKm4BMXIbAyelQPjedpyM8Z9KACkNFFAH//Z",
-      "color": "#0c0c0c",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKQ1Ys2hS5Q3ALRchsDJ6VA+Nx28jPGfSgApKKKAP/9k=",
+      "color": "#080808",
       "srcset": [
         {
           "src": "gallery/_web/whirlpool-640.jpg",
@@ -761,31 +1139,31 @@
             "src": "gallery/_web/whirlpool-640.avif",
             "w": 370,
             "h": 640,
-            "bytes": 11175
+            "bytes": 7842
           },
           {
             "src": "gallery/_web/whirlpool-1024.avif",
             "w": 592,
             "h": 1024,
-            "bytes": 28744
+            "bytes": 13693
           },
           {
             "src": "gallery/_web/whirlpool-1600.avif",
             "w": 926,
             "h": 1600,
-            "bytes": 79441
+            "bytes": 22005
           },
           {
             "src": "gallery/_web/whirlpool-2400.avif",
             "w": 1389,
             "h": 2400,
-            "bytes": 166005
+            "bytes": 36856
           },
           {
             "src": "gallery/_web/whirlpool-3200.avif",
             "w": 1851,
             "h": 3200,
-            "bytes": 252093
+            "bytes": 52037
           }
         ],
         "jpg": [
@@ -793,31 +1171,31 @@
             "src": "gallery/_web/whirlpool-640.jpg",
             "w": 370,
             "h": 640,
-            "bytes": 28748
+            "bytes": 17037
           },
           {
             "src": "gallery/_web/whirlpool-1024.jpg",
             "w": 592,
             "h": 1024,
-            "bytes": 76423
+            "bytes": 30999
           },
           {
             "src": "gallery/_web/whirlpool-1600.jpg",
             "w": 926,
             "h": 1600,
-            "bytes": 197082
+            "bytes": 62112
           },
           {
             "src": "gallery/_web/whirlpool-2400.jpg",
             "w": 1389,
             "h": 2400,
-            "bytes": 422958
+            "bytes": 120251
           },
           {
             "src": "gallery/_web/whirlpool-3200.jpg",
             "w": 1851,
             "h": 3200,
-            "bytes": 682217
+            "bytes": 189553
           }
         ]
       },
@@ -826,19 +1204,142 @@
       "downloads": [
         {
           "label": "Full resolution JPEG",
-          "url": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x.jpg",
+          "url": "gallery/Whirlpool-GrandCanyonMesaVerde-Upsampled3x_Skydarkened.jpg",
           "width": 2187,
           "height": 3780,
-          "bytes": 3152731
+          "bytes": 134245
         },
         {
           "label": "Large JPEG",
           "url": "gallery/_web/whirlpool-3200.jpg",
           "width": 1851,
           "height": 3200,
-          "bytes": 682217
+          "bytes": 189553
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/whirlpool-1600.jpg",
+          "width": 926,
+          "height": 1600,
+          "bytes": 62112
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/whirlpool/main.dzi",
+          "files": "tiles/whirlpool/main_files/",
+          "width": 2187,
+          "height": 3780,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 13,
+          "tiles": 200,
+          "bytes": 153676,
+          "signature": "bb1a0e9b7797e586:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "bb1a0e9b7797e586:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380232,
+        "job": 17215876,
+        "image": {
+          "src": "gallery/_web/whirlpool-1600.jpg",
+          "w": 926,
+          "h": 1600
+        },
+        "ra": 202.485112,
+        "dec": 47.194336,
+        "radius": 0.4812,
+        "pixscale": 0.79349,
+        "orientation": 1.522,
+        "parity": 1.0,
+        "fov": [
+          0.48205,
+          0.83291
+        ],
+        "objects": [
+          "NGC 5194",
+          "M 51",
+          "NGC 5195",
+          "Whirlpool Galaxy",
+          "IC 4277"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 5194"
+            ],
+            "type": "ngc",
+            "x": 1141,
+            "y": 1885,
+            "r": 518
+          },
+          {
+            "names": [
+              "NGC 5195"
+            ],
+            "type": "ngc",
+            "x": 1046,
+            "y": 1566,
+            "r": 208
+          },
+          {
+            "names": [
+              "IC 4277"
+            ],
+            "type": "ic",
+            "x": 819,
+            "y": 1354,
+            "r": 25
+          },
+          {
+            "names": [
+              "IC 4278"
+            ],
+            "type": "ic",
+            "x": 688,
+            "y": 1663,
+            "r": 16
+          },
+          {
+            "names": [
+              "IC 4282"
+            ],
+            "type": "ic",
+            "x": 27,
+            "y": 1964,
+            "r": 15
+          }
+        ],
+        "wcs": {
+          "width": 926,
+          "height": 1600,
+          "crpix": [
+            406.241847992,
+            695.272956848
+          ],
+          "crval": [
+            202.526824398,
+            47.2498902266
+          ],
+          "cd": [
+            [
+              -0.000520423920781,
+              1.38204012967e-05
+            ],
+            [
+              -1.38397771962e-05,
+              -0.000520345884679
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "north-america",
@@ -995,8 +1496,92 @@
           "width": 1800,
           "height": 3200,
           "bytes": 1405155
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/north-america-1600.jpg",
+          "width": 900,
+          "height": 1600,
+          "bytes": 349528
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/north-america/main.dzi",
+          "files": "tiles/north-america/main_files/",
+          "width": 3375,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 461,
+          "bytes": 4433370,
+          "signature": "4a8749fa726ea865:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "4a8749fa726ea865:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380199,
+        "job": 17215839,
+        "image": {
+          "src": "gallery/_web/north-america-1600.jpg",
+          "w": 900,
+          "h": 1600
+        },
+        "ra": 315.124877,
+        "dec": 43.466614,
+        "radius": 1.2382,
+        "pixscale": 0.79349,
+        "orientation": 0.389,
+        "parity": 1.0,
+        "fov": [
+          1.21404,
+          2.15829
+        ],
+        "objects": [
+          "NGC 7000",
+          "North America Nebula"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 7000"
+            ],
+            "type": "ngc",
+            "x": 3712,
+            "y": 71,
+            "r": 4537
+          }
+        ],
+        "wcs": {
+          "width": 900,
+          "height": 1600,
+          "crpix": [
+            504.345092773,
+            322.538685799
+          ],
+          "crval": [
+            315.018624628,
+            44.1106813953
+          ],
+          "cd": [
+            [
+              -0.00134930157521,
+              9.34532194591e-06
+            ],
+            [
+              -8.98589028464e-06,
+              -0.00134849651981
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "pinwheel",
@@ -1153,8 +1738,194 @@
           "width": 2151,
           "height": 3200,
           "bytes": 399135
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/pinwheel-1600.jpg",
+          "width": 1075,
+          "height": 1600,
+          "bytes": 104500
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/pinwheel/main.dzi",
+          "files": "tiles/pinwheel/main_files/",
+          "width": 4032,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 521,
+          "bytes": 642846,
+          "signature": "7f55beb1847a0441:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "7f55beb1847a0441:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380200,
+        "job": 17215843,
+        "image": {
+          "src": "gallery/_web/pinwheel-1600.jpg",
+          "w": 1075,
+          "h": 1600
+        },
+        "ra": 210.759984,
+        "dec": 54.339664,
+        "radius": 0.5544,
+        "pixscale": 0.39577,
+        "orientation": 250.935,
+        "parity": 1.0,
+        "fov": [
+          0.6184,
+          0.9204
+        ],
+        "objects": [
+          "NGC 5457",
+          "M 101",
+          "NGC 5477",
+          "NGC 5461",
+          "NGC 5471"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 5447"
+            ],
+            "type": "ngc",
+            "x": 2036,
+            "y": 4723,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 5449"
+            ],
+            "type": "ngc",
+            "x": 2489,
+            "y": 4896,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 5450"
+            ],
+            "type": "ngc",
+            "x": 1996,
+            "y": 4675,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 5453"
+            ],
+            "type": "ngc",
+            "x": 2501,
+            "y": 4223,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 5458"
+            ],
+            "type": "ngc",
+            "x": 2531,
+            "y": 3858,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 5451"
+            ],
+            "type": "ngc",
+            "x": 2835,
+            "y": 4788,
+            "r": 39
+          },
+          {
+            "names": [
+              "NGC 5455"
+            ],
+            "type": "ngc",
+            "x": 1962,
+            "y": 3930,
+            "r": 48
+          },
+          {
+            "names": [
+              "NGC 5457"
+            ],
+            "type": "ngc",
+            "x": 2967,
+            "y": 4005,
+            "r": 1818
+          },
+          {
+            "names": [
+              "NGC 5461"
+            ],
+            "type": "ngc",
+            "x": 2906,
+            "y": 3307,
+            "r": 123
+          },
+          {
+            "names": [
+              "NGC 5462"
+            ],
+            "type": "ngc",
+            "x": 3398,
+            "y": 3205,
+            "r": 10
+          },
+          {
+            "names": [
+              "NGC 5471"
+            ],
+            "type": "ngc",
+            "x": 3924,
+            "y": 2545,
+            "r": 62
+          },
+          {
+            "names": [
+              "NGC 5477"
+            ],
+            "type": "ngc",
+            "x": 4940,
+            "y": 1394,
+            "r": 84
+          }
+        ],
+        "wcs": {
+          "width": 1075,
+          "height": 1600,
+          "crpix": [
+            588.250839233,
+            203.49594593
+          ],
+          "crval": [
+            211.333028081,
+            54.255946946
+          ],
+          "cd": [
+            [
+              0.000187546519853,
+              -0.00054379633808
+            ],
+            [
+              0.00054359938724,
+              0.000188258072328
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "thors-helmet",
@@ -1303,7 +2074,7 @@
           "url": "gallery/Thor_Original_2XUpsampled.jpg",
           "width": 7240,
           "height": 3984,
-          "bytes": 2677703
+          "bytes": 2677499
         },
         {
           "label": "Large JPEG",
@@ -1311,166 +2082,100 @@
           "width": 3200,
           "height": 1761,
           "bytes": 705861
-        }
-      ]
-    },
-    {
-      "id": "comet",
-      "title": "The Comet",
-      "catalog": "Solar System",
-      "type": "Comet",
-      "category": "solar-system",
-      "constellation": "",
-      "distance": "",
-      "description": "A visitor from the outer solar system, tail streaming behind it courtesy of sunlight and the solar wind.",
-      "skyTarget": "",
-      "visible": true,
-      "original": "gallery/CometMinimalV1_2xUpsampled.jpg",
-      "width": 4040,
-      "height": 7388,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk8cA5HPak6U4bdpJJ3dhjim0wCiiigD//2Q==",
-      "color": "#0a0a0d",
-      "srcset": [
-        {
-          "src": "gallery/_web/comet-640.jpg",
-          "w": 350
         },
         {
-          "src": "gallery/_web/comet-1024.jpg",
-          "w": 560
-        },
-        {
-          "src": "gallery/_web/comet-1600.jpg",
-          "w": 875
-        },
-        {
-          "src": "gallery/_web/comet-2400.jpg",
-          "w": 1312
-        },
-        {
-          "src": "gallery/_web/comet-3200.jpg",
-          "w": 1750
+          "label": "Medium JPEG",
+          "url": "gallery/_web/thors-helmet-1600.jpg",
+          "width": 1600,
+          "height": 880,
+          "bytes": 238188
         }
       ],
-      "acquisition": {
-        "optics": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "guiding": "",
-        "software": "",
-        "location": "",
-        "bortle": "",
-        "integration": "",
-        "subs": [],
-        "nights": [],
-        "conditions": {
-          "seeing": "",
-          "transparency": ""
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/thors-helmet/main.dzi",
+          "files": "tiles/thors-helmet/main_files/",
+          "width": 6000,
+          "height": 3302,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 437,
+          "bytes": 1465280,
+          "signature": "e794c8a4cc8e466a:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "e794c8a4cc8e466a:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380201,
+        "job": 17215846,
+        "image": {
+          "src": "gallery/_web/thors-helmet-1600.jpg",
+          "w": 1600,
+          "h": 880
         },
-        "notes": ""
-      },
-      "subtitle": "",
-      "story": "",
-      "alt": "",
-      "tags": [],
-      "collections": [],
-      "featured": false,
-      "palette": "",
-      "date": "",
-      "licence": "",
-      "badges": [],
-      "layout": {
-        "span": 1,
-        "focal": [
-          0.5,
-          0.5
-        ]
-      },
-      "sources": {
-        "avif": [
+        "ra": 109.681004,
+        "dec": -13.211571,
+        "radius": 0.6831,
+        "pixscale": 0.59527,
+        "orientation": 90.319,
+        "parity": 1.0,
+        "fov": [
+          1.19715,
+          0.65843
+        ],
+        "objects": [
+          "NGC 2359"
+        ],
+        "annotations": [
           {
-            "src": "gallery/_web/comet-640.avif",
-            "w": 350,
-            "h": 640,
-            "bytes": 25305
+            "names": [
+              "NGC 2361"
+            ],
+            "type": "ngc",
+            "x": 3608,
+            "y": 1510,
+            "r": 0
           },
           {
-            "src": "gallery/_web/comet-1024.avif",
-            "w": 560,
-            "h": 1024,
-            "bytes": 82584
-          },
-          {
-            "src": "gallery/_web/comet-1600.avif",
-            "w": 875,
-            "h": 1600,
-            "bytes": 264361
-          },
-          {
-            "src": "gallery/_web/comet-2400.avif",
-            "w": 1312,
-            "h": 2400,
-            "bytes": 699159
-          },
-          {
-            "src": "gallery/_web/comet-3200.avif",
-            "w": 1750,
-            "h": 3200,
-            "bytes": 1255950
+            "names": [
+              "NGC 2359"
+            ],
+            "type": "ngc",
+            "x": 3715,
+            "y": 1686,
+            "r": 504
           }
         ],
-        "jpg": [
-          {
-            "src": "gallery/_web/comet-640.jpg",
-            "w": 350,
-            "h": 640,
-            "bytes": 49491
-          },
-          {
-            "src": "gallery/_web/comet-1024.jpg",
-            "w": 560,
-            "h": 1024,
-            "bytes": 132105
-          },
-          {
-            "src": "gallery/_web/comet-1600.jpg",
-            "w": 875,
-            "h": 1600,
-            "bytes": 377947
-          },
-          {
-            "src": "gallery/_web/comet-2400.jpg",
-            "w": 1312,
-            "h": 2400,
-            "bytes": 966688
-          },
-          {
-            "src": "gallery/_web/comet-3200.jpg",
-            "w": 1750,
-            "h": 3200,
-            "bytes": 1788154
-          }
-        ]
-      },
-      "integration_seconds": 0,
-      "year": "",
-      "downloads": [
-        {
-          "label": "Full resolution JPEG",
-          "url": "gallery/CometMinimalV1_2xUpsampled.jpg",
-          "width": 4040,
-          "height": 7388,
-          "bytes": 21994615
-        },
-        {
-          "label": "Large JPEG",
-          "url": "gallery/_web/comet-3200.jpg",
-          "width": 1750,
-          "height": 3200,
-          "bytes": 1788154
+        "wcs": {
+          "width": 1600,
+          "height": 880,
+          "crpix": [
+            1325.50125122,
+            465.563613892
+          ],
+          "crval": [
+            109.702526536,
+            -13.604244978
+          ],
+          "cd": [
+            [
+              4.19006328439e-06,
+              0.000748257506217
+            ],
+            [
+              -0.000748157099749,
+              4.14541017418e-06
+            ]
+          ],
+          "flip_y": false
         }
-      ]
+      }
     },
     {
       "id": "horsehead",
@@ -1627,166 +2332,125 @@
           "width": 3200,
           "height": 1861,
           "bytes": 675392
-        }
-      ]
-    },
-    {
-      "id": "m78",
-      "title": "Messier 78",
-      "catalog": "M 78",
-      "type": "Reflection Nebula",
-      "category": "nebulae",
-      "constellation": "Orion",
-      "distance": "≈ 1,300 light-years",
-      "description": "The brightest reflection nebula in the sky — starlight bouncing off dust at the edge of the Orion complex.",
-      "skyTarget": "M78",
-      "visible": true,
-      "original": "gallery/M78_3xUpsampled_W.jpg",
-      "width": 2560,
-      "height": 4438,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDlaOh5GKVApdRIxVCeSBkgfSkx75pgLRRRQB//2Q==",
-      "color": "#0f0d11",
-      "srcset": [
-        {
-          "src": "gallery/_web/m78-640.jpg",
-          "w": 369
         },
         {
-          "src": "gallery/_web/m78-1024.jpg",
-          "w": 591
-        },
-        {
-          "src": "gallery/_web/m78-1600.jpg",
-          "w": 923
-        },
-        {
-          "src": "gallery/_web/m78-2400.jpg",
-          "w": 1384
-        },
-        {
-          "src": "gallery/_web/m78-3200.jpg",
-          "w": 1846
+          "label": "Medium JPEG",
+          "url": "gallery/_web/horsehead-1600.jpg",
+          "width": 1600,
+          "height": 930,
+          "bytes": 210989
         }
       ],
-      "acquisition": {
-        "optics": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "guiding": "",
-        "software": "",
-        "location": "",
-        "bortle": "",
-        "integration": "",
-        "subs": [],
-        "nights": [],
-        "conditions": {
-          "seeing": "",
-          "transparency": ""
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/horsehead/main.dzi",
+          "files": "tiles/horsehead/main_files/",
+          "width": 3942,
+          "height": 2292,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 13,
+          "tiles": 209,
+          "bytes": 632096,
+          "signature": "c7f32b7e7c6d17fc:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "c7f32b7e7c6d17fc:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380202,
+        "job": 17215848,
+        "image": {
+          "src": "gallery/_web/horsehead-1600.jpg",
+          "w": 1600,
+          "h": 930
         },
-        "notes": ""
-      },
-      "subtitle": "",
-      "story": "",
-      "alt": "",
-      "tags": [],
-      "collections": [],
-      "featured": false,
-      "palette": "",
-      "date": "",
-      "licence": "",
-      "badges": [],
-      "layout": {
-        "span": 1,
-        "focal": [
-          0.5,
-          0.5
-        ]
-      },
-      "sources": {
-        "avif": [
+        "ra": 85.348427,
+        "dec": -2.303492,
+        "radius": 0.7522,
+        "pixscale": 1.18786,
+        "orientation": 89.242,
+        "parity": 1.0,
+        "fov": [
+          1.30071,
+          0.75604
+        ],
+        "objects": [
+          "IC 434",
+          "NGC 2024",
+          "NGC 2023",
+          "Flame Nebula",
+          "Orion B",
+          "The star Alnitak (ζ Ori",
+          "50 Ori)"
+        ],
+        "annotations": [
           {
-            "src": "gallery/_web/m78-640.avif",
-            "w": 369,
-            "h": 640,
-            "bytes": 5706
+            "names": [
+              "NGC 2023"
+            ],
+            "type": "ngc",
+            "x": 1834,
+            "y": 1331,
+            "r": 253
           },
           {
-            "src": "gallery/_web/m78-1024.avif",
-            "w": 591,
-            "h": 1024,
-            "bytes": 9686
+            "names": [
+              "NGC 2024"
+            ],
+            "type": "ngc",
+            "x": 612,
+            "y": 1369,
+            "r": 758
           },
           {
-            "src": "gallery/_web/m78-1600.avif",
-            "w": 923,
-            "h": 1600,
-            "bytes": 16182
+            "names": [
+              "IC 434"
+            ],
+            "type": "ic",
+            "x": 2431,
+            "y": 866,
+            "r": 2273
           },
           {
-            "src": "gallery/_web/m78-2400.avif",
-            "w": 1384,
-            "h": 2400,
-            "bytes": 26638
-          },
-          {
-            "src": "gallery/_web/m78-3200.avif",
-            "w": 1846,
-            "h": 3200,
-            "bytes": 36839
+            "names": [
+              "ζ Ori / 50 Ori",
+              "Alnitak"
+            ],
+            "type": "bright",
+            "x": 885,
+            "y": 652,
+            "r": 0
           }
         ],
-        "jpg": [
-          {
-            "src": "gallery/_web/m78-640.jpg",
-            "w": 369,
-            "h": 640,
-            "bytes": 13583
-          },
-          {
-            "src": "gallery/_web/m78-1024.jpg",
-            "w": 591,
-            "h": 1024,
-            "bytes": 27669
-          },
-          {
-            "src": "gallery/_web/m78-1600.jpg",
-            "w": 923,
-            "h": 1600,
-            "bytes": 54128
-          },
-          {
-            "src": "gallery/_web/m78-2400.jpg",
-            "w": 1384,
-            "h": 2400,
-            "bytes": 101032
-          },
-          {
-            "src": "gallery/_web/m78-3200.jpg",
-            "w": 1846,
-            "h": 3200,
-            "bytes": 159166
-          }
-        ]
-      },
-      "integration_seconds": 0,
-      "year": "",
-      "downloads": [
-        {
-          "label": "Full resolution JPEG",
-          "url": "gallery/M78_3xUpsampled_W.jpg",
-          "width": 2560,
-          "height": 4438,
-          "bytes": 161868
-        },
-        {
-          "label": "Large JPEG",
-          "url": "gallery/_web/m78-3200.jpg",
-          "width": 1846,
-          "height": 3200,
-          "bytes": 159166
+        "wcs": {
+          "width": 1600,
+          "height": 930,
+          "crpix": [
+            1186.31025696,
+            324.460887909
+          ],
+          "crval": [
+            85.2297188361,
+            -2.6156316671
+          ],
+          "cd": [
+            [
+              -1.03722154034e-05,
+              0.000812630341303
+            ],
+            [
+              -0.000813113020745,
+              -1.11272171153e-05
+            ]
+          ],
+          "flip_y": false
         }
-      ]
+      }
     },
     {
       "id": "pacman",
@@ -1935,7 +2599,7 @@
           "url": "gallery/NGC281.JPG",
           "width": 3042,
           "height": 5067,
-          "bytes": 1430683
+          "bytes": 1423682
         },
         {
           "label": "Large JPEG",
@@ -1943,8 +2607,110 @@
           "width": 1921,
           "height": 3200,
           "bytes": 666961
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/pacman-1600.jpg",
+          "width": 961,
+          "height": 1600,
+          "bytes": 249286
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/pacman/main.dzi",
+          "files": "tiles/pacman/main_files/",
+          "width": 3042,
+          "height": 5067,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 332,
+          "bytes": 1119646,
+          "signature": "319c7373a8daaba1:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "319c7373a8daaba1:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380203,
+        "job": 17215844,
+        "image": {
+          "src": "gallery/_web/pacman-1600.jpg",
+          "w": 961,
+          "h": 1600
+        },
+        "ra": 13.191149,
+        "dec": 56.638004,
+        "radius": 0.6497,
+        "pixscale": 0.79173,
+        "orientation": 82.968,
+        "parity": 1.0,
+        "fov": [
+          0.66901,
+          1.11386
+        ],
+        "objects": [
+          "NGC 281",
+          "IC 1590"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 281"
+            ],
+            "type": "ngc",
+            "x": 1579,
+            "y": 2682,
+            "r": 1326
+          },
+          {
+            "names": [
+              "IC 11"
+            ],
+            "type": "ic",
+            "x": 1579,
+            "y": 2682,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 1590"
+            ],
+            "type": "ic",
+            "x": 1495,
+            "y": 2576,
+            "r": 239
+          }
+        ],
+        "wcs": {
+          "width": 961,
+          "height": 1600,
+          "crpix": [
+            799.799102783,
+            1149.47796631
+          ],
+          "crval": [
+            13.5803323784,
+            56.3887632987
+          ],
+          "cd": [
+            [
+              -8.53627838352e-05,
+              0.000691269444987
+            ],
+            [
+              -0.000690581875205,
+              -8.50828972e-05
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "soul",
@@ -2101,8 +2867,101 @@
           "width": 3200,
           "height": 1800,
           "bytes": 1564994
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/soul-1600.jpg",
+          "width": 1600,
+          "height": 900,
+          "bytes": 386798
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/soul/main.dzi",
+          "files": "tiles/soul/main_files/",
+          "width": 6000,
+          "height": 3375,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 461,
+          "bytes": 5510852,
+          "signature": "654ab58f428403ab:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "654ab58f428403ab:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380204,
+        "job": 17215850,
+        "image": {
+          "src": "gallery/_web/soul-1600.jpg",
+          "w": 1600,
+          "h": 900
+        },
+        "ra": 43.694512,
+        "dec": 60.372881,
+        "radius": 1.2352,
+        "pixscale": 1.18742,
+        "orientation": 181.415,
+        "parity": 1.0,
+        "fov": [
+          2.1532,
+          1.21117
+        ],
+        "objects": [
+          "IC 1848",
+          "IC 1871"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "IC 1848"
+            ],
+            "type": "ic",
+            "x": 1921,
+            "y": 1968,
+            "r": 1011
+          },
+          {
+            "names": [
+              "IC 1871"
+            ],
+            "type": "ic",
+            "x": 4247,
+            "y": 2728,
+            "r": 101
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 900,
+          "crpix": [
+            767.280540466,
+            434.253135681
+          ],
+          "crval": [
+            43.6052046005,
+            60.3499557336
+          ],
+          "cd": [
+            [
+              0.00134537392615,
+              -3.34279368422e-05
+            ],
+            [
+              3.30584430231e-05,
+              0.0013452992084
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
       "id": "eastern-veil",
@@ -2259,166 +3118,111 @@
           "width": 3200,
           "height": 1928,
           "bytes": 909092
-        }
-      ]
-    },
-    {
-      "id": "iris",
-      "title": "The Iris Nebula",
-      "catalog": "NGC 7023",
-      "type": "Reflection Nebula",
-      "category": "nebulae",
-      "constellation": "Cepheus",
-      "distance": "≈ 1,300 light-years",
-      "description": "Dust lit up blue by a hot young star, blooming inside a dark molecular cloud.",
-      "skyTarget": "NGC 7023",
-      "visible": true,
-      "original": "gallery/Iris_Finalized_3xUpsampled.jpg",
-      "width": 5814,
-      "height": 10866,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAA0DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKShSA3z5I9utJmgBKWiimB//2Q==",
-      "color": "#040404",
-      "srcset": [
-        {
-          "src": "gallery/_web/iris-640.jpg",
-          "w": 342
         },
         {
-          "src": "gallery/_web/iris-1024.jpg",
-          "w": 548
-        },
-        {
-          "src": "gallery/_web/iris-1600.jpg",
-          "w": 856
-        },
-        {
-          "src": "gallery/_web/iris-2400.jpg",
-          "w": 1284
-        },
-        {
-          "src": "gallery/_web/iris-3200.jpg",
-          "w": 1712
+          "label": "Medium JPEG",
+          "url": "gallery/_web/eastern-veil-1600.jpg",
+          "width": 1600,
+          "height": 964,
+          "bytes": 265354
         }
       ],
-      "acquisition": {
-        "optics": "",
-        "camera": "",
-        "mount": "",
-        "filters": "",
-        "guiding": "",
-        "software": "",
-        "location": "",
-        "bortle": "",
-        "integration": "",
-        "subs": [],
-        "nights": [],
-        "conditions": {
-          "seeing": "",
-          "transparency": ""
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/eastern-veil/main.dzi",
+          "files": "tiles/eastern-veil/main_files/",
+          "width": 5317,
+          "height": 3203,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 391,
+          "bytes": 1639288,
+          "signature": "2b9411d02e9fd9c7:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "2b9411d02e9fd9c7:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380205,
+        "job": 17215847,
+        "image": {
+          "src": "gallery/_web/eastern-veil-1600.jpg",
+          "w": 1600,
+          "h": 964
         },
-        "notes": ""
-      },
-      "subtitle": "",
-      "story": "",
-      "alt": "",
-      "tags": [],
-      "collections": [],
-      "featured": false,
-      "palette": "",
-      "date": "",
-      "licence": "",
-      "badges": [],
-      "layout": {
-        "span": 1,
-        "focal": [
-          0.5,
-          0.5
-        ]
-      },
-      "sources": {
-        "avif": [
+        "ra": 314.084346,
+        "dec": 31.42304,
+        "radius": 0.6824,
+        "pixscale": 0.79155,
+        "orientation": 269.986,
+        "parity": 1.0,
+        "fov": [
+          1.16907,
+          0.70436
+        ],
+        "objects": [
+          "NGC 6992",
+          "IC 1340",
+          "NGC 6995"
+        ],
+        "annotations": [
           {
-            "src": "gallery/_web/iris-640.avif",
-            "w": 342,
-            "h": 640,
-            "bytes": 15186
+            "names": [
+              "NGC 6992"
+            ],
+            "type": "ngc",
+            "x": 4114,
+            "y": 1625,
+            "r": 2274
           },
           {
-            "src": "gallery/_web/iris-1024.avif",
-            "w": 548,
-            "h": 1024,
-            "bytes": 30972
+            "names": [
+              "NGC 6995"
+            ],
+            "type": "ngc",
+            "x": 1807,
+            "y": 783,
+            "r": 455
           },
           {
-            "src": "gallery/_web/iris-1600.avif",
-            "w": 856,
-            "h": 1600,
-            "bytes": 58609
-          },
-          {
-            "src": "gallery/_web/iris-2400.avif",
-            "w": 1284,
-            "h": 2400,
-            "bytes": 117726
-          },
-          {
-            "src": "gallery/_web/iris-3200.avif",
-            "w": 1712,
-            "h": 3200,
-            "bytes": 207656
+            "names": [
+              "IC 1340"
+            ],
+            "type": "ic",
+            "x": 954,
+            "y": 1799,
+            "r": 952
           }
         ],
-        "jpg": [
-          {
-            "src": "gallery/_web/iris-640.jpg",
-            "w": 342,
-            "h": 640,
-            "bytes": 34304
-          },
-          {
-            "src": "gallery/_web/iris-1024.jpg",
-            "w": 548,
-            "h": 1024,
-            "bytes": 68807
-          },
-          {
-            "src": "gallery/_web/iris-1600.jpg",
-            "w": 856,
-            "h": 1600,
-            "bytes": 148505
-          },
-          {
-            "src": "gallery/_web/iris-2400.jpg",
-            "w": 1284,
-            "h": 2400,
-            "bytes": 340208
-          },
-          {
-            "src": "gallery/_web/iris-3200.jpg",
-            "w": 1712,
-            "h": 3200,
-            "bytes": 620662
-          }
-        ]
-      },
-      "integration_seconds": 0,
-      "year": "",
-      "downloads": [
-        {
-          "label": "Full resolution JPEG",
-          "url": "gallery/Iris_Finalized_3xUpsampled.jpg",
-          "width": 5814,
-          "height": 10866,
-          "bytes": 17065580
-        },
-        {
-          "label": "Large JPEG",
-          "url": "gallery/_web/iris-3200.jpg",
-          "width": 1712,
-          "height": 3200,
-          "bytes": 620662
+        "wcs": {
+          "width": 1600,
+          "height": 964,
+          "crpix": [
+            1038.18571472,
+            554.790420532
+          ],
+          "crval": [
+            314.022509259,
+            31.5967373374
+          ],
+          "cd": [
+            [
+              2.16101771715e-07,
+              -0.000730655303879
+            ],
+            [
+              0.000730682579114,
+              1.4768717408e-07
+            ]
+          ],
+          "flip_y": false
         }
-      ]
+      }
     },
     {
       "id": "eagle",
@@ -2575,11 +3379,106 @@
           "width": 2483,
           "height": 3200,
           "bytes": 867546
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/eagle-1600.jpg",
+          "width": 1241,
+          "height": 1600,
+          "bytes": 366746
         }
-      ]
+      ],
+      "versions": [],
+      "tiles": {
+        "main": {
+          "dzi": "tiles/eagle/main.dzi",
+          "files": "tiles/eagle/main_files/",
+          "width": 4655,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 628,
+          "bytes": 1873328,
+          "signature": "11a8bd1c84282ef4:0:6000:256:1:webp:88"
+        }
+      },
+      "source": "11a8bd1c84282ef4:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380206,
+        "job": 17215849,
+        "image": {
+          "src": "gallery/_web/eagle-1600.jpg",
+          "w": 1241,
+          "h": 1600
+        },
+        "ra": 274.765467,
+        "dec": -13.891732,
+        "radius": 1.0502,
+        "pixscale": 0.79257,
+        "orientation": 28.008,
+        "parity": 1.0,
+        "fov": [
+          1.28727,
+          1.65966
+        ],
+        "objects": [
+          "NGC 6611",
+          "M 16",
+          "IC 4703",
+          "Eagle Nebula",
+          "Star Queen"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 6611"
+            ],
+            "type": "ngc",
+            "x": 2997,
+            "y": 3299,
+            "r": 4542
+          },
+          {
+            "names": [
+              "IC 4703"
+            ],
+            "type": "ic",
+            "x": 2950,
+            "y": 3520,
+            "r": 191
+          }
+        ],
+        "wcs": {
+          "width": 1241,
+          "height": 1600,
+          "crpix": [
+            431.834648132,
+            1058.39613342
+          ],
+          "crval": [
+            275.073336935,
+            -14.0360536684
+          ],
+          "cd": [
+            [
+              -0.000915574277639,
+              0.000487304203232
+            ],
+            [
+              -0.000486917995855,
+              -0.000916017774416
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     },
     {
-      "id": "lagoon",
       "title": "The Lagoon Nebula",
       "catalog": "Messier 8",
       "type": "Emission Nebula",
@@ -2587,7 +3486,7 @@
       "constellation": "Sagittarius",
       "distance": "≈ 4,100 light-years",
       "skyTarget": "M8",
-      "palette": "SHO",
+      "palette": "",
       "description": "A giant star-forming cloud in the heart of the Milky Way, its hourglass core lit by the young cluster NGC 6530.",
       "acquisition": {
         "optics": "",
@@ -2623,12 +3522,14 @@
           0.5
         ]
       },
+      "id": "lagoon",
       "visible": true,
-      "original": "gallery/Lagoon_2XUpsampled_SHO_DeepDark_V1.jpg",
-      "width": 6672,
-      "height": 3944,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDl4YjJGSD+FRDAGG/I1ZsLtYQ0bJv3dPaoJWDynA4PWk1YabfQPJJjMg+6veikk4QAHiihbA9D/9k=",
-      "color": "#110f0a",
+      "original": "gallery/Lagoon_Saturated_3xUpsampled.jpg",
+      "versions": [],
+      "width": 10008,
+      "height": 5916,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAOABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDAgt2niZk5A61AuAMN9MGrukaitmrwyRlwx+XHY1VncSXDlRgE5oNHayYq27tE8q/dTqc0UyX5UwOlFAmf/9k=",
+      "color": "#26181d",
       "srcset": [
         {
           "src": "gallery/_web/lagoon-640.jpg",
@@ -2657,31 +3558,31 @@
             "src": "gallery/_web/lagoon-640.avif",
             "w": 640,
             "h": 378,
-            "bytes": 48788
+            "bytes": 51345
           },
           {
             "src": "gallery/_web/lagoon-1024.avif",
             "w": 1024,
             "h": 605,
-            "bytes": 109289
+            "bytes": 117246
           },
           {
             "src": "gallery/_web/lagoon-1600.avif",
             "w": 1600,
             "h": 946,
-            "bytes": 220699
+            "bytes": 248062
           },
           {
             "src": "gallery/_web/lagoon-2400.avif",
             "w": 2400,
             "h": 1419,
-            "bytes": 402796
+            "bytes": 492303
           },
           {
             "src": "gallery/_web/lagoon-3200.avif",
             "w": 3200,
             "h": 1892,
-            "bytes": 596803
+            "bytes": 784133
           }
         ],
         "jpg": [
@@ -2689,52 +3590,1915 @@
             "src": "gallery/_web/lagoon-640.jpg",
             "w": 640,
             "h": 378,
-            "bytes": 69919
+            "bytes": 69041
           },
           {
             "src": "gallery/_web/lagoon-1024.jpg",
             "w": 1024,
             "h": 605,
-            "bytes": 169154
+            "bytes": 172277
           },
           {
             "src": "gallery/_web/lagoon-1600.jpg",
             "w": 1600,
             "h": 946,
-            "bytes": 371453
+            "bytes": 395569
           },
           {
             "src": "gallery/_web/lagoon-2400.jpg",
             "w": 2400,
             "h": 1419,
-            "bytes": 720427
+            "bytes": 814012
           },
           {
             "src": "gallery/_web/lagoon-3200.jpg",
             "w": 3200,
             "h": 1892,
-            "bytes": 1127795
+            "bytes": 1337684
           }
         ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/lagoon/main.dzi",
+          "files": "tiles/lagoon/main_files/",
+          "width": 6000,
+          "height": 3547,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 461,
+          "bytes": 3897244,
+          "signature": "29a5be238f917c6b:0:6000:256:1:webp:88"
+        }
       },
       "integration_seconds": 0,
       "year": "",
       "downloads": [
         {
           "label": "Full resolution JPEG",
-          "url": "gallery/Lagoon_2XUpsampled_SHO_DeepDark_V1.jpg",
-          "width": 6672,
-          "height": 3944,
-          "bytes": 2074889
+          "url": "gallery/Lagoon_Saturated_3xUpsampled.jpg",
+          "width": 10008,
+          "height": 5916,
+          "bytes": 5075884
         },
         {
           "label": "Large JPEG",
           "url": "gallery/_web/lagoon-3200.jpg",
           "width": 3200,
           "height": 1892,
-          "bytes": 1127795
+          "bytes": 1337684
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/lagoon-1600.jpg",
+          "width": 1600,
+          "height": 946,
+          "bytes": 395569
         }
-      ]
+      ],
+      "source": "29a5be238f917c6b:0",
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380207,
+        "job": 17215845,
+        "image": {
+          "src": "gallery/_web/lagoon-1600.jpg",
+          "w": 1600,
+          "h": 946
+        },
+        "ra": 271.017878,
+        "dec": -23.728466,
+        "radius": 1.2816,
+        "pixscale": 0.79364,
+        "orientation": 296.814,
+        "parity": 1.0,
+        "fov": [
+          2.20632,
+          1.30448
+        ],
+        "objects": [
+          "NGC 6514",
+          "M 20",
+          "NGC 6526",
+          "NGC 6523",
+          "M 8",
+          "NGC 6531",
+          "M 21",
+          "NGC 6530",
+          "Lagoon Nebula",
+          "Trifid Nebula",
+          "The star 7 Sgr",
+          "The star 9 Sgr"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 6533"
+            ],
+            "type": "ngc",
+            "x": 2554,
+            "y": 4654,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 6514"
+            ],
+            "type": "ngc",
+            "x": 8717,
+            "y": 2690,
+            "r": 1058
+          },
+          {
+            "names": [
+              "NGC 6523"
+            ],
+            "type": "ngc",
+            "x": 2554,
+            "y": 4654,
+            "r": 1701
+          },
+          {
+            "names": [
+              "NGC 6526"
+            ],
+            "type": "ngc",
+            "x": 2111,
+            "y": 4397,
+            "r": 1512
+          },
+          {
+            "names": [
+              "NGC 6530"
+            ],
+            "type": "ngc",
+            "x": 2256,
+            "y": 3845,
+            "r": 227
+          },
+          {
+            "names": [
+              "NGC 6531"
+            ],
+            "type": "ngc",
+            "x": 9965,
+            "y": 282,
+            "r": 227
+          },
+          {
+            "names": [
+              "IC 1271"
+            ],
+            "type": "ic",
+            "x": 1714,
+            "y": 3306,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 4678"
+            ],
+            "type": "ic",
+            "x": 2928,
+            "y": 1137,
+            "r": 0
+          },
+          {
+            "names": [
+              "7 Sgr"
+            ],
+            "type": "bright",
+            "x": 3340,
+            "y": 5226,
+            "r": 0
+          },
+          {
+            "names": [
+              "9 Sgr"
+            ],
+            "type": "bright",
+            "x": 2546,
+            "y": 4442,
+            "r": 0
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 946,
+          "crpix": [
+            798.936808268,
+            617.765625
+          ],
+          "crval": [
+            270.825169386,
+            -23.8202298585
+          ],
+          "cd": [
+            [
+              -0.000622180545249,
+              -0.00122961095752
+            ],
+            [
+              0.00123174155712,
+              -0.000621900636325
+            ]
+          ],
+          "flip_y": false
+        }
+      }
+    },
+    {
+      "id": "elephants-trunk",
+      "title": "The Elephant's Trunk Nebula",
+      "catalog": "IC 1396",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cepheus",
+      "distance": "≈ 2,400 light-years",
+      "skyTarget": "IC1396",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "aef60a8741e21745:0",
+      "original": "gallery/IC1396_2xUpsampled_Starreduced.jpg",
+      "width": 5984,
+      "height": 3624,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAPABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDlwQcYp7qVTOODUeAT0xU24GPYTkDpntSN1G4gUBSe1FRls/LngUUFOS6H/9k=",
+      "color": "#260b10",
+      "srcset": [
+        {
+          "src": "gallery/_web/elephants-trunk-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/elephants-trunk-1024.jpg",
+          "w": 1024
+        },
+        {
+          "src": "gallery/_web/elephants-trunk-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/elephants-trunk-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/elephants-trunk-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/elephants-trunk-640.avif",
+            "w": 640,
+            "h": 388,
+            "bytes": 69648
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-1024.avif",
+            "w": 1024,
+            "h": 620,
+            "bytes": 172476
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-1600.avif",
+            "w": 1600,
+            "h": 969,
+            "bytes": 378894
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-2400.avif",
+            "w": 2400,
+            "h": 1453,
+            "bytes": 765257
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-3200.avif",
+            "w": 3200,
+            "h": 1938,
+            "bytes": 1218057
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/elephants-trunk-640.jpg",
+            "w": 640,
+            "h": 388,
+            "bytes": 89222
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-1024.jpg",
+            "w": 1024,
+            "h": 620,
+            "bytes": 239780
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-1600.jpg",
+            "w": 1600,
+            "h": 969,
+            "bytes": 573340
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-2400.jpg",
+            "w": 2400,
+            "h": 1453,
+            "bytes": 1174024
+          },
+          {
+            "src": "gallery/_web/elephants-trunk-3200.jpg",
+            "w": 3200,
+            "h": 1938,
+            "bytes": 1899313
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/elephants-trunk/main.dzi",
+          "files": "tiles/elephants-trunk/main_files/",
+          "width": 5984,
+          "height": 3624,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 497,
+          "bytes": 5981592,
+          "signature": "aef60a8741e21745:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/IC1396_2xUpsampled_Starreduced.jpg",
+          "width": 5984,
+          "height": 3624,
+          "bytes": 3472917
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/elephants-trunk-3200.jpg",
+          "width": 3200,
+          "height": 1938,
+          "bytes": 1899313
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/elephants-trunk-1600.jpg",
+          "width": 1600,
+          "height": 969,
+          "bytes": 573340
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380208,
+        "job": 17215853,
+        "image": {
+          "src": "gallery/_web/elephants-trunk-1600.jpg",
+          "w": 1600,
+          "h": 969
+        },
+        "ra": 323.892496,
+        "dec": 57.541937,
+        "radius": 1.1565,
+        "pixscale": 1.19025,
+        "orientation": 270.627,
+        "parity": 1.0,
+        "fov": [
+          1.97847,
+          1.19821
+        ],
+        "objects": [
+          "IC 1396"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "IC 1396"
+            ],
+            "type": "ic",
+            "x": 2835,
+            "y": 438,
+            "r": 353
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 969,
+          "crpix": [
+            811.87625885,
+            645.938526154
+          ],
+          "crval": [
+            323.521352593,
+            57.5544298161
+          ],
+          "cd": [
+            [
+              -1.39131519388e-05,
+              -0.00123666858676
+            ],
+            [
+              0.00123626574992,
+              -1.31455739213e-05
+            ]
+          ],
+          "flip_y": false
+        }
+      }
+    },
+    {
+      "id": "triangulum",
+      "title": "The Triangulum Galaxy",
+      "catalog": "Messier 33",
+      "type": "Spiral Galaxy",
+      "category": "galaxies",
+      "constellation": "Triangulum",
+      "distance": "≈ 2.7 million light-years",
+      "skyTarget": "M33",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "473308f3bbe6208e:0",
+      "original": "gallery/M33_Finalized_2XResampled.jpg",
+      "width": 6536,
+      "height": 4088,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAPABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjwCelXDYOkIkcgA9OaqK200953cYJOKYDGGCQKKSikB//2Q==",
+      "color": "#0a0b0d",
+      "srcset": [
+        {
+          "src": "gallery/_web/triangulum-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/triangulum-1024.jpg",
+          "w": 1024
+        },
+        {
+          "src": "gallery/_web/triangulum-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/triangulum-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/triangulum-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/triangulum-640.avif",
+            "w": 640,
+            "h": 400,
+            "bytes": 17805
+          },
+          {
+            "src": "gallery/_web/triangulum-1024.avif",
+            "w": 1024,
+            "h": 640,
+            "bytes": 34439
+          },
+          {
+            "src": "gallery/_web/triangulum-1600.avif",
+            "w": 1600,
+            "h": 1001,
+            "bytes": 60253
+          },
+          {
+            "src": "gallery/_web/triangulum-2400.avif",
+            "w": 2400,
+            "h": 1501,
+            "bytes": 92720
+          },
+          {
+            "src": "gallery/_web/triangulum-3200.avif",
+            "w": 3200,
+            "h": 2001,
+            "bytes": 125996
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/triangulum-640.jpg",
+            "w": 640,
+            "h": 400,
+            "bytes": 31415
+          },
+          {
+            "src": "gallery/_web/triangulum-1024.jpg",
+            "w": 1024,
+            "h": 640,
+            "bytes": 63812
+          },
+          {
+            "src": "gallery/_web/triangulum-1600.jpg",
+            "w": 1600,
+            "h": 1001,
+            "bytes": 120458
+          },
+          {
+            "src": "gallery/_web/triangulum-2400.jpg",
+            "w": 2400,
+            "h": 1501,
+            "bytes": 212920
+          },
+          {
+            "src": "gallery/_web/triangulum-3200.jpg",
+            "w": 3200,
+            "h": 2001,
+            "bytes": 320834
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/triangulum/main.dzi",
+          "files": "tiles/triangulum/main_files/",
+          "width": 6000,
+          "height": 3753,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 497,
+          "bytes": 572104,
+          "signature": "473308f3bbe6208e:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/M33_Finalized_2XResampled.jpg",
+          "width": 6536,
+          "height": 4088,
+          "bytes": 518927
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/triangulum-3200.jpg",
+          "width": 3200,
+          "height": 2001,
+          "bytes": 320834
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/triangulum-1600.jpg",
+          "width": 1600,
+          "height": 1001,
+          "bytes": 120458
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380209,
+        "job": 17215851,
+        "image": {
+          "src": "gallery/_web/triangulum-1600.jpg",
+          "w": 1600,
+          "h": 1001
+        },
+        "ra": 23.437339,
+        "dec": 30.685227,
+        "radius": 0.637,
+        "pixscale": 0.59491,
+        "orientation": 270.696,
+        "parity": 1.0,
+        "fov": [
+          1.08009,
+          0.67573
+        ],
+        "objects": [
+          "NGC 598",
+          "M 33",
+          "NGC 595",
+          "Triangulum Galaxy",
+          "Triangulum Pinwheel",
+          "NGC 604"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 592"
+            ],
+            "type": "ngc",
+            "x": 3036,
+            "y": 2772,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 603"
+            ],
+            "type": "ngc",
+            "x": 511,
+            "y": 799,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 588"
+            ],
+            "type": "ngc",
+            "x": 3059,
+            "y": 3331,
+            "r": 30
+          },
+          {
+            "names": [
+              "NGC 595"
+            ],
+            "type": "ngc",
+            "x": 3311,
+            "y": 2287,
+            "r": 87
+          },
+          {
+            "names": [
+              "NGC 598"
+            ],
+            "type": "ngc",
+            "x": 3117,
+            "y": 1920,
+            "r": 3131
+          },
+          {
+            "names": [
+              "NGC 604"
+            ],
+            "type": "ngc",
+            "x": 3860,
+            "y": 994,
+            "r": 97
+          },
+          {
+            "names": [
+              "IC 134"
+            ],
+            "type": "ic",
+            "x": 4579,
+            "y": 2462,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 136"
+            ],
+            "type": "ic",
+            "x": 2516,
+            "y": 1382,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 137"
+            ],
+            "type": "ic",
+            "x": 2287,
+            "y": 2191,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 139"
+            ],
+            "type": "ic",
+            "x": 2553,
+            "y": 1746,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 140"
+            ],
+            "type": "ic",
+            "x": 2448,
+            "y": 1771,
+            "r": 0
+          },
+          {
+            "names": [
+              "IC 131"
+            ],
+            "type": "ic",
+            "x": 3691,
+            "y": 2700,
+            "r": 15
+          },
+          {
+            "names": [
+              "IC 132"
+            ],
+            "type": "ic",
+            "x": 4854,
+            "y": 2655,
+            "r": 34
+          },
+          {
+            "names": [
+              "IC 133"
+            ],
+            "type": "ic",
+            "x": 4508,
+            "y": 2675,
+            "r": 23
+          },
+          {
+            "names": [
+              "IC 135"
+            ],
+            "type": "ic",
+            "x": 2867,
+            "y": 1389,
+            "r": 20
+          },
+          {
+            "names": [
+              "IC 142"
+            ],
+            "type": "ic",
+            "x": 3706,
+            "y": 1812,
+            "r": 25
+          },
+          {
+            "names": [
+              "IC 143"
+            ],
+            "type": "ic",
+            "x": 3814,
+            "y": 1477,
+            "r": 15
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 1001,
+          "crpix": [
+            228.607995987,
+            359.59330368
+          ],
+          "crval": [
+            23.5537822521,
+            30.3005716188
+          ],
+          "cd": [
+            [
+              -8.1382391268e-06,
+              -0.000675270786027
+            ],
+            [
+              0.000674745494165,
+              -8.26512699155e-06
+            ]
+          ],
+          "flip_y": false
+        }
+      }
+    },
+    {
+      "id": "milky-way",
+      "title": "The Milky Way",
+      "rotate": 180,
+      "catalog": "",
+      "type": "Milky Way",
+      "category": "wide-field",
+      "constellation": "",
+      "distance": "",
+      "skyTarget": "",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "c5a05d2fe3d2cc6f:180",
+      "original": "gallery/MW1.jpg",
+      "width": 4000,
+      "height": 6000,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYABADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDA2d+xpjpV2JQylajljxU3AZFdxoQRIuRSyXUJzh1oopWK6H//2Q==",
+      "color": "#27251c",
+      "srcset": [
+        {
+          "src": "gallery/_web/milky-way-640.jpg",
+          "w": 427
+        },
+        {
+          "src": "gallery/_web/milky-way-1024.jpg",
+          "w": 683
+        },
+        {
+          "src": "gallery/_web/milky-way-1600.jpg",
+          "w": 1067
+        },
+        {
+          "src": "gallery/_web/milky-way-2400.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/milky-way-3200.jpg",
+          "w": 2133
+        },
+        {
+          "src": "gallery/_web/milky-way-5120.jpg",
+          "w": 3413
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/milky-way-640.avif",
+            "w": 427,
+            "h": 640,
+            "bytes": 36196
+          },
+          {
+            "src": "gallery/_web/milky-way-1024.avif",
+            "w": 683,
+            "h": 1024,
+            "bytes": 79318
+          },
+          {
+            "src": "gallery/_web/milky-way-1600.avif",
+            "w": 1067,
+            "h": 1600,
+            "bytes": 171966
+          },
+          {
+            "src": "gallery/_web/milky-way-2400.avif",
+            "w": 1600,
+            "h": 2400,
+            "bytes": 407359
+          },
+          {
+            "src": "gallery/_web/milky-way-3200.avif",
+            "w": 2133,
+            "h": 3200,
+            "bytes": 793340
+          },
+          {
+            "src": "gallery/_web/milky-way-5120.avif",
+            "w": 3413,
+            "h": 5120,
+            "bytes": 2029250
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/milky-way-640.jpg",
+            "w": 427,
+            "h": 640,
+            "bytes": 53276
+          },
+          {
+            "src": "gallery/_web/milky-way-1024.jpg",
+            "w": 683,
+            "h": 1024,
+            "bytes": 123821
+          },
+          {
+            "src": "gallery/_web/milky-way-1600.jpg",
+            "w": 1067,
+            "h": 1600,
+            "bytes": 272426
+          },
+          {
+            "src": "gallery/_web/milky-way-2400.jpg",
+            "w": 1600,
+            "h": 2400,
+            "bytes": 590285
+          },
+          {
+            "src": "gallery/_web/milky-way-3200.jpg",
+            "w": 2133,
+            "h": 3200,
+            "bytes": 1083836
+          },
+          {
+            "src": "gallery/_web/milky-way-5120.jpg",
+            "w": 3413,
+            "h": 5120,
+            "bytes": 2890941
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/milky-way/main.dzi",
+          "files": "tiles/milky-way/main_files/",
+          "width": 4000,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 521,
+          "bytes": 4990926,
+          "signature": "c5a05d2fe3d2cc6f:180:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/MW1.jpg",
+          "width": 4000,
+          "height": 6000,
+          "bytes": 6775305
+        },
+        {
+          "label": "Extra large JPEG",
+          "url": "gallery/_web/milky-way-5120.jpg",
+          "width": 3413,
+          "height": 5120,
+          "bytes": 2890941
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/milky-way-3200.jpg",
+          "width": 2133,
+          "height": 3200,
+          "bytes": 1083836
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/milky-way-1600.jpg",
+          "width": 1067,
+          "height": 1600,
+          "bytes": 272426
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-10-31",
+        "service": "nova.astrometry.net",
+        "submission": 16380210,
+        "job": 17215852,
+        "image": {
+          "src": "gallery/_web/milky-way-1600.jpg",
+          "w": 1067,
+          "h": 1600
+        },
+        "ra": 272.023888,
+        "dec": -14.651577,
+        "radius": 41.0867,
+        "pixscale": 41.03231,
+        "orientation": 350.153,
+        "parity": 1.0,
+        "fov": [
+          45.59146,
+          68.36583
+        ],
+        "objects": [
+          "Part of the constellation Scorpius (Sco)",
+          "NGC 6611",
+          "M 16",
+          "Part of the constellation Sagittarius (Sgr)",
+          "IC 4715",
+          "Part of the constellation Aquila (Aql)",
+          "Part of the constellation Serpens (Ser)",
+          "IC 4701",
+          "Part of the constellation Ophiuchus (Oph)",
+          "IC 4628",
+          "The constellation Scutum (Sct)",
+          "The constellation Corona Austrina (CrA)",
+          "Eagle Nebula",
+          "Small Sgr Star Cloud",
+          "M 24",
+          "NGC 6727",
+          "The star Antares",
+          "Cor Scorpii",
+          "Vespertilio",
+          "Kalb al Akrab (α Sco",
+          "21 Sco)",
+          "The star Rasalhague (α Oph",
+          "55 Oph)",
+          "The star Kaus Australis (ε Sgr",
+          "20 Sgr)",
+          "The star Nunki",
+          "Sadira (σ Sgr",
+          "34 Sgr)",
+          "The star Shaula (λ Sco",
+          "35 Sco)",
+          "The star Sargas",
+          "Girtab (θ Sco)",
+          "The star Larawag (ε Sco",
+          "26 Sco)",
+          "The star Mula (κ Sco)",
+          "The star Sabik (η Oph",
+          "35 Oph)",
+          "The star Ascella (ζ Sgr",
+          "38 Sgr)"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "λ Aql / 16 Aql",
+              "Al Thalimain Prior / Al Thalimain I"
+            ],
+            "type": "bright",
+            "x": 790,
+            "y": 1987,
+            "r": 0
+          },
+          {
+            "names": [
+              "ι Aql / 41 Aql",
+              "Al Thalimain Posterior / Al Thalimain II"
+            ],
+            "type": "bright",
+            "x": 13,
+            "y": 1548,
+            "r": 0
+          },
+          {
+            "names": [
+              "ζ Aql / 17 Aql",
+              "Okab / Deneb al Okab Australis / Deneb el Okab"
+            ],
+            "type": "bright",
+            "x": 903,
+            "y": 102,
+            "r": 0
+          },
+          {
+            "names": [
+              "δ Aql / 30 Aql",
+              "Almizan I"
+            ],
+            "type": "bright",
+            "x": 330,
+            "y": 1149,
+            "r": 0
+          },
+          {
+            "names": [
+              "α CrA",
+              "Meridiana / Alfecca Meridiana"
+            ],
+            "type": "bright",
+            "x": 468,
+            "y": 5143,
+            "r": 0
+          },
+          {
+            "names": [
+              "α1 Her / α2 Her / 64 Her",
+              "Rasalgethi / Ras Algethi"
+            ],
+            "type": "bright",
+            "x": 3615,
+            "y": 482,
+            "r": 0
+          },
+          {
+            "names": [
+              "α Oph / 55 Oph",
+              "Rasalhague"
+            ],
+            "type": "bright",
+            "x": 3098,
+            "y": 621,
+            "r": 0
+          },
+          {
+            "names": [
+              "β Oph / 60 Oph",
+              "Cebalrai"
+            ],
+            "type": "bright",
+            "x": 2788,
+            "y": 1383,
+            "r": 0
+          },
+          {
+            "names": [
+              "η Oph / 35 Oph",
+              "Sabik"
+            ],
+            "type": "bright",
+            "x": 3209,
+            "y": 3294,
+            "r": 0
+          },
+          {
+            "names": [
+              "γ Oph / 62 Oph",
+              "Muliphen"
+            ],
+            "type": "bright",
+            "x": 2664,
+            "y": 1542,
+            "r": 0
+          },
+          {
+            "names": [
+              "Barnard's Star"
+            ],
+            "type": "bright",
+            "x": 2464,
+            "y": 1324,
+            "r": 0
+          },
+          {
+            "names": [
+              "θ Oph / 42 Oph",
+              "Garafsa"
+            ],
+            "type": "bright",
+            "x": 2810,
+            "y": 4062,
+            "r": 0
+          },
+          {
+            "names": [
+              "ξ Oph / 40 Oph",
+              "Aggia"
+            ],
+            "type": "bright",
+            "x": 2897,
+            "y": 3719,
+            "r": 0
+          },
+          {
+            "names": [
+              "α Sgr",
+              "Rukbat / Alrami"
+            ],
+            "type": "bright",
+            "x": 126,
+            "y": 5484,
+            "r": 0
+          },
+          {
+            "names": [
+              "β1 Sgr",
+              "Arkab Prior / Arkab"
+            ],
+            "type": "bright",
+            "x": 112,
+            "y": 5949,
+            "r": 0
+          },
+          {
+            "names": [
+              "β2 Sgr",
+              "Arkab Posterior"
+            ],
+            "type": "bright",
+            "x": 96,
+            "y": 5995,
+            "r": 0
+          },
+          {
+            "names": [
+              "γ Sgr / γ2 Sgr / 10 Sgr",
+              "Alnasl / Nushaba / Al Nasl / Nash / El Nasl"
+            ],
+            "type": "bright",
+            "x": 1858,
+            "y": 4417,
+            "r": 0
+          },
+          {
+            "names": [
+              "δ Sgr / 19 Sgr",
+              "Kaus Media / Kaus Meridionalis / Media"
+            ],
+            "type": "bright",
+            "x": 1564,
+            "y": 4330,
+            "r": 0
+          },
+          {
+            "names": [
+              "ε Sgr / 20 Sgr",
+              "Kaus Australis"
+            ],
+            "type": "bright",
+            "x": 1439,
+            "y": 4771,
+            "r": 0
+          },
+          {
+            "names": [
+              "ζ Sgr / 38 Sgr",
+              "Ascella"
+            ],
+            "type": "bright",
+            "x": 696,
+            "y": 4303,
+            "r": 0
+          },
+          {
+            "names": [
+              "λ Sgr / 22 Sgr",
+              "Kaus Borealis / Al Thalimain"
+            ],
+            "type": "bright",
+            "x": 1476,
+            "y": 3908,
+            "r": 0
+          },
+          {
+            "names": [
+              "σ Sgr / 34 Sgr",
+              "Nunki / Sadira"
+            ],
+            "type": "bright",
+            "x": 889,
+            "y": 3959,
+            "r": 0
+          },
+          {
+            "names": [
+              "μ Sgr / 13 Sgr",
+              "Polis / Al Thalimain / Alnam"
+            ],
+            "type": "bright",
+            "x": 1821,
+            "y": 3545,
+            "r": 0
+          },
+          {
+            "names": [
+              "π Sgr / 41 Sgr",
+              "Albaldah / Al Baldah"
+            ],
+            "type": "bright",
+            "x": 606,
+            "y": 3458,
+            "r": 0
+          },
+          {
+            "names": [
+              "η Sgr",
+              "Hamalwarid / Arkab"
+            ],
+            "type": "bright",
+            "x": 1532,
+            "y": 5023,
+            "r": 0
+          },
+          {
+            "names": [
+              "ν1 Sgr / 32 Sgr",
+              "Ainalrami / Ain al Rami I"
+            ],
+            "type": "bright",
+            "x": 945,
+            "y": 3629,
+            "r": 0
+          },
+          {
+            "names": [
+              "ν2 Sgr / 35 Sgr",
+              "Ain al Rami II"
+            ],
+            "type": "bright",
+            "x": 924,
+            "y": 3621,
+            "r": 0
+          },
+          {
+            "names": [
+              "τ Sgr / 40 Sgr",
+              "Namalsadirah II"
+            ],
+            "type": "bright",
+            "x": 619,
+            "y": 4088,
+            "r": 0
+          },
+          {
+            "names": [
+              "φ Sgr / 27 Sgr",
+              "Namalsadirah I"
+            ],
+            "type": "bright",
+            "x": 1089,
+            "y": 4031,
+            "r": 0
+          },
+          {
+            "names": [
+              "χ1 Sgr / 47 Sgr",
+              "Namalsadirah III"
+            ],
+            "type": "bright",
+            "x": 218,
+            "y": 3787,
+            "r": 0
+          },
+          {
+            "names": [
+              "χ3 Sgr / 49 Sgr",
+              "Namalsadirah IV"
+            ],
+            "type": "bright",
+            "x": 216,
+            "y": 3734,
+            "r": 0
+          },
+          {
+            "names": [
+              "ψ Sgr / 42 Sgr",
+              "Al Kiladah"
+            ],
+            "type": "bright",
+            "x": 443,
+            "y": 3856,
+            "r": 0
+          },
+          {
+            "names": [
+              "α Sco / 21 Sco",
+              "Antares / Cor Scorpii / Vespertilio / Kalb al Akrab"
+            ],
+            "type": "bright",
+            "x": 3861,
+            "y": 4483,
+            "r": 0
+          },
+          {
+            "names": [
+              "θ Sco",
+              "Sargas / Girtab"
+            ],
+            "type": "bright",
+            "x": 2165,
+            "y": 5806,
+            "r": 0
+          },
+          {
+            "names": [
+              "λ Sco / 35 Sco",
+              "Shaula"
+            ],
+            "type": "bright",
+            "x": 2360,
+            "y": 5177,
+            "r": 0
+          },
+          {
+            "names": [
+              "τ Sco / 23 Sco",
+              "Alniyat II / Al Niyat"
+            ],
+            "type": "bright",
+            "x": 3682,
+            "y": 4608,
+            "r": 0
+          },
+          {
+            "names": [
+              "υ Sco / 34 Sco",
+              "Lesath / Lesuth"
+            ],
+            "type": "bright",
+            "x": 2409,
+            "y": 5208,
+            "r": 0
+          },
+          {
+            "names": [
+              "ι1 Sco",
+              "Girtab"
+            ],
+            "type": "bright",
+            "x": 2039,
+            "y": 5449,
+            "r": 0
+          },
+          {
+            "names": [
+              "ι2 Sco",
+              "Vanant"
+            ],
+            "type": "bright",
+            "x": 1992,
+            "y": 5438,
+            "r": 0
+          },
+          {
+            "names": [
+              "κ Sco",
+              "Mula"
+            ],
+            "type": "bright",
+            "x": 2156,
+            "y": 5347,
+            "r": 0
+          },
+          {
+            "names": [
+              "μ1 Sco",
+              "Xamidimura / Tali al Shaulah I"
+            ],
+            "type": "bright",
+            "x": 3122,
+            "y": 5491,
+            "r": 0
+          },
+          {
+            "names": [
+              "μ2 Sco",
+              "Pipirima / Tali al Shaulah II"
+            ],
+            "type": "bright",
+            "x": 3114,
+            "y": 5485,
+            "r": 0
+          },
+          {
+            "names": [
+              "G Sco",
+              "Fuyue"
+            ],
+            "type": "bright",
+            "x": 2056,
+            "y": 5115,
+            "r": 0
+          },
+          {
+            "names": [
+              "ε Sco / 26 Sco",
+              "Larawag"
+            ],
+            "type": "bright",
+            "x": 3248,
+            "y": 5111,
+            "r": 0
+          },
+          {
+            "names": [
+              "θ1 Ser / 63 Ser A",
+              "Alya"
+            ],
+            "type": "bright",
+            "x": 1089,
+            "y": 1160,
+            "r": 0
+          },
+          {
+            "names": [
+              "ψ2 Aqr / 93 Aqr"
+            ],
+            "type": "bright",
+            "x": 3617,
+            "y": 5852,
+            "r": 0
+          },
+          {
+            "names": [
+              "97 Aqr"
+            ],
+            "type": "bright",
+            "x": 705,
+            "y": 4489,
+            "r": 0
+          },
+          {
+            "names": [
+              "μ Aql / 38 Aql"
+            ],
+            "type": "bright",
+            "x": 99,
+            "y": 660,
+            "r": 0
+          },
+          {
+            "names": [
+              "ν Aql / 32 Aql"
+            ],
+            "type": "bright",
+            "x": 294,
+            "y": 1423,
+            "r": 0
+          },
+          {
+            "names": [
+              "ω1 Aql / 25 Aql"
+            ],
+            "type": "bright",
+            "x": 561,
+            "y": 286,
+            "r": 0
+          },
+          {
+            "names": [
+              "ω2 Aql / 29 Aql"
+            ],
+            "type": "bright",
+            "x": 504,
+            "y": 281,
+            "r": 0
+          },
+          {
+            "names": [
+              "b Aql / 31 Aql"
+            ],
+            "type": "bright",
+            "x": 363,
+            "y": 204,
+            "r": 0
+          },
+          {
+            "names": [
+              "c Aql / 35 Aql"
+            ],
+            "type": "bright",
+            "x": 231,
+            "y": 1252,
+            "r": 0
+          },
+          {
+            "names": [
+              "d Aql / 27 Aql"
+            ],
+            "type": "bright",
+            "x": 447,
+            "y": 1565,
+            "r": 0
+          },
+          {
+            "names": [
+              "e Aql / 36 Aql"
+            ],
+            "type": "bright",
+            "x": 174,
+            "y": 1717,
+            "r": 0
+          },
+          {
+            "names": [
+              "f Aql / 26 Aql"
+            ],
+            "type": "bright",
+            "x": 430,
+            "y": 1998,
+            "r": 0
+          },
+          {
+            "names": [
+              "g Aql / 14 Aql"
+            ],
+            "type": "bright",
+            "x": 878,
+            "y": 1887,
+            "r": 0
+          },
+          {
+            "names": [
+              "h Aql / 15 Aql"
+            ],
+            "type": "bright",
+            "x": 826,
+            "y": 1912,
+            "r": 0
+          },
+          {
+            "names": [
+              "i Aql / 12 Aql"
+            ],
+            "type": "bright",
+            "x": 896,
+            "y": 2079,
+            "r": 0
+          },
+          {
+            "names": [
+              "4 Aql"
+            ],
+            "type": "bright",
+            "x": 1351,
+            "y": 1409,
+            "r": 0
+          },
+          {
+            "names": [
+              "5 Aql"
+            ],
+            "type": "bright",
+            "x": 1290,
+            "y": 1685,
+            "r": 0
+          },
+          {
+            "names": [
+              "8 Aql"
+            ],
+            "type": "bright",
+            "x": 1158,
+            "y": 1887,
+            "r": 0
+          },
+          {
+            "names": [
+              "10 Aql"
+            ],
+            "type": "bright",
+            "x": 1078,
+            "y": 134,
+            "r": 0
+          },
+          {
+            "names": [
+              "11 Aql"
+            ],
+            "type": "bright",
+            "x": 1068,
+            "y": 164,
+            "r": 0
+          },
+          {
+            "names": [
+              "18 Aql"
+            ],
+            "type": "bright",
+            "x": 850,
+            "y": 404,
+            "r": 0
+          },
+          {
+            "names": [
+              "19 Aql"
+            ],
+            "type": "bright",
+            "x": 776,
+            "y": 920,
+            "r": 0
+          },
+          {
+            "names": [
+              "20 Aql"
+            ],
+            "type": "bright",
+            "x": 616,
+            "y": 2253,
+            "r": 0
+          },
+          {
+            "names": [
+              "21 Aql"
+            ],
+            "type": "bright",
+            "x": 638,
+            "y": 1279,
+            "r": 0
+          },
+          {
+            "names": [
+              "22 Aql"
+            ],
+            "type": "bright",
+            "x": 575,
+            "y": 1013,
+            "r": 0
+          },
+          {
+            "names": [
+              "23 Aql"
+            ],
+            "type": "bright",
+            "x": 508,
+            "y": 1379,
+            "r": 0
+          },
+          {
+            "names": [
+              "24 Aql"
+            ],
+            "type": "bright",
+            "x": 497,
+            "y": 1451,
+            "r": 0
+          },
+          {
+            "names": [
+              "28 Aql"
+            ],
+            "type": "bright",
+            "x": 512,
+            "y": 187,
+            "r": 0
+          },
+          {
+            "names": [
+              "37 Aql"
+            ],
+            "type": "bright",
+            "x": 33,
+            "y": 2454,
+            "r": 0
+          },
+          {
+            "names": [
+              "β CrA"
+            ],
+            "type": "bright",
+            "x": 440,
+            "y": 5305,
+            "r": 0
+          },
+          {
+            "names": [
+              "γ CrA"
+            ],
+            "type": "bright",
+            "x": 542,
+            "y": 5047,
+            "r": 0
+          },
+          {
+            "names": [
+              "δ CrA"
+            ],
+            "type": "bright",
+            "x": 463,
+            "y": 5434,
+            "r": 0
+          },
+          {
+            "names": [
+              "ε CrA"
+            ],
+            "type": "bright",
+            "x": 704,
+            "y": 5044,
+            "r": 0
+          },
+          {
+            "names": [
+              "ζ CrA"
+            ],
+            "type": "bright",
+            "x": 552,
+            "y": 5612,
+            "r": 0
+          },
+          {
+            "names": [
+              "η1 CrA"
+            ],
+            "type": "bright",
+            "x": 818,
+            "y": 5783,
+            "r": 0
+          },
+          {
+            "names": [
+              "η2 CrA"
+            ],
+            "type": "bright",
+            "x": 807,
+            "y": 5754,
+            "r": 0
+          }
+        ],
+        "wcs": {
+          "width": 1067,
+          "height": 1600,
+          "crpix": [
+            763.682657878,
+            800.257202148
+          ],
+          "crval": [
+            262.180314868,
+            -13.1788791323
+          ],
+          "cd": [
+            [
+              -0.0418619767944,
+              -0.00733406571188
+            ],
+            [
+              0.00728048962675,
+              -0.0423377337466
+            ]
+          ],
+          "flip_y": false
+        }
+      }
     }
   ]
 }

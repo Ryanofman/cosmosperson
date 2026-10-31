@@ -311,6 +311,16 @@ path so moving tiles and originals to R2 later is a one-line change.
 
 ## 6. Phases
 
+*Status, 31 Oct 2026: Phase 1 is live. Phase 2 is built (tiles, deep zoom, overlays, Sky
+panel, versions, download ladder, related-by-coordinates, mosaic panels, hero settings);
+plate solving ran locally with Ryan's astrometry.net key and runs in the Action once the key
+is added as the repository secret `ASTROMETRY_API_KEY`. Tiles are capped at 6000 px long
+edge (a native camera frame); raise `settings.tiles.max_edge` (or a photo's `zoom.max_edge`)
+when originals have more real detail than that. The hero is now a native Milky Way frame
+(`milky-way`, stored upside down and shown via `rotate: 180`), with the band's crop, height,
+text placement and scrim adjustable in `settings.hero`. The build strips EXIF/XMP from
+originals losslessly and regenerates web versions when a file's bytes change.*
+
 **Phase 1 — the new gallery (the biggest visible change)**
 Schema v3 and migration of the 15 entries; `tools/build.py` with AVIF/JPEG/ThumbHash and
 pre-rendered photo pages; the GitHub Action; the justified index with captions, facets, sort

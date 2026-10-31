@@ -146,7 +146,11 @@ by adding them to the address: `/?hero=lagoon&fit=frame&height=70&text=bottom&sc
 of the text. The title block stays centred; the band keeps its `height` and grows only if
 the sign would not fit under the buttons. This is how the STOP sign in the Milky Way hero stays under *Explore the Universe*. `/?anchor=0`
 previews the same photo without it. In `condensed` fit the page's black surrounds the frame
-and its side edges fade into it, so the hero runs straight into the photos.
+and its side edges fade into it, so the hero runs straight into the photos. How the frame
+meets that black is adjustable: `edge_fade` (percent of the frame's width that fades on each
+side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `long`), `reveal`
+(`fade`, `quick`, `instant`: how the image appears on load) and `frame` (`none`, `line`,
+`glow`). Each can be tried from the address bar: `/?edge=0&bottom=none&reveal=instant`.
 
 ## gallery.json schema (v3)
 
@@ -157,7 +161,8 @@ and its side edges fade into it, so the hero runs straight into the photos.
     "hero": { "id": "milky-way", "version": "", "focal": [0.5, 0.55], "focal_mobile": null,
               "fit": "condensed", "height": 88, "height_mobile": 78, "scrim": 1.0,
               "text": "center", "motion": true, "credit": true,
-              "anchor": { "point": [0.425, 0.788], "extent": 0.115, "x": 0.5, "gap": 20, "margin": 24, "side_pad": 40 } },
+              "anchor": { "point": [0.425, 0.788], "extent": 0.115, "x": 0.5, "gap": 20, "margin": 24, "side_pad": 40 },
+              "edge_fade": 0, "bottom_fade": "none", "reveal": "instant", "frame": "none" },
     "tiles": { "max_edge": 6000, "base": "" },      // base "" = this site; later an R2 bucket URL
     "sky": { "survey": "P/DSS2/color" },
     "grid": { "style": "justified", "row_height": 300, "gutter": 14,

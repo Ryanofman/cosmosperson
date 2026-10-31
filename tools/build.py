@@ -103,6 +103,10 @@ DEFAULT_SETTINGS = {
         "motion": True,               # slow settle on load
         "credit": True,               # show the photo title at the bottom right
         "anchor": None,               # {"point": [x, y], "x": 0.5, "gap": 24}: that point of the image always sits just below the buttons
+        "edge_fade": 0,               # condensed: % of the frame's width that fades into black on each side (0 = hard edge)
+        "bottom_fade": "none",        # condensed: none | short | long
+        "reveal": "instant",          # how the image appears on load: instant | quick | fade (cover/frame modes)
+        "frame": "none",              # none | line | glow (condensed, hard edge)
     },
     "grid": {
         "style": "justified",          # justified | masonry | uniform

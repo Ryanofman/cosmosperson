@@ -997,10 +997,19 @@
 .hero.hero-condensed .hero-media { background: var(--bg); }
 
 .hero.hero-condensed .hero-media img {
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--hero-edge, 9%), #000 calc(100% - var(--hero-edge, 9%)), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 var(--hero-edge, 9%), #000 calc(100% - var(--hero-edge, 9%)), transparent 100%);
 }
 
+.hero.hero-condensed.edge-none .hero-media img { -webkit-mask-image: none; mask-image: none; }
+
+/* In condensed mode the frame's own box carries the placeholder, so it is never black */
+.hero.hero-condensed .hero-media img { opacity: 1; transform: none; }
+.hero.hero-condensed.reveal-fade .hero-media img,
+.hero.hero-condensed.reveal-quick .hero-media img { opacity: 1; }
+
+/* Bottom of the band: short = the last tenth fades into the page (default), long = a slow
+   fade from two thirds down, none = a hard edge against the page */
 .hero.hero-condensed .hero-scrim {
     background: linear-gradient(to bottom,
             rgba(8, 9, 11, 0.5) 0%,
@@ -1008,6 +1017,22 @@
             rgba(8, 9, 11, 0.05) 90%,
             var(--bg) 100%);
 }
+
+.hero.hero-condensed.bottom-none .hero-scrim {
+    background: linear-gradient(to bottom, rgba(8, 9, 11, 0.5) 0%, rgba(8, 9, 11, 0.05) 28%, rgba(8, 9, 11, 0.05) 100%);
+}
+
+.hero.hero-condensed.bottom-long .hero-scrim {
+    background: linear-gradient(to bottom, rgba(8, 9, 11, 0.5) 0%, rgba(8, 9, 11, 0.05) 28%, rgba(8, 9, 11, 0.05) 62%, var(--bg) 100%);
+}
+
+/* How the image appears on load */
+.hero.reveal-quick .hero-media img { transition: opacity 0.3s var(--ease); transform: none; }
+.hero.reveal-instant .hero-media img { transition: none; opacity: 1; transform: none; }
+
+/* A hairline or a glow around the frame (best with edge 0, since the side fade masks them) */
+.hero.frame-line .hero-media img { outline: 1px solid rgba(255, 255, 255, 0.16); outline-offset: -1px; }
+.hero.frame-glow .hero-media img { box-shadow: 0 0 140px rgba(124, 209, 200, 0.10), 0 30px 90px rgba(0, 0, 0, 0.7); }
 
 .hero.hero-anchored { min-height: 0; }
 

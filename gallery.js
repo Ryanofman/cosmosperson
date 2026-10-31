@@ -139,6 +139,12 @@ function heroConfig() {
     }
     if (p.get('motion')) hero.motion = p.get('motion') !== '0';
     if (p.get('anchor') === '0') hero.anchor = null;
+    // Experiments: /?edge=0 (hard side edges) … edge=20 (wide fade); bottom=none|short|long;
+    // reveal=instant|quick|fade; frame=none|line|glow
+    if (p.get('edge') !== null) hero.edge_fade = +p.get('edge');
+    if (p.get('bottom')) hero.bottom_fade = p.get('bottom');
+    if (p.get('reveal')) hero.reveal = p.get('reveal');
+    if (p.get('frame')) hero.frame = p.get('frame');
     return hero;
 }
 
@@ -156,8 +162,16 @@ function renderHero() {
 
     const fit = ['frame', 'condensed'].includes(hero.fit) ? hero.fit : 'cover';
     const text = ['center', 'bottom', 'below'].includes(hero.text) ? hero.text : 'center';
-    section.classList.remove('hero-cover', 'hero-frame', 'hero-condensed', 'text-center', 'text-bottom', 'text-below', 'no-motion', 'no-credit');
+    section.classList.remove('hero-cover', 'hero-frame', 'hero-condensed', 'text-center', 'text-bottom', 'text-below', 'no-motion', 'no-credit',
+        'bottom-none', 'bottom-short', 'bottom-long', 'reveal-fade', 'reveal-quick', 'reveal-instant', 'frame-none', 'frame-line', 'frame-glow', 'edge-none');
     section.classList.add('hero-' + fit, 'text-' + text);
+    // How the frame meets the black around it, and how it appears on load
+    const edge = Math.max(0, Math.min(30, hero.edge_fade === undefined || hero.edge_fade === null || isNaN(+hero.edge_fade) ? 9 : +hero.edge_fade));
+    section.style.setProperty('--hero-edge', edge + '%');
+    section.classList.toggle('edge-none', edge === 0);   // a zero-width mask would hide the image; use none
+    section.classList.add('bottom-' + (['none', 'short', 'long'].includes(hero.bottom_fade) ? hero.bottom_fade : 'short'));
+    section.classList.add('reveal-' + (['fade', 'quick', 'instant'].includes(hero.reveal) ? hero.reveal : 'fade'));
+    section.classList.add('frame-' + (['none', 'line', 'glow'].includes(hero.frame) ? hero.frame : 'none'));
     if (hero.motion === false) section.classList.add('no-motion');
     if (hero.credit === false) section.classList.add('no-credit');
     const clampVh = (v, fallback) => Math.min(100, Math.max(30, Number(v) || fallback));
@@ -196,6 +210,12 @@ function renderHero() {
     img.alt = '';
     img.srcset = srcsetOf(jpg);
     img.sizes = sizes;
+    if (condensedFit) {
+        // The frame shows its blurry placeholder the instant the page paints, then the real image
+        img.style.backgroundImage = `url("${entry.placeholder}")`;
+        img.style.backgroundSize = 'cover';
+        img.style.backgroundColor = entry.color || '';
+    }
     img.src = '/' + encodeURI(jpg[jpg.length - 1].src);
     img.fetchPriority = 'high';
     img.decoding = 'async';

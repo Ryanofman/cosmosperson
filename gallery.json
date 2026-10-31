@@ -27,7 +27,11 @@
         "gap": 20,
         "margin": 32,
         "side_pad": 40
-      }
+      },
+      "edge_fade": 0,
+      "bottom_fade": "none",
+      "reveal": "instant",
+      "frame": "none"
     },
     "grid": {
       "style": "justified",

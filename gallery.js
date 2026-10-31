@@ -154,9 +154,9 @@ function renderHero() {
     const w = version ? version.width : entry.width;
     const h = version ? version.height : entry.height;
 
-    const fit = hero.fit === 'frame' ? 'frame' : 'cover';
+    const fit = ['frame', 'condensed'].includes(hero.fit) ? hero.fit : 'cover';
     const text = ['center', 'bottom', 'below'].includes(hero.text) ? hero.text : 'center';
-    section.classList.remove('hero-cover', 'hero-frame', 'text-center', 'text-bottom', 'text-below', 'no-motion', 'no-credit');
+    section.classList.remove('hero-cover', 'hero-frame', 'hero-condensed', 'text-center', 'text-bottom', 'text-below', 'no-motion', 'no-credit');
     section.classList.add('hero-' + fit, 'text-' + text);
     if (hero.motion === false) section.classList.add('no-motion');
     if (hero.credit === false) section.classList.add('no-credit');
@@ -169,8 +169,9 @@ function renderHero() {
     section.style.setProperty('--hero-scrim', String(Math.max(0, Math.min(1.5, isNaN(scrim) ? 1 : scrim))));
 
     media.replaceChildren();
-    media.style.backgroundColor = entry.color || '';
-    media.style.backgroundImage = `url("${entry.placeholder}")`;
+    const condensedFit = fit === 'condensed';
+    media.style.backgroundColor = condensedFit ? '' : (entry.color || '');
+    media.style.backgroundImage = condensedFit ? 'none' : `url("${entry.placeholder}")`;
     media.style.backgroundSize = 'cover';
     media.style.backgroundPosition = 'center';
     const focal = (hero.focal && hero.focal.length === 2) ? hero.focal : [0.5, 0.5];
@@ -209,18 +210,28 @@ function renderHero() {
     // whatever the screen size or the length of the text. The image is scaled
     // just enough to still fill the band, so the rule holds instead of the crop.
     const anchor = hero.anchor && Array.isArray(hero.anchor.point) && hero.anchor.point.length === 2 ? hero.anchor : null;
+    const condensed = fit === 'condensed';
     section.classList.toggle('hero-anchored', !!anchor);
     const content = section.querySelector('.hero-content');
-    if (content) { content.style.justifyContent = ''; content.style.paddingBottom = ''; }
     section.style.height = '';
-    if (anchor) {
+    // Two placements are computed in JS rather than CSS:
+    //  - anchored: the title block stays centred in the band; a chosen point of the image
+    //    (settings.hero.anchor.point) lands a small gap below the buttons with the rest of
+    //    the sign kept visible, and the band is exactly as tall as that needs;
+    //  - condensed: the frame keeps its own shape, centred, only a little wider than the
+    //    title, with the page's black around it, so a tall frame is not blown up on a
+    //    wide screen. Both re-run when the text or the screen changes.
+    if (anchor || condensed) {
         const clamp01 = (v) => Math.min(1, Math.max(0, Number(v) || 0));
-        const ax = clamp01(anchor.point[0]), ay = clamp01(anchor.point[1]);
-        const tx = anchor.x === undefined || anchor.x === null ? 0.5 : clamp01(anchor.x);   // where the point sits across the band
-        const gap = anchor.gap === undefined || anchor.gap === null ? 24 : Number(anchor.gap);
-        const extent = clamp01(anchor.extent);          // how much of the image below the point must stay visible (the sign itself)
-        const margin = anchor.margin === undefined || anchor.margin === null ? 24 : Number(anchor.margin);
+        const a = anchor || {};
+        const ax = anchor ? clamp01(a.point[0]) : 0.5, ay = anchor ? clamp01(a.point[1]) : 0.5;
+        const tx = a.x === undefined || a.x === null ? 0.5 : clamp01(a.x);          // where the point sits across the band
+        const gap = a.gap === undefined || a.gap === null ? 24 : Number(a.gap);
+        const extent = anchor ? clamp01(a.extent) : 0;                               // image below the point that must stay visible
+        const margin = a.margin === undefined || a.margin === null ? 24 : Number(a.margin);
+        const sidePad = a.side_pad === undefined || a.side_pad === null ? 40 : Number(a.side_pad);  // condensed: beyond the title, each side
         const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 72;
+        const title = section.querySelector('.hero-title');
         const configuredH = () => {
             section.style.height = '';
             return media.clientHeight;
@@ -230,31 +241,41 @@ function renderHero() {
             let H = configuredH();
             if (!W || !H || !content) return;
             const kids = [...content.children];
-            const first = kids[0], last = section.querySelector(anchor.below || '.hero-actions') || kids[kids.length - 1];
+            const first = kids[0], last = section.querySelector(a.below || '.hero-actions') || kids[kids.length - 1];
             const blockH = first && last ? last.getBoundingClientRect().bottom - first.getBoundingClientRect().top : 0;
-            // Scale: cover the width, and let the point sit at tx without a gap on either side
-            let s = W / w;
-            if (ax > 0) s = Math.max(s, (W * tx) / (ax * w));
-            if (ax < 1) s = Math.max(s, (W * (1 - tx)) / ((1 - ax) * w));
+            let s;
+            if (condensed) {
+                const titleW = title ? title.getBoundingClientRect().width : 0;
+                s = titleW ? Math.min(W, titleW + 2 * sidePad) / w : W / w;      // reaches past the title
+            } else {
+                s = W / w;                                                      // cover the width
+                if (ax > 0) s = Math.max(s, (W * tx) / (ax * w));               // the point can sit at tx without a gap
+                if (ax < 1) s = Math.max(s, (W * (1 - tx)) / ((1 - ax) * w));
+            }
             let T = 0;
-            for (let i = 0; i < 3; i++) {
-                const ih = h * s;
-                const reserve = extent * ih + gap + margin;          // room under the buttons for the sign
-                const needed = headerH + 24 + blockH + reserve;
-                if (needed > H) H = Math.ceil(needed);                // the band grows rather than cutting the sign
-                s = Math.max(s, H / h);
-                T = H - reserve + gap;                                // the point lands here
-                if (ay > 0) s = Math.max(s, T / (ay * h));            // image top stays above the band
-                if (ay < 1) s = Math.max(s, (H - T) / ((1 - ay) * h)); // image bottom stays below it
+            if (anchor) {
+                // The title block stays centred below the header. The band keeps its
+                // configured height and grows only if the sign would not fit under the
+                // buttons: half the block above centre, half below, the gap, the sign, a margin.
+                const configured = H;
+                for (let i = 0; i < 3; i++) {
+                    const ih = h * s;
+                    H = Math.max(configured, Math.ceil(headerH + blockH + 2 * (gap + extent * ih + margin)));
+                    T = headerH + (H - headerH) / 2 + blockH / 2 + gap;           // the point lands here
+                    if (ay > 0) s = Math.max(s, T / (ay * h));                    // image top stays above the band
+                    if (ay < 1) s = Math.max(s, (H - T) / ((1 - ay) * h));        // image bottom stays below it
+                }
+                section.style.height = H > configured ? `${H}px` : '';
+                const bottom = last ? last.getBoundingClientRect().bottom - media.getBoundingClientRect().top : T - gap;
+                T = bottom + gap;                                                // measured, so rounding cannot drift
+            } else {
+                s = Math.max(s, H / h);                                          // the frame fills the band's height
             }
             const iw = w * s, ih = h * s;
-            const reserve = extent * ih + gap + margin;
-            section.style.height = H > configuredH() ? `${H}px` : '';
-            content.style.justifyContent = 'flex-end';
-            content.style.paddingBottom = `${reserve}px`;
-            T = H - reserve + gap;
-            const left = Math.min(0, Math.max(W - iw, W * tx - ax * iw));
-            const top = Math.min(0, Math.max(H - ih, T - ay * ih));
+            const left = (condensed && iw <= W) ? (W - iw) / 2                   // centred under the title
+                : Math.min(0, Math.max(W - iw, W * tx - ax * iw));
+            const top = anchor ? Math.min(0, Math.max(H - ih, T - ay * ih))
+                : Math.min(0, Math.max(H - ih, (H - ih) * focal[1]));
             img.style.width = `${iw}px`;
             img.style.height = `${ih}px`;
             img.style.left = `${left}px`;

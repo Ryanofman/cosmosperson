@@ -978,7 +978,8 @@
 
 /* Anchored hero: the image is placed and scaled by gallery.js so that one point of it
    (settings.hero.anchor) always sits just below the buttons. */
-.hero.hero-anchored .hero-media img {
+.hero.hero-anchored .hero-media img,
+.hero.hero-condensed .hero-media img {
     position: absolute;
     max-width: none;
     object-fit: unset;
@@ -987,7 +988,28 @@
     transition: opacity 1.2s var(--ease);
 }
 
-.hero.hero-anchored .hero-media img.loaded { transform: none; }
+.hero.hero-anchored .hero-media img.loaded,
+.hero.hero-condensed .hero-media img.loaded { transform: none; }
+
+/* Condensed: the frame keeps its shape; the page's own black surrounds it, its side
+   edges fade into that black, and the band's last pixels fade into the page below. */
+.hero.hero-condensed { height: var(--hero-h, 88vh); min-height: 0; background: var(--bg); }
+.hero.hero-condensed .hero-media { background: var(--bg); }
+
+.hero.hero-condensed .hero-media img {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+
+.hero.hero-condensed .hero-scrim {
+    background: linear-gradient(to bottom,
+            rgba(8, 9, 11, 0.5) 0%,
+            rgba(8, 9, 11, 0.05) 28%,
+            rgba(8, 9, 11, 0.05) 90%,
+            var(--bg) 100%);
+}
+
+.hero.hero-anchored { min-height: 0; }
 
 @media (max-width: 720px) {
     .hero.hero-cover { height: var(--hero-hm, 78vh); min-height: 460px; }

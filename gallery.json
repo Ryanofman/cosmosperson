@@ -10,7 +10,7 @@
         0.55
       ],
       "focal_mobile": null,
-      "fit": "cover",
+      "fit": "condensed",
       "height": 88,
       "height_mobile": 78,
       "scrim": 1.0,
@@ -25,7 +25,8 @@
         "extent": 0.115,
         "x": 0.5,
         "gap": 20,
-        "margin": 24
+        "margin": 32,
+        "side_pad": 40
       }
     },
     "grid": {
@@ -66,7 +67,7 @@
     },
     "site": {
       "title": "Cosmos Person",
-      "tagline": "Deep-Sky Astrophotography",
+      "tagline": "Ryan's Astrophotography",
       "lede": "Nebulae, galaxies, and the occasional comet — photographed one clear night at a time.",
       "statement": "The light in these photos is old — some of it left home before humans figured out writing. Then it fell into my telescope. That still gets me every time.",
       "instagram": "https://instagram.com/cosmosperson",

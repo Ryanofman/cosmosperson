@@ -95,7 +95,7 @@ DEFAULT_SETTINGS = {
         "version": "",                # a version id (e.g. "starless") or empty for the main image
         "focal": [0.5, 0.5],          # crop focus, 0-1 from the left / top (cover mode)
         "focal_mobile": None,         # optional separate focus for phones
-        "fit": "cover",               # cover: crop to the band | frame: show the whole (wide) image
+        "fit": "cover",               # cover: crop to the band | frame: whole wide image | condensed: centred frame over a blurred backdrop
         "height": 88,                 # band height in vh; in frame mode this is the cap
         "height_mobile": 78,
         "scrim": 1.0,                 # darkening of the gradient over the image, 0 (none) to 1.5
@@ -123,7 +123,7 @@ DEFAULT_SETTINGS = {
     "theme": {"accent": "#7cd1c8"},
     "site": {
         "title": "Cosmos Person",
-        "tagline": "Deep-Sky Astrophotography",
+        "tagline": "Ryan's Astrophotography",
         "lede": "Nebulae, galaxies, and the occasional comet — photographed one clear night at a time.",
         "statement": "The light in these photos is old — some of it left home before humans figured out writing. Then it fell into my telescope. That still gets me every time.",
         "instagram": "https://instagram.com/cosmosperson",

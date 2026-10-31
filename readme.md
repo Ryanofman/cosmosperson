@@ -132,20 +132,21 @@ Deep links: `/photo/<id>/#zoom=1`, `#labels=1&grid=1`, `#v=starless`, `#sky=1`, 
 ### The hero
 
 `settings.hero` chooses the photo and how it sits: `fit` (`cover` crops to the band, `frame`
-shows the whole image at its own aspect, for a wide-field frame), `height` in vh (the cap in
-frame mode), `height_mobile`, `focal` and `focal_mobile` (crop focus, 0–1), `scrim`
+shows the whole image at its own aspect, for a wide-field frame, `condensed` keeps a tall
+frame at its own shape, centred and only a little wider than the title, over a blurred copy
+of itself, so it is not blown up on a wide screen), `height` in vh (the cap in frame mode), `height_mobile`, `focal` and `focal_mobile` (crop focus, 0–1), `scrim`
 (0 none … 1.5 darker), `text` (`center`, `bottom`, `below`), `motion`, `credit`, and
 `version` to show one of the photo's versions. Try any photo and setting before publishing
 by adding them to the address: `/?hero=lagoon&fit=frame&height=70&text=bottom&scrim=0.6`.
 
 `anchor` pins a point of the image to the layout: `{ "point": [0.425, 0.788], "extent": 0.115,
-"x": 0.5, "gap": 20, "margin": 24 }` means the point at 42.5 % across and 78.8 % down the
-(rotated) image always sits 20 px below the hero's buttons, centred across the band, with
-the next 11.5 % of the image (the sign itself) kept visible above a 24 px margin, whatever
-the screen size or the length of the text. The text block sits from the bottom to leave that
-room, the image is scaled just enough to keep filling the band, and the band grows only if
-the text needs it. This is how the STOP sign in the Milky Way hero stays under *Explore the
-Universe*. `/?anchor=0` previews the same photo without it.
+"x": 0.5, "gap": 20, "margin": 32 }` means the point at 42.5 % across and 78.8 % down the
+(rotated) image always sits 20 px below the hero's buttons, with the next 11.5 % of the image
+(the sign itself) kept visible above a 32 px margin, whatever the screen size or the length
+of the text. The title block stays centred; the band keeps its `height` and grows only if
+the sign would not fit under the buttons. This is how the STOP sign in the Milky Way hero stays under *Explore the Universe*. `/?anchor=0`
+previews the same photo without it. In `condensed` fit the page's black surrounds the frame
+and its side edges fade into it, so the hero runs straight into the photos.
 
 ## gallery.json schema (v3)
 
@@ -154,9 +155,9 @@ Universe*. `/?anchor=0` previews the same photo without it.
   "version": 3,
   "settings": {
     "hero": { "id": "milky-way", "version": "", "focal": [0.5, 0.55], "focal_mobile": null,
-              "fit": "cover", "height": 88, "height_mobile": 78, "scrim": 1.0,
+              "fit": "condensed", "height": 88, "height_mobile": 78, "scrim": 1.0,
               "text": "center", "motion": true, "credit": true,
-              "anchor": { "point": [0.425, 0.788], "extent": 0.115, "x": 0.5, "gap": 20, "margin": 24 } },
+              "anchor": { "point": [0.425, 0.788], "extent": 0.115, "x": 0.5, "gap": 20, "margin": 24, "side_pad": 40 } },
     "tiles": { "max_edge": 6000, "base": "" },      // base "" = this site; later an R2 bucket URL
     "sky": { "survey": "P/DSS2/color" },
     "grid": { "style": "justified", "row_height": 300, "gutter": 14,

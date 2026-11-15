@@ -321,6 +321,13 @@ when originals have more real detail than that. The hero is now a native Milky W
 text placement and scrim adjustable in `settings.hero`. The build strips EXIF/XMP from
 originals losslessly and regenerates web versions when a file's bytes change.*
 
+*Update, 15 Nov 2026: the first frame from the RedCat 51 (North America and Pelican,
+2.6° × 5.0°, 13 square degrees against at most 2.9 for everything before it) showed that
+equal-height rows give the widest photographs the least space. The build now measures sky
+coverage from each plate solve and marks wide fields as showcase photos; the grid's rows are
+built in JavaScript so a showcase photo stands as a pillar beside several rows, and tall
+showcase photos get a two-column page. See "Showcase photos" in the readme.*
+
 **Phase 1 — the new gallery (the biggest visible change)**
 Schema v3 and migration of the 15 entries; `tools/build.py` with AVIF/JPEG/ThumbHash and
 pre-rendered photo pages; the GitHub Action; the justified index with captions, facets, sort

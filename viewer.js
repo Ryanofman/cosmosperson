@@ -440,3 +440,13 @@ if (document.body.classList.contains('photo-body')) {
         });
     }).catch(err => console.error('Viewer could not load the manifest', err));
 }
+
+/* Showcase photo pages: the text column is sticky; it needs its own height to know whether
+   to stick at its top or at its end (see .layout-tall .photo-info in gallery.css). */
+(() => {
+    const info = document.getElementById('photo-info-inner');
+    if (!info || !window.ResizeObserver) return;
+    const set = () => info.style.setProperty('--info-h', info.offsetHeight + 'px');
+    new ResizeObserver(set).observe(info);
+    set();
+})();

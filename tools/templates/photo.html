@@ -61,7 +61,7 @@
         </div>
     </header>
 
-    <main class="photo-page">
+    <main class="photo-page {{layout_class}}">
         <section class="photo-stage {{has_tiles}}" id="photo-stage" style="--ph-color: {{color}}; --ar: {{width}} / {{height}}"
             data-tiles-base="{{tiles_base}}">
             <div class="stage-frame" id="stage-frame">
@@ -69,7 +69,7 @@
                     <picture>
                         {{avif_source}}
                         <img id="photo-image" src="{{largest_jpg}}" srcset="{{jpg_srcset}}"
-                            sizes="(max-width: 900px) 100vw, 92vw" width="{{width}}" height="{{height}}" alt="{{alt}}"
+                            sizes="{{stage_sizes}}" width="{{width}}" height="{{height}}" alt="{{alt}}"
                             fetchpriority="high" decoding="async" style="background-image: url('{{placeholder}}')">
                     </picture>
                 </a>
@@ -89,6 +89,7 @@
             <p class="sky-foot label">Survey imagery via CDS, Strasbourg · <a href="{{explore_link}}">Open in Explore the Universe</a></p>
         </section>
 
+        <div class="photo-info" id="photo-info"><div class="photo-info-inner" id="photo-info-inner">
         <header class="photo-head">
             <p class="label photo-kicker">{{kicker}}</p>
             <h1 class="display photo-title">{{title}}</h1>
@@ -119,6 +120,8 @@
                 </section>
             </aside>
         </div>
+
+        </div></div>
 
         <nav class="photo-nav" aria-label="Previous and next photo">
             <a class="photo-nav-link prev" href="/photo/{{prev_id}}/" rel="prev">

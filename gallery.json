@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-10-31T07:43:04Z",
+  "updated": "2026-11-15T10:33:24Z",
   "settings": {
     "hero": {
       "id": "milky-way",
@@ -42,7 +42,13 @@
         "title",
         "catalog",
         "integration"
-      ]
+      ],
+      "showcase": {
+        "min_sky_area": 6,
+        "first": true,
+        "height": 0.86,
+        "include_hero": false
+      }
     },
     "index": {
       "default_sort": "curated",
@@ -320,7 +326,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.768,
+      "showcase": false
     },
     {
       "id": "california",
@@ -571,7 +579,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.5,
+      "showcase": false
     },
     {
       "id": "butterfly",
@@ -800,7 +810,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 1.571,
+      "showcase": false
     },
     {
       "id": "ghost-of-cassiopeia",
@@ -1063,7 +1075,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.849,
+      "showcase": false
     },
     {
       "id": "whirlpool",
@@ -1344,7 +1358,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.402,
+      "showcase": false
     },
     {
       "id": "north-america",
@@ -1586,7 +1602,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.62,
+      "showcase": false
     },
     {
       "id": "pinwheel",
@@ -1930,7 +1948,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.569,
+      "showcase": false
     },
     {
       "id": "thors-helmet",
@@ -2180,7 +2200,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.788,
+      "showcase": false
     },
     {
       "id": "horsehead",
@@ -2455,7 +2477,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.983,
+      "showcase": false
     },
     {
       "id": "pacman",
@@ -2715,7 +2739,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.745,
+      "showcase": false
     },
     {
       "id": "soul",
@@ -2966,7 +2992,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.608,
+      "showcase": false
     },
     {
       "id": "eastern-veil",
@@ -3227,7 +3255,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.823,
+      "showcase": false
     },
     {
       "id": "eagle",
@@ -3481,7 +3511,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.136,
+      "showcase": false
     },
     {
       "title": "The Lagoon Nebula",
@@ -3814,7 +3846,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.878,
+      "showcase": false
     },
     {
       "id": "elephants-trunk",
@@ -4055,7 +4089,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 2.371,
+      "showcase": false
     },
     {
       "id": "triangulum",
@@ -4445,7 +4481,9 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 0.73,
+      "showcase": false
     },
     {
       "id": "milky-way",
@@ -5503,7 +5541,590 @@
           ],
           "flip_y": false
         }
-      }
+      },
+      "sky_area": 3116.898,
+      "showcase": true
+    },
+    {
+      "id": "helix",
+      "title": "The Helix Nebula",
+      "catalog": "NGC 7293",
+      "type": "Planetary Nebula",
+      "category": "nebulae",
+      "constellation": "Aquarius",
+      "distance": "≈ 650 light-years",
+      "skyTarget": "NGC7293",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "72c5af4fbaaa4bdd:0",
+      "original": "gallery/Helix_2xUpsampled.jpg",
+      "width": 3660,
+      "height": 7308,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjqKtWX2TEn2rrj5ev9O9VTjJx0ouAUUUUwP/Z",
+      "color": "#090707",
+      "srcset": [
+        {
+          "src": "gallery/_web/helix-640.jpg",
+          "w": 321
+        },
+        {
+          "src": "gallery/_web/helix-1024.jpg",
+          "w": 513
+        },
+        {
+          "src": "gallery/_web/helix-1600.jpg",
+          "w": 801
+        },
+        {
+          "src": "gallery/_web/helix-2400.jpg",
+          "w": 1202
+        },
+        {
+          "src": "gallery/_web/helix-3200.jpg",
+          "w": 1603
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/helix-640.avif",
+            "w": 321,
+            "h": 640,
+            "bytes": 8349
+          },
+          {
+            "src": "gallery/_web/helix-1024.avif",
+            "w": 513,
+            "h": 1024,
+            "bytes": 21384
+          },
+          {
+            "src": "gallery/_web/helix-1600.avif",
+            "w": 801,
+            "h": 1600,
+            "bytes": 52461
+          },
+          {
+            "src": "gallery/_web/helix-2400.avif",
+            "w": 1202,
+            "h": 2400,
+            "bytes": 147658
+          },
+          {
+            "src": "gallery/_web/helix-3200.avif",
+            "w": 1603,
+            "h": 3200,
+            "bytes": 288361
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/helix-640.jpg",
+            "w": 321,
+            "h": 640,
+            "bytes": 21561
+          },
+          {
+            "src": "gallery/_web/helix-1024.jpg",
+            "w": 513,
+            "h": 1024,
+            "bytes": 54191
+          },
+          {
+            "src": "gallery/_web/helix-1600.jpg",
+            "w": 801,
+            "h": 1600,
+            "bytes": 145912
+          },
+          {
+            "src": "gallery/_web/helix-2400.jpg",
+            "w": 1202,
+            "h": 2400,
+            "bytes": 379279
+          },
+          {
+            "src": "gallery/_web/helix-3200.jpg",
+            "w": 1603,
+            "h": 3200,
+            "bytes": 731547
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/helix/main.dzi",
+          "files": "tiles/helix/main_files/",
+          "width": 3005,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 395,
+          "bytes": 1538852,
+          "signature": "72c5af4fbaaa4bdd:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/Helix_2xUpsampled.jpg",
+          "width": 3660,
+          "height": 7308,
+          "bytes": 11973991
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/helix-3200.jpg",
+          "width": 1603,
+          "height": 3200,
+          "bytes": 731547
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/helix-1600.jpg",
+          "width": 801,
+          "height": 1600,
+          "bytes": 145912
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-11-15",
+        "service": "nova.astrometry.net",
+        "submission": 16494299,
+        "job": 17329871,
+        "image": {
+          "src": "gallery/_web/helix-1600.jpg",
+          "w": 801,
+          "h": 1600
+        },
+        "ra": 337.410945,
+        "dec": -20.836771,
+        "radius": 0.6749,
+        "pixscale": 0.59435,
+        "orientation": 0.842,
+        "parity": 1.0,
+        "fov": [
+          0.60425,
+          1.207
+        ],
+        "objects": [
+          "NGC 7293",
+          "Helix Nebula"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 7293"
+            ],
+            "type": "ngc",
+            "x": 1832,
+            "y": 3659,
+            "r": 824
+          }
+        ],
+        "wcs": {
+          "width": 801,
+          "height": 1600,
+          "crpix": [
+            494.94694519,
+            1416.99160767
+          ],
+          "crval": [
+            337.342018151,
+            -21.3030742013
+          ],
+          "cd": [
+            [
+              -0.000753999752408,
+              1.04061933983e-05
+            ],
+            [
+              -1.17705555875e-05,
+              -0.0007545832071
+            ]
+          ],
+          "flip_y": false
+        }
+      },
+      "sky_area": 0.729,
+      "showcase": false
+    },
+    {
+      "id": "north-america-pelican",
+      "title": "The North America and Pelican Nebulae",
+      "catalog": "NGC 7000 · IC 5070",
+      "type": "Emission Nebula",
+      "category": "nebulae",
+      "constellation": "Cygnus",
+      "distance": "≈ 2,600 light-years",
+      "skyTarget": "NGC7000",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "b24c31d9d2171947:0",
+      "original": "gallery/NGS7000_2xUpsampled_Keystone_Pinker_Alpha.jpg",
+      "width": 6062,
+      "height": 11732,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAYAAwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDk9mRuGTTavQCFYSzdCOM+tVjEXO7OM9sUFODGo48rYeRmnqzAYUgCiigaZ//Z",
+      "color": "#180d10",
+      "srcset": [
+        {
+          "src": "gallery/_web/north-america-pelican-640.jpg",
+          "w": 331
+        },
+        {
+          "src": "gallery/_web/north-america-pelican-1024.jpg",
+          "w": 529
+        },
+        {
+          "src": "gallery/_web/north-america-pelican-1600.jpg",
+          "w": 827
+        },
+        {
+          "src": "gallery/_web/north-america-pelican-2400.jpg",
+          "w": 1240
+        },
+        {
+          "src": "gallery/_web/north-america-pelican-3200.jpg",
+          "w": 1653
+        },
+        {
+          "src": "gallery/_web/north-america-pelican-5120.jpg",
+          "w": 2646
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/north-america-pelican-640.avif",
+            "w": 331,
+            "h": 640,
+            "bytes": 45276
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-1024.avif",
+            "w": 529,
+            "h": 1024,
+            "bytes": 118095
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-1600.avif",
+            "w": 827,
+            "h": 1600,
+            "bytes": 260282
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-2400.avif",
+            "w": 1240,
+            "h": 2400,
+            "bytes": 483704
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-3200.avif",
+            "w": 1653,
+            "h": 3200,
+            "bytes": 705338
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-5120.avif",
+            "w": 2646,
+            "h": 5120,
+            "bytes": 1201372
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/north-america-pelican-640.jpg",
+            "w": 331,
+            "h": 640,
+            "bytes": 57546
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-1024.jpg",
+            "w": 529,
+            "h": 1024,
+            "bytes": 153966
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-1600.jpg",
+            "w": 827,
+            "h": 1600,
+            "bytes": 370443
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-2400.jpg",
+            "w": 1240,
+            "h": 2400,
+            "bytes": 751338
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-3200.jpg",
+            "w": 1653,
+            "h": 3200,
+            "bytes": 1179712
+          },
+          {
+            "src": "gallery/_web/north-america-pelican-5120.jpg",
+            "w": 2646,
+            "h": 5120,
+            "bytes": 2263237
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/north-america-pelican/main.dzi",
+          "files": "tiles/north-america-pelican/main_files/",
+          "width": 3100,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 437,
+          "bytes": 2987858,
+          "signature": "b24c31d9d2171947:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/NGS7000_2xUpsampled_Keystone_Pinker_Alpha.jpg",
+          "width": 6062,
+          "height": 11732,
+          "bytes": 4363219
+        },
+        {
+          "label": "Extra large JPEG",
+          "url": "gallery/_web/north-america-pelican-5120.jpg",
+          "width": 2646,
+          "height": 5120,
+          "bytes": 2263237
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/north-america-pelican-3200.jpg",
+          "width": 1653,
+          "height": 3200,
+          "bytes": 1179712
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/north-america-pelican-1600.jpg",
+          "width": 827,
+          "height": 1600,
+          "bytes": 370443
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-11-15",
+        "service": "nova.astrometry.net",
+        "submission": 16494300,
+        "job": 17329872,
+        "image": {
+          "src": "gallery/_web/north-america-pelican-1600.jpg",
+          "w": 827,
+          "h": 1600
+        },
+        "ra": 314.350616,
+        "dec": 44.691404,
+        "radius": 2.8311,
+        "pixscale": 1.54396,
+        "orientation": 0.348,
+        "parity": 1.0,
+        "fov": [
+          2.59985,
+          5.02994
+        ],
+        "objects": [
+          "IC 5068",
+          "IC 5070",
+          "NGC 6997",
+          "NGC 7000",
+          "North America Nebula",
+          "Pelican Nebula",
+          "NGC 6989",
+          "The star 57 Cyg",
+          "The star 60 Cyg"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 6996"
+            ],
+            "type": "ngc",
+            "x": 3390,
+            "y": 4041,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 6989"
+            ],
+            "type": "ngc",
+            "x": 4374,
+            "y": 4573,
+            "r": 105
+          },
+          {
+            "names": [
+              "NGC 6997"
+            ],
+            "type": "ngc",
+            "x": 3345,
+            "y": 6005,
+            "r": 134
+          },
+          {
+            "names": [
+              "NGC 7000"
+            ],
+            "type": "ngc",
+            "x": 2256,
+            "y": 6251,
+            "r": 2332
+          },
+          {
+            "names": [
+              "IC 5068"
+            ],
+            "type": "ic",
+            "x": 6048,
+            "y": 10981,
+            "r": 777
+          },
+          {
+            "names": [
+              "IC 5070"
+            ],
+            "type": "ic",
+            "x": 5702,
+            "y": 6499,
+            "r": 1166
+          },
+          {
+            "names": [
+              "57 Cyg"
+            ],
+            "type": "bright",
+            "x": 4772,
+            "y": 6553,
+            "r": 0
+          },
+          {
+            "names": [
+              "60 Cyg"
+            ],
+            "type": "bright",
+            "x": 1482,
+            "y": 2456,
+            "r": 0
+          }
+        ],
+        "wcs": {
+          "width": 827,
+          "height": 1600,
+          "crpix": [
+            381.700724284,
+            844.532287598
+          ],
+          "crval": [
+            314.494623622,
+            44.5537124926
+          ],
+          "cd": [
+            [
+              -0.00314395045968,
+              1.88243094763e-05
+            ],
+            [
+              -1.9395889441e-05,
+              -0.00314335680654
+            ]
+          ],
+          "flip_y": false
+        }
+      },
+      "sky_area": 13.077,
+      "showcase": true
     }
   ]
 }

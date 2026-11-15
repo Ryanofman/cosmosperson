@@ -44,7 +44,8 @@ Open **`/admin.html`** on the live site (there's a discreet `·` link in the foo
 2. **Curate**: drag to reorder, click the eye to show/hide a photograph, click a row to edit its
    title, subtitle, catalog data, description, story, palette, date, and the acquisition card
    (optics, camera, mount, filters, location, and the subframes per filter — integration is
-   computed from them). Tick *Featured* to make a photo span a full row. Set the hero image.
+   computed from them). *Size in the grid* is automatic (wide fields are showcased) and can be
+   forced to Showcase or Normal. Set the hero image.
 3. **Add photographs**: upload the full-resolution JPEG. Objects are auto-recognized from
    filenames (`NGC7000.jpg`, `M51.jpg`, …). Only the original is uploaded.
 4. **Publish**: everything is committed to the repository in a single commit through the
@@ -113,6 +114,32 @@ swap the file behind an existing photo, change that entry's `original` to the ne
 file disappears, the build keeps the entry but hides it and marks it `missing_original`;
 delete it in the admin once the removal is meant, or put the file back and it shows again.
 
+## Showcase photos: wide fields get the room
+
+In rows of equal height a tall frame is the narrowest card on the page, so the widest, most
+detailed photographs used to get the least space. The site now looks for them and gives them
+room.
+
+- **Which photos.** After plate solving, the build computes each photo's sky coverage
+  (`sky_area`, square degrees). A photo is a showcase when that is at least
+  `settings.grid.showcase.min_sky_area` (6 by default: a RedCat 51 frame covers 13 to 17, a
+  small-sensor frame under 3, however much it was upsampled). `layout.prominence` on a photo
+  overrides it: `"showcase"` or `"normal"`; absent means automatic. The build writes the result
+  as `showcase: true/false`.
+- **In the grid.** Showcase photos lead the curated order (`showcase.first`), each followed by
+  its share of the other photos. A showcase photo stands as a pillar about 86 % of the window
+  tall (`showcase.height`) with rows of the others justified beside it; pillars alternate
+  sides; a showcase panorama takes a row of its own. Its caption is always visible and carries
+  the field of view. On a phone it is simply the full width. The hero photo is not showcased
+  again in the grid unless `showcase.include_hero` is true.
+- **On its page.** A tall showcase photo fills the left column at full width and scrolls,
+  with the title and card held in view beside it; a wide one runs to 92 % of the window
+  height. Showcase photos also get the extra 5120 px web version.
+
+The rows themselves are built by `gallery.js` (they used to be left to flex-wrap), which is
+what lets a pillar span several of them; `settings.grid.row_height` is the row height on a
+desktop and scales down on smaller screens.
+
 ## The astro layer on photo pages
 
 Under the photo, depending on what exists for it:
@@ -166,7 +193,8 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
     "tiles": { "max_edge": 6000, "base": "" },      // base "" = this site; later an R2 bucket URL
     "sky": { "survey": "P/DSS2/color" },
     "grid": { "style": "justified", "row_height": 300, "gutter": 14,
-              "captions": "hover", "caption_fields": ["title", "catalog", "integration"] },
+              "captions": "hover", "caption_fields": ["title", "catalog", "integration"],
+              "showcase": { "min_sky_area": 6, "first": true, "height": 0.86, "include_hero": false } },
     "index": { "default_sort": "curated", "facets": ["category", "palette", "constellation", "year"],
                "featured_first": false, "show_search": true },
     "theme": { "accent": "#7cd1c8" },
@@ -196,6 +224,7 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "mosaic": { "panels": 4, "panel_map": [[0, 0, 0.5, 0.5], [0.5, 0, 0.5, 0.5], [0, 0.5, 0.5, 0.5], [0.5, 0.5, 0.5, 0.5]] },
       "zoom": { "max_edge": 6000 },           // optional per-photo tile cap
       "rotate": 0,                             // 90 / 180 / 270 clockwise, applied by the build (file untouched)
+      // layout.prominence: "showcase" | "normal" overrides the automatic choice (absent = automatic)
       "acquisition": {
         "optics": "", "camera": "", "mount": "", "filters": "", "guiding": "", "software": "",
         "location": "", "bortle": "", "integration": "",
@@ -214,6 +243,8 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "downloads": [ { "label": "Full resolution JPEG", "url": "gallery/…", "width": 7116, "height": 3216, "bytes": 13259710 } ],
       "integration_seconds": 14400,
       "year": "2025",
+      "sky_area": 2.5,                         // square degrees, from the solve
+      "showcase": false,                       // true for wide fields (see Showcase photos)
       "tiles": { "main": { "dzi": "tiles/california/main.dzi", "files": "tiles/california/main_files/",
                            "width": 4096, "height": 1851, "tile_size": 256, "overlap": 1, "format": "webp", … } },
       // --- written by the plate solve (tools/solve.py) ---

@@ -114,6 +114,15 @@ DEFAULT_SETTINGS = {
         "gutter": 14,
         "captions": "hover",           # always | hover | none
         "caption_fields": ["title", "catalog", "integration"],
+        # Showcase photos: true wide-field frames get a tall pillar (or a wide block) in the grid
+        # and a larger layout on their own page. A photo qualifies when its plate-solved field
+        # covers at least min_sky_area square degrees, or when its layout.prominence says so.
+        "showcase": {
+            "min_sky_area": 6,         # deg²; a RedCat 51 frame is 13-17, a small-sensor frame under 3
+            "first": True,             # lead the curated order with showcase photos
+            "height": 0.86,            # pillar height as a fraction of the window height
+            "include_hero": False,     # the hero photo is already shown large above the grid
+        },
     },
     "index": {
         "default_sort": "curated",     # curated | newest | integration | title
@@ -155,6 +164,28 @@ EMPTY_ACQUISITION = {
 # Metadata for originals that are in gallery/ but were never in the manifest.
 # Anything already in gallery.json wins over this table.
 KNOWN_ORIGINALS = {
+    "NGS7000_2xUpsampled_Keystone_Pinker_Alpha.jpg": {
+        "id": "north-america-pelican",
+        "title": "The North America and Pelican Nebulae",
+        "catalog": "NGC 7000 · IC 5070",
+        "type": "Emission Nebula",
+        "category": "nebulae",
+        "constellation": "Cygnus",
+        "distance": "≈ 2,600 light-years",
+        "skyTarget": "NGC7000",
+        "description": "",
+    },
+    "Helix_2xUpsampled.jpg": {
+        "id": "helix",
+        "title": "The Helix Nebula",
+        "catalog": "NGC 7293",
+        "type": "Planetary Nebula",
+        "category": "nebulae",
+        "constellation": "Aquarius",
+        "distance": "≈ 650 light-years",
+        "skyTarget": "NGC7293",
+        "description": "",
+    },
     "MW1.jpg": {
         "id": "milky-way",
         "title": "The Milky Way",
@@ -602,6 +633,43 @@ def angular_separation(a, b) -> float:
     return math.degrees(2 * math.asin(min(1.0, math.sqrt(h))))
 
 
+def sky_area_of(entry: dict):
+    """Square degrees covered by the photo, from its plate solve; None when unsolved."""
+    solve = entry.get("solve") or {}
+    if solve.get("status") != "solved":
+        return None
+    try:
+        w, h = float(solve["fov"][0]), float(solve["fov"][1])
+    except (KeyError, TypeError, ValueError, IndexError):
+        return None
+    return round(w * h, 3) if w > 0 and h > 0 else None
+
+
+def assign_prominence(images: list, settings: dict) -> bool:
+    """Mark showcase photos. A photo is a showcase when layout.prominence is "showcase", or when
+    it is "auto" (the default) and the plate-solved field is at least grid.showcase.min_sky_area
+    square degrees: the wide, native frames, as opposed to small fields enlarged by upsampling.
+    Returns True when any photo's showcase flag changed."""
+    cfg = ((settings.get("grid") or {}).get("showcase") or {})
+    try:
+        threshold = float(cfg.get("min_sky_area", 6))
+    except (TypeError, ValueError):
+        threshold = 6.0
+    changed = False
+    for e in images:
+        area = sky_area_of(e)
+        if area is None:
+            e.pop("sky_area", None)
+        else:
+            e["sky_area"] = area
+        mode = str((e.get("layout") or {}).get("prominence") or "auto").lower()
+        show = mode == "showcase" or (mode == "auto" and area is not None and area >= threshold)
+        if bool(e.get("showcase")) != show:
+            changed = True
+        e["showcase"] = show
+    return changed
+
+
 def format_fov(fov) -> str:
     try:
         w, h = float(fov[0]), float(fov[1])
@@ -708,8 +776,9 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
         print(f"  {img_id:<22} {w}x{h}" + (f" (rotated {rotate}°)" if rotate else "") + (" rebuilding" if entry_force and not force else ""))
 
         is_hero = img_id == (settings.get("hero") or {}).get("id")
+        wants_big = is_hero or bool(entry.get("showcase"))     # the hero and showcase photos get one larger size
         avif_list, jpg_list = make_derivatives(img, img_id, entry_force, referenced,
-                                               SIZES + [HERO_SIZE] if is_hero else None)
+                                               SIZES + [HERO_SIZE] if wants_big else None)
         entry["source"] = source_sig
 
         # Deep-zoom pyramid for the main image
@@ -1146,7 +1215,9 @@ def render_pages(manifest: dict) -> None:
             "largest_w": biggest["w"],
             "largest_h": biggest["h"],
             "jpg_srcset": srcset_attr(jpg),
-            "avif_source": f'<source type="image/avif" srcset="{srcset_attr(avif)}" sizes="(max-width: 900px) 100vw, 92vw">' if avif else "",
+            "avif_source": (f'<source type="image/avif" srcset="{srcset_attr(avif)}" sizes="'
+                            + ("(max-width: 960px) 100vw, 52vw" if entry.get("showcase") and entry["width"] / entry["height"] < 0.85
+                               else "(max-width: 900px) 100vw, 92vw") + '">') if avif else "",
             "card_html": card_rows(entry, db),
             "downloads_html": downloads,
             "licence": esc(entry.get("licence") or site.get("licence", "")),
@@ -1158,6 +1229,12 @@ def render_pages(manifest: dict) -> None:
             "next_title": esc(next_e["title"]),
             "related_html": "".join(mini_card(e) for e in related_photos(entry, visible, db)),
             "stage_tools_html": stage_tools(entry, db),
+            # Showcase photos get more room: a tall frame sits beside its text, a wide one runs larger
+            "layout_class": ("layout-tall" if entry["width"] / entry["height"] < 0.85 else "layout-wide")
+                            if entry.get("showcase") else "",
+            "stage_sizes": "(max-width: 960px) 100vw, 52vw"
+                           if entry.get("showcase") and entry["width"] / entry["height"] < 0.85
+                           else "(max-width: 900px) 100vw, 92vw",
             "has_tiles": "has-tiles" if (entry.get("tiles") or {}).get("main") else "",
             "tiles_base": esc((manifest["settings"].get("tiles") or {}).get("base", "")),
             "explore_link": esc(f"/explore.html?goto={entry['skyTarget']}") if entry.get("skyTarget") else "/explore.html",
@@ -1224,6 +1301,14 @@ def main() -> int:
     elif args.resolve:
         print("  !! --resolve needs ASTROMETRY_API_KEY in the environment")
 
+    # Showcase photos (wide fields) are decided from the solves; when one has just become a
+    # showcase its extra-large web version is made in a second, incremental pass.
+    if assign_prominence(manifest["images"], manifest["settings"]):
+        names = [e["id"] for e in manifest["images"] if e.get("showcase")]
+        print(f"Showcase photos changed ({', '.join(names) or 'none'}); updating web versions:")
+        manifest = build_portfolio(False, manifest, tiles=not args.no_tiles)
+        assign_prominence(manifest["images"], manifest["settings"])
+
     # Keep the previous timestamp when nothing else changed, so a no-op build
     # (the GitHub Action after a merge, for example) does not create a commit.
     strip = lambda m: {k: v for k, v in m.items() if k != "updated"}
@@ -1238,6 +1323,8 @@ def main() -> int:
     total = sum(f.stat().st_size for f in GALLERY_WEB.glob("*") if f.is_file()) / 1e6
     tiles_total = sum(f.stat().st_size for f in TILES_DIR.rglob("*") if f.is_file()) / 1e6 if TILES_DIR.exists() else 0
     solved = sum(1 for e in manifest["images"] if (e.get("solve") or {}).get("status") == "solved")
+    showcase = [e["id"] for e in manifest["images"] if e.get("showcase")]
+    print(f"Showcase photos: {', '.join(showcase) if showcase else 'none'}")
     print(f"\nWrote gallery.json v3 with {len(manifest['images'])} images ({solved} plate-solved); "
           f"gallery/_web {total:.1f} MB; tiles {tiles_total:.1f} MB")
     return 0

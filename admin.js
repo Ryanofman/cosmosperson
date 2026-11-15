@@ -325,7 +325,10 @@
         if (entry.missing_original) flags.appendChild(chip('new', 'File missing'));
         else if (isNew) flags.appendChild(chip('new', 'New'));
         else if (!built) flags.appendChild(chip('new', 'Building'));
-        if (entry.featured) flags.appendChild(chip('hero', 'Featured'));
+        const prominence = (entry.layout && entry.layout.prominence) || 'auto';
+        if (prominence !== 'normal' && (entry.showcase || prominence === 'showcase' || entry.featured)) {
+            flags.appendChild(chip('hero', 'Showcase'));
+        }
         if (isHero) flags.appendChild(chip('hero', 'Hero'));
         flags.appendChild(flagBtn(
             entry.visible !== false ? eyeIcon() : eyeOffIcon(),
@@ -385,7 +388,7 @@
             textField(entry, 'skyTarget', 'Sky map target', 'e.g. NGC 7000 — powers “View on Sky Map”'),
             paletteField(entry),
             textField(entry, 'date', 'Capture date', 'YYYY-MM or YYYY-MM-DD (sorts newest first)'),
-            checkField(entry, 'featured', 'Featured — spans a full row in the grid')
+            prominenceField(entry)
         );
 
         const desc = document.createElement('div');
@@ -570,6 +573,34 @@
         select.value = entry.category || 'nebulae';
         select.addEventListener('change', () => { entry.category = select.value; markDirty(); });
         return fieldWrap('Category (filter group)', select);
+    }
+
+    /* Size in the grid. Automatic: the build marks wide fields (by plate-solved sky coverage)
+       as showcase photos, which lead the grid as tall pillars and get a larger page. */
+    function prominenceField(entry) {
+        const select = document.createElement('select');
+        const area = entry.sky_area ? ` (this one covers ${Number(entry.sky_area).toFixed(1)} sq. degrees)` : ' (not plate-solved yet)';
+        [
+            ['auto', 'Automatic — wide fields are showcased' + area],
+            ['showcase', 'Showcase — always large'],
+            ['normal', 'Normal — never large']
+        ].forEach(([val, label]) => {
+            const o = document.createElement('option');
+            o.value = val;
+            o.textContent = label;
+            select.appendChild(o);
+        });
+        if (!entry.layout) entry.layout = { span: 1, focal: [0.5, 0.5] };
+        // an older "Featured" tick means the same as Showcase
+        select.value = entry.layout.prominence || (entry.featured ? 'showcase' : 'auto');
+        select.addEventListener('change', () => {
+            if (select.value === 'auto') delete entry.layout.prominence;
+            else entry.layout.prominence = select.value;
+            entry.featured = false;
+            markDirty();
+            renderList();
+        });
+        return fieldWrap('Size in the grid', select);
     }
 
     /* ---------- Mutations ---------- */

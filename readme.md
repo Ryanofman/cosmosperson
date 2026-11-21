@@ -62,7 +62,8 @@ Nothing changes on the live site until you press **Publish**.
   long edge (plus 5120 px for the hero photo), converted to sRGB, with EXIF stripped; a photo's
   `rotate` (90, 180, 270, clockwise) is applied to every web version and tile;
 - EXIF and XMP removed from the originals themselves, losslessly (they are served as
-  downloads, and a camera serial number must never ship); the colour profile is kept;
+  downloads, and a camera serial number must never ship); the colour profile is kept. PNG
+  originals lose their eXIf and text chunks the same way;
 - a tiny blur-up placeholder and dominant color per photo;
 - `gallery.json` upgraded to schema v3, preserving every hand-edited field;
 - a Deep Zoom pyramid per photo (WebP tiles, 256 px, long edge capped at
@@ -139,6 +140,25 @@ room.
 The rows themselves are built by `gallery.js` (they used to be left to flex-wrap), which is
 what lets a pillar span several of them; `settings.grid.row_height` is the row height on a
 desktop and scales down on smaller screens.
+
+## Round photos
+
+A photo cropped to a circle and saved as a PNG with transparent corners is detected by the
+build (`shape: "round"`; `layout.shape` set to `"round"` or `"rect"` overrides it, and the
+admin's *Shape* control sets that). The transparency is kept wherever the format allows: AVIF
+web versions, the WebP deep-zoom tiles and the loading placeholder. JPEG versions, which
+cannot be transparent, are flattened onto the page colour. Everywhere the photo appears it is
+a disc, never a square:
+
+- **In the grid** a round showcase photo stands on its own, centred, at about 58 % of the
+  grid's width (and no taller than 80 % of the window), with its title, field of view and
+  description set below it. A small round photo sits in a row with its caption floating over it.
+- **In the viewer** it is shown from the AVIF versions so the corners stay transparent.
+- **On its page** it has no square backdrop or shadow; labels and the RA/Dec grid are clipped
+  to the disc; the deep zoom sits on the page colour; on the Sky panel its footprint is a
+  circle rather than a square.
+
+The full-resolution download is the PNG itself, with its metadata chunks removed.
 
 ## The astro layer on photo pages
 
@@ -224,6 +244,7 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "mosaic": { "panels": 4, "panel_map": [[0, 0, 0.5, 0.5], [0.5, 0, 0.5, 0.5], [0, 0.5, 0.5, 0.5], [0.5, 0.5, 0.5, 0.5]] },
       "zoom": { "max_edge": 6000 },           // optional per-photo tile cap
       "rotate": 0,                             // 90 / 180 / 270 clockwise, applied by the build (file untouched)
+      // layout.shape: "round" | "rect" overrides the detected shape (absent = automatic)
       // layout.prominence: "showcase" | "normal" overrides the automatic choice (absent = automatic)
       "acquisition": {
         "optics": "", "camera": "", "mount": "", "filters": "", "guiding": "", "software": "",
@@ -244,6 +265,7 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "integration_seconds": 14400,
       "year": "2025",
       "sky_area": 2.5,                         // square degrees, from the solve
+      "shape": "rect",                         // "round" for a disc with transparent corners
       "showcase": false,                       // true for wide fields (see Showcase photos)
       "tiles": { "main": { "dzi": "tiles/california/main.dzi", "files": "tiles/california/main_files/",
                            "width": 4096, "height": 1851, "tile_size": 256, "overlap": 1, "format": "webp", … } },

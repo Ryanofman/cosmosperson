@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-11-15T10:33:24Z",
+  "updated": "2026-11-21T10:12:45Z",
   "settings": {
     "hero": {
       "id": "milky-way",
@@ -328,7 +328,8 @@
         }
       },
       "sky_area": 0.768,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "california",
@@ -581,7 +582,8 @@
         }
       },
       "sky_area": 2.5,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "butterfly",
@@ -812,7 +814,8 @@
         }
       },
       "sky_area": 1.571,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "ghost-of-cassiopeia",
@@ -1077,7 +1080,8 @@
         }
       },
       "sky_area": 0.849,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "whirlpool",
@@ -1360,7 +1364,8 @@
         }
       },
       "sky_area": 0.402,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "north-america",
@@ -1604,7 +1609,8 @@
         }
       },
       "sky_area": 2.62,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "pinwheel",
@@ -1950,7 +1956,8 @@
         }
       },
       "sky_area": 0.569,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "thors-helmet",
@@ -2202,7 +2209,8 @@
         }
       },
       "sky_area": 0.788,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "horsehead",
@@ -2479,7 +2487,8 @@
         }
       },
       "sky_area": 0.983,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "pacman",
@@ -2741,7 +2750,8 @@
         }
       },
       "sky_area": 0.745,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "soul",
@@ -2994,7 +3004,8 @@
         }
       },
       "sky_area": 2.608,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "eastern-veil",
@@ -3257,7 +3268,8 @@
         }
       },
       "sky_area": 0.823,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "eagle",
@@ -3513,7 +3525,8 @@
         }
       },
       "sky_area": 2.136,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "title": "The Lagoon Nebula",
@@ -3848,7 +3861,8 @@
         }
       },
       "sky_area": 2.878,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "elephants-trunk",
@@ -4091,7 +4105,8 @@
         }
       },
       "sky_area": 2.371,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "triangulum",
@@ -4483,7 +4498,8 @@
         }
       },
       "sky_area": 0.73,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "milky-way",
@@ -5543,7 +5559,8 @@
         }
       },
       "sky_area": 3116.898,
-      "showcase": true
+      "showcase": true,
+      "shape": "rect"
     },
     {
       "id": "helix",
@@ -5787,7 +5804,8 @@
         }
       },
       "sky_area": 0.729,
-      "showcase": false
+      "showcase": false,
+      "shape": "rect"
     },
     {
       "id": "north-america-pelican",
@@ -6124,6 +6142,334 @@
         }
       },
       "sky_area": 13.077,
+      "showcase": true,
+      "shape": "rect"
+    },
+    {
+      "id": "spherical-veil",
+      "title": "The Spherical Veil",
+      "catalog": "Cygnus Loop · NGC 6960 · NGC 6992",
+      "type": "Supernova Remnant",
+      "category": "nebulae",
+      "constellation": "Cygnus",
+      "distance": "≈ 2,400 light-years",
+      "skyTarget": "VEIL",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "e6df706b5250ff91:0",
+      "original": "gallery/Spherical_Veil.png",
+      "width": 7325,
+      "height": 7325,
+      "placeholder": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEvklEQVR42n2WT4tmVxGHn1+dc+90v+8705M/JhJEBiGEyBhciILbmKxlFllkIQqCH0FXWQTyDYzgF8hiFgHXIQvJB4iLQUwUnIFAQJLuaXu6+733nKpycW+PQ2K8q3svp6pOPfU7VUd8/SmAAwzDcLvW+kbAq4ZeUsTNNs3U3eFDn9snyvxws9vdPTk5ufdV26tH/8v59evXX0z3t0B3ImMDAhN5tOXmd5/nyODs+BFnX5xyfnx6UU3vj4eHb5+dnf39q0HKE84r4Jtrm18a/EnwI0mDJJeMcbdlfPqGnh0HHv3js3TPvLndxDPf+861ae6vzBeXvxqvXfu8tfbx6iueDFCBvttsfmvG762UEVk3MyPTzEzqoXHq9ONzjs8vdX52rocnp3Zrt+XHP32l//Vv9w+uDfXnB4eH+2maProKUh5j2Wx+UaR3U+oRAah4OCAkiEhmdxqJBEOt2FD4/MuHbPbdhlrj4cWlD3V43cz+uWZSBOjo6OiWz+0e5IGVQmYaiIiglIJseZeM7h0zQ0BkgoQlPL3dcnx5EZIR7vvS2+3TabpvQHpr75hpkws3A4gIcuUXHmQmmYGkJYCV/6qkGF9eXECmRXhI2sQ4vgOkduP4sobhL5kMEY4kWVmNpdVxIglkkIHMHv+TVcI7knDvlFITkoxsSf7QNAxvmtVRUpiZkBGxGktrFiIRVgoJuDvuTikFyHVdIiskKUmBGCW9aaby2jAUICUZklZDcA9MhgRkEuHIjForwzjSu5MR1FoopS5i8CATmRnu8ZqOdrtjj3gKSDMTtgSJCMgFcmaSkdRhoPeGWaHWSptnWDONDARLlhFpkmR2ouvbrSeyx7tMWLeMyZbUEYtkrxwsdSlmBEk1o8qYeseK0XtfDletUUGYCXdfuS/FBbFqEZlWBIaHL99aMA7FyAjSjM0wMPe2IF4laBFxmu5UWWYmZgWtCrJFsbj7gkBgJsiFnYfT5wZAD2ffZiKTcE8J3P3UEJ/KbAUNkfFYmp6+MLZ1l+G4dxC4N7I7AXR3BKQM90CZ6b0j6dNK5gcR+ZM61KwJQUImgxVaOLpClUu7KGWgkBzeOKQPhbqfyVLoPfB5ZmoOWCbQp8sPTKW8V4rNEWEBGbHAaxksvS7wcMZasAwUizSn/R7zBBfmSe+dRGA1kYzMeVB5r8zz/MXh4eH3bRx/0OfmZjJJeO+wKiWXBKh1oEXHAe/BtJ9wEx3hfcGZES6pRMbdi3n+4+NmF5H3JA4kw93NzAjvS3OSnpBoLGdEYjw4oE3z0hSXOsWyVPu5zbenabpfgDJN03Gt5TMy70Sk13GkPnekghHTTJ8blknMHQ8nATPDW4NMTEIQpVj01oq39utpnv8MrM0Eamvt41qGvSlfx7vC1LfP7Gz71I5vvfBtXnj5FuW5G0RPojtELJnJADpQyDTv/Xf71v5wNSGvJloAtfX2UTV7kBk/0+V0MB3/mzZNfv3Z5yEr/3rwQLUY/XLKdE8glGm1FJP0qM/+m8t5/+7VhPzmoT+OL6qWtzLzjmBTZGBL4d0dKwVMCJHJhQfv9/S353n+2tDX/7u2bIfhttX6hkyvRsRLJDfX5vewiE9k9UODuyfn5994bfkPGKvvKXaxkLEAAAAASUVORK5CYII=",
+      "color": "#080808",
+      "shape": "round",
+      "srcset": [
+        {
+          "src": "gallery/_web/spherical-veil-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/spherical-veil-1024.jpg",
+          "w": 1024
+        },
+        {
+          "src": "gallery/_web/spherical-veil-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/spherical-veil-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/spherical-veil-3200.jpg",
+          "w": 3200
+        },
+        {
+          "src": "gallery/_web/spherical-veil-5120.jpg",
+          "w": 5120
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/spherical-veil-640.avif",
+            "w": 640,
+            "h": 640,
+            "bytes": 107686
+          },
+          {
+            "src": "gallery/_web/spherical-veil-1024.avif",
+            "w": 1024,
+            "h": 1024,
+            "bytes": 253622
+          },
+          {
+            "src": "gallery/_web/spherical-veil-1600.avif",
+            "w": 1600,
+            "h": 1600,
+            "bytes": 488658
+          },
+          {
+            "src": "gallery/_web/spherical-veil-2400.avif",
+            "w": 2400,
+            "h": 2400,
+            "bytes": 811613
+          },
+          {
+            "src": "gallery/_web/spherical-veil-3200.avif",
+            "w": 3200,
+            "h": 3200,
+            "bytes": 1114019
+          },
+          {
+            "src": "gallery/_web/spherical-veil-5120.avif",
+            "w": 5120,
+            "h": 5120,
+            "bytes": 1816653
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/spherical-veil-640.jpg",
+            "w": 640,
+            "h": 640,
+            "bytes": 128495
+          },
+          {
+            "src": "gallery/_web/spherical-veil-1024.jpg",
+            "w": 1024,
+            "h": 1024,
+            "bytes": 333878
+          },
+          {
+            "src": "gallery/_web/spherical-veil-1600.jpg",
+            "w": 1600,
+            "h": 1600,
+            "bytes": 741095
+          },
+          {
+            "src": "gallery/_web/spherical-veil-2400.jpg",
+            "w": 2400,
+            "h": 2400,
+            "bytes": 1357216
+          },
+          {
+            "src": "gallery/_web/spherical-veil-3200.jpg",
+            "w": 3200,
+            "h": 3200,
+            "bytes": 1971283
+          },
+          {
+            "src": "gallery/_web/spherical-veil-5120.jpg",
+            "w": 5120,
+            "h": 5120,
+            "bytes": 3480847
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/spherical-veil/main.dzi",
+          "files": "tiles/spherical-veil/main_files/",
+          "width": 6000,
+          "height": 6000,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 14,
+          "tiles": 778,
+          "bytes": 4923124,
+          "signature": "e6df706b5250ff91:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution PNG",
+          "url": "gallery/Spherical_Veil.png",
+          "width": 7325,
+          "height": 7325,
+          "bytes": 49793573
+        },
+        {
+          "label": "Extra large JPEG",
+          "url": "gallery/_web/spherical-veil-5120.jpg",
+          "width": 5120,
+          "height": 5120,
+          "bytes": 3480847
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/spherical-veil-3200.jpg",
+          "width": 3200,
+          "height": 3200,
+          "bytes": 1971283
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/spherical-veil-1600.jpg",
+          "width": 1600,
+          "height": 1600,
+          "bytes": 741095
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-11-21",
+        "service": "nova.astrometry.net",
+        "submission": 16545894,
+        "job": 17381384,
+        "image": {
+          "src": "gallery/_web/spherical-veil-1600.jpg",
+          "w": 1600,
+          "h": 1600
+        },
+        "ra": 312.792828,
+        "dec": 31.024384,
+        "radius": 2.2186,
+        "pixscale": 1.54205,
+        "orientation": 273.045,
+        "parity": 1.0,
+        "fov": [
+          3.13764,
+          3.13764
+        ],
+        "objects": [
+          "NGC 6960",
+          "NGC 6992",
+          "IC 1340",
+          "NGC 6995",
+          "NGC 6979",
+          "Veil Nebula",
+          "The star 52 Cyg"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 6974"
+            ],
+            "type": "ngc",
+            "x": 5540,
+            "y": 3621,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 6960"
+            ],
+            "type": "ngc",
+            "x": 2811,
+            "y": 6325,
+            "r": 4085
+          },
+          {
+            "names": [
+              "NGC 6979"
+            ],
+            "type": "ngc",
+            "x": 6016,
+            "y": 3897,
+            "r": 136
+          },
+          {
+            "names": [
+              "NGC 6992"
+            ],
+            "type": "ngc",
+            "x": 5229,
+            "y": 1029,
+            "r": 1167
+          },
+          {
+            "names": [
+              "NGC 6995"
+            ],
+            "type": "ngc",
+            "x": 4028,
+            "y": 643,
+            "r": 233
+          },
+          {
+            "names": [
+              "IC 1340"
+            ],
+            "type": "ic",
+            "x": 3610,
+            "y": 1181,
+            "r": 489
+          },
+          {
+            "names": [
+              "52 Cyg"
+            ],
+            "type": "bright",
+            "x": 3111,
+            "y": 6460,
+            "r": 0
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 1600,
+          "crpix": [
+            505.074000041,
+            965.431986491
+          ],
+          "crval": [
+            312.451653721,
+            30.4290370894
+          ],
+          "cd": [
+            [
+              -0.000103534542735,
+              -0.00195822358122
+            ],
+            [
+              0.00195829216438,
+              -0.00010481034999
+            ]
+          ],
+          "flip_y": false
+        }
+      },
+      "sky_area": 9.845,
       "showcase": true
     }
   ]

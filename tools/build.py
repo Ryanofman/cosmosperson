@@ -70,6 +70,7 @@ AVIF_QUALITY = 70          # measured 30 Oct 2026: q65-75 ≈ JPEG q82 4:4:4 fid
 AVIF_SPEED = 6
 JPEG_QUALITY = 85
 PLACEHOLDER_EDGE = 24
+SITE_BG = (8, 9, 11)       # --bg in site.css; transparent photos are flattened onto it for JPEG
 
 # Deep Zoom (DZI) pyramids for the OpenSeadragon viewer
 TILES_DIR = ROOT / "tiles"
@@ -173,6 +174,17 @@ KNOWN_ORIGINALS = {
         "constellation": "Cygnus",
         "distance": "≈ 2,600 light-years",
         "skyTarget": "NGC7000",
+        "description": "",
+    },
+    "Spherical_Veil.png": {
+        "id": "spherical-veil",
+        "title": "The Spherical Veil",
+        "catalog": "Cygnus Loop · NGC 6960 · NGC 6992",
+        "type": "Supernova Remnant",
+        "category": "nebulae",
+        "constellation": "Cygnus",
+        "distance": "≈ 2,400 light-years",
+        "skyTarget": "VEIL",
         "description": "",
     },
     "Helix_2xUpsampled.jpg": {
@@ -286,12 +298,80 @@ def strip_jpeg_metadata(path: Path) -> bool:
     return changed
 
 
+def strip_png_metadata(path: Path) -> bool:
+    """Drop EXIF and text chunks (eXIf, tEXt, zTXt, iTXt, tIME) from a PNG without touching
+    its pixels or colour chunks. Returns True when the file was rewritten."""
+    import struct
+    data = path.read_bytes()
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        return False
+    out = bytearray(data[:8])
+    i, changed = 8, False
+    while i + 8 <= len(data):
+        length = struct.unpack(">I", data[i:i + 4])[0]
+        kind = data[i + 4:i + 8]
+        chunk = data[i:i + 12 + length]
+        if kind in (b"eXIf", b"tEXt", b"zTXt", b"iTXt", b"tIME"):
+            changed = True
+        else:
+            out += chunk
+        i += 12 + length
+        if kind == b"IEND":
+            break
+    if changed:
+        path.write_bytes(bytes(out))
+    return changed
+
+
+def strip_metadata(path: Path) -> bool:
+    suffix = path.suffix.lower()
+    if suffix in {".jpg", ".jpeg"}:
+        return strip_jpeg_metadata(path)
+    if suffix == ".png":
+        return strip_png_metadata(path)
+    return False
+
+
+def has_alpha(img: Image.Image) -> bool:
+    return img.mode in ("RGBA", "LA", "PA") or (img.mode == "P" and "transparency" in img.info)
+
+
+def flatten(img: Image.Image) -> Image.Image:
+    """A transparent photo composited onto the page colour (for JPEG, which has no alpha)."""
+    if img.mode != "RGBA":
+        return img if img.mode == "RGB" else img.convert("RGB")
+    bg = Image.new("RGB", img.size, SITE_BG)
+    bg.paste(img, mask=img.getchannel("A"))
+    return bg
+
+
+def detect_shape(img: Image.Image) -> str:
+    """'round' when the photo is a disc (or ellipse) inside transparent corners, else 'rect'."""
+    if img.mode != "RGBA":
+        return "rect"
+    n = 200
+    alpha = img.getchannel("A").resize((n, n), Image.BILINEAR).load()
+    agree = 0
+    for y in range(n):
+        dy = (y + 0.5 - n / 2) / (n / 2)
+        for x in range(n):
+            dx = (x + 0.5 - n / 2) / (n / 2)
+            agree += (dx * dx + dy * dy <= 1) == (alpha[x, y] >= 128)
+    return "round" if agree / (n * n) >= 0.985 else "rect"
+
+
 def load_image(path: Path) -> Image.Image:
-    """Open, honour EXIF orientation, convert to sRGB, drop everything else."""
+    """Open, honour EXIF orientation, convert to sRGB, drop everything else.
+    Transparency is kept (RGBA) so a cut-out photo stays cut out."""
     img = Image.open(path)
     img = ImageOps.exif_transpose(img)
     icc = img.info.get("icc_profile")
-    if img.mode != "RGB":
+    alpha = None
+    if has_alpha(img):
+        img = img.convert("RGBA")
+        alpha = img.getchannel("A")
+        img = img.convert("RGB")
+    elif img.mode != "RGB":
         img = img.convert("RGB")
     if icc and ImageCms is not None:
         try:
@@ -303,6 +383,8 @@ def load_image(path: Path) -> Image.Image:
                 print(f"     converted {path.name} from '{desc.strip()}' to sRGB")
         except Exception as exc:  # keep going with the pixels as they are
             print(f"     !! could not colour-convert {path.name}: {exc}")
+    if alpha is not None:
+        img.putalpha(alpha)
     img.info.pop("exif", None)
     img.info.pop("icc_profile", None)
     img.info.pop("xmp", None)
@@ -320,7 +402,7 @@ def resize_long_edge(img: Image.Image, target: int) -> Image.Image:
 
 def save_jpeg(img: Image.Image, path: Path, quality: int = JPEG_QUALITY) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(path, "JPEG", quality=quality, subsampling=0, optimize=True, progressive=True)
+    flatten(img).save(path, "JPEG", quality=quality, subsampling=0, optimize=True, progressive=True)
 
 
 def save_avif(img: Image.Image, path: Path) -> bool:
@@ -336,6 +418,9 @@ def save_avif(img: Image.Image, path: Path) -> bool:
 def make_placeholder(img: Image.Image) -> str:
     tiny = resize_long_edge(img, PLACEHOLDER_EDGE)
     buf = io.BytesIO()
+    if tiny.mode == "RGBA":                      # keep the cut-out shape while loading
+        tiny.save(buf, "PNG", optimize=True)
+        return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
     tiny.save(buf, "JPEG", quality=40)
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
 
@@ -763,7 +848,7 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
             entry["visible"] = True
             print(f"     original is back for '{img_id}'; shown again")
 
-        if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+        if strip_metadata(src):
             print(f"     stripped EXIF/XMP from the original {src.name}")
         rotate = int(entry.get("rotate") or 0) % 360
         src_hash = file_hash(src)
@@ -800,7 +885,7 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
                 print(f"     !! version file missing, skipping: {vorig}")
                 continue
             vid = slugify(v.get("id") or v.get("label") or vsrc.stem)
-            if vsrc.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(vsrc):
+            if strip_metadata(vsrc):
                 print(f"     stripped EXIF/XMP from the original {vsrc.name}")
             v_hash = file_hash(vsrc)
             v_sig = f"{v_hash}:{rotate}"
@@ -833,6 +918,8 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
             "height": h,
             "placeholder": make_placeholder(img),
             "color": average_color(img),
+            # round: a disc inside transparent corners (detected; layout.shape overrides)
+            "shape": ((entry.get("layout") or {}).get("shape") or detect_shape(img)),
             "srcset": [{"src": s["src"], "w": s["w"]} for s in jpg_list],   # kept for explore.html
             "sources": {"avif": avif_list, "jpg": jpg_list},
         })
@@ -845,8 +932,9 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
         entry["year"] = year_of(entry)
 
         # Download ladder: full resolution, then the large and medium web JPEGs
+        kind = "PNG" if src.suffix.lower() == ".png" else ("TIFF" if src.suffix.lower() in {".tif", ".tiff"} else "JPEG")
         entry["downloads"] = [{
-            "label": "Full resolution JPEG",
+            "label": f"Full resolution {kind}",
             "url": entry["original"],
             "width": w,
             "height": h,
@@ -901,12 +989,12 @@ def build_explore_derivatives(force: bool) -> None:
             continue
         out_path = IMAGES_WEB / f"{src.stem}-{EXPLORE_SIZE}.jpg"
         if not force and out_path.exists():
-            if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+            if strip_metadata(src):
                 print(f"     stripped EXIF/XMP from the original {src.name}")
             count += 1
             continue
         try:
-            if src.suffix.lower() in {".jpg", ".jpeg"} and strip_jpeg_metadata(src):
+            if strip_metadata(src):
                 print(f"     stripped EXIF/XMP from the original {src.name}")
             img = load_image(src)
         except Exception as exc:
@@ -1125,7 +1213,7 @@ def mini_card(e: dict) -> str:
     avif = e["sources"].get("avif") or []
     avif_src = f'<source type="image/avif" srcset="{srcset_attr(avif[:2])}" sizes="(max-width: 720px) 46vw, 23vw">' if avif else ""
     return (
-        f'<a class="mini-card" href="/photo/{esc(e["id"])}/" style="--ph-color:{esc(e.get("color", "#000"))}">'
+        f'<a class="mini-card{" round" if e.get("shape") == "round" else ""}" href="/photo/{esc(e["id"])}/" style="--ph-color:{esc(e.get("color", "#000"))}">'
         f'<picture>{avif_src}<img src="/{esc(small["src"])}" srcset="{srcset_attr(src[:2])}" '
         f'sizes="(max-width: 720px) 46vw, 23vw" width="{e["width"]}" height="{e["height"]}" loading="lazy" decoding="async" alt="">'
         f'</picture><span class="mini-title">{esc(e["title"])}</span>'
@@ -1232,6 +1320,7 @@ def render_pages(manifest: dict) -> None:
             # Showcase photos get more room: a tall frame sits beside its text, a wide one runs larger
             "layout_class": ("layout-tall" if entry["width"] / entry["height"] < 0.85 else "layout-wide")
                             if entry.get("showcase") else "",
+            "shape_class": "is-round" if entry.get("shape") == "round" else "",
             "stage_sizes": "(max-width: 960px) 100vw, 52vw"
                            if entry.get("showcase") and entry["width"] / entry["height"] < 0.85
                            else "(max-width: 900px) 100vw, 92vw",

@@ -458,7 +458,7 @@ async function openZoom(ctx, rect) {
         visibilityRatio: 0.7,
         immediateRender: true,
         blendTime: reduced ? 0 : 0.25,
-        placeholderFillStyle: entry.color || '#000',
+        placeholderFillStyle: entry.shape === 'round' ? null : (entry.color || '#000'),
         imageSmoothingEnabled: true,
         gestureSettingsMouse: { clickToZoom: false, dblClickToZoom: true, flickEnabled: true },
         gestureSettingsTouch: { pinchRotate: false, flickEnabled: true },
@@ -590,10 +590,19 @@ async function toggleSky(ctx, force) {
         ctx.aladin = aladin;
         if (solved && ctx.wcs) {
             const W = entry.width, H = entry.height;
-            const corners = [[0, 0], [W, 0], [W, H], [0, H]].map(([x, y]) => ctx.wcs.pix2sky(x, y));
             const overlay = A.graphicOverlay({ color: ctx.accent, lineWidth: 2 });
             aladin.addOverlay(overlay);
-            overlay.add(A.polygon(corners));
+            if (entry.shape === 'round') {
+                // the footprint of a round photo is a circle on the sky
+                const c = ctx.wcs.pix2sky(W / 2, H / 2);
+                const edge = ctx.wcs.pix2sky(W / 2, 0);
+                const r1 = rad(c[1]), r2 = rad(edge[1]), dra = rad(edge[0] - c[0]);
+                const sep = deg(Math.acos(Math.min(1, Math.sin(r1) * Math.sin(r2) + Math.cos(r1) * Math.cos(r2) * Math.cos(dra))));
+                overlay.add(A.circle(c[0], c[1], sep));
+            } else {
+                const corners = [[0, 0], [W, 0], [W, H], [0, H]].map(([x, y]) => ctx.wcs.pix2sky(x, y));
+                overlay.add(A.polygon(corners));
+            }
         } else {
             const cat = A.catalog({ name: 'This photo', sourceSize: 22, shape: 'circle', color: ctx.accent });
             aladin.addCatalog(cat);

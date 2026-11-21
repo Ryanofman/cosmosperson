@@ -546,7 +546,17 @@ function arrange(list) {
     const rest = list.filter(e => !isShowcase(e));
     const share = Math.max(6, Math.ceil(rest.length / big.length));
     const out = [];
-    big.forEach((b, i) => out.push(b, ...rest.slice(i * share, (i + 1) * share)));
+    big.forEach((b, i) => {
+        const mine = rest.slice(i * share, (i + 1) * share);
+        // a round photo stands alone; set it in the middle of its share so ordinary rows
+        // separate it from the showcase before it
+        if (b.shape === 'round' && i > 0) {
+            const k = Math.ceil(mine.length / 2);
+            out.push(...mine.slice(0, k), b, ...mine.slice(k));
+        } else {
+            out.push(b, ...mine);
+        }
+    });
     out.push(...rest.slice(big.length * share));
     return out;
 }
@@ -576,6 +586,8 @@ function makeCard(entry, idx, fields) {
     if (focal && focal.length === 2) card.style.setProperty('--focal', `${focal[0] * 100}% ${focal[1] * 100}%`);
     const big = isShowcase(entry);
     if (big) card.classList.add('showcase');
+    const round = entry.shape === 'round';
+    if (round) card.classList.add('round');
 
     const picture = document.createElement('picture');
     const avif = entry.sources.avif || [];
@@ -613,6 +625,12 @@ function makeCard(entry, idx, fields) {
     if (big && fovLabel(entry)) subParts.push(fovLabel(entry));
     sub.textContent = subParts.join(' · ');
     cap.append(title, sub);
+    if (big && round && entry.description) {
+        const desc = document.createElement('span');
+        desc.className = 'c-desc';
+        desc.textContent = entry.description;
+        cap.appendChild(desc);
+    }
     card.appendChild(cap);
 
     card.addEventListener('click', (e) => {
@@ -666,7 +684,8 @@ function renderGrid() {
    a pillar beside several rows of the others. Inside a row the cards still size themselves
    (flex-grow by aspect ratio), so nothing is cropped and rounding never leaves a gap. */
 
-function computeBlocks(items, W, g, h) {
+function computeBlocks(list, W, g, h) {
+    const items = list.slice();
     const ar = (e) => e.width / e.height;
     const frac = Number(showcaseConfig().height) || 0.86;
     const H0max = Math.min(1100, Math.max(520, frac * window.innerHeight));
@@ -693,14 +712,45 @@ function computeBlocks(items, W, g, h) {
         return { count, sum, full, height: count ? (width - (count - 1) * g) / sum : 0 };
     };
 
-    const pushRows = (list) => {
+    const pushRows = (list, last) => {
+        const rows = [];
         let at = 0;
         while (at < list.length) {
             const r = fillRow(list, at, W, h);
             const stretchTooFar = !r.full && r.height > h * 1.25;     // a short last row keeps the row height
-            blocks.push({ type: 'row', items: list.slice(at, at + r.count), capped: stretchTooFar, height: h });
+            rows.push({ type: 'row', items: list.slice(at, at + r.count), capped: stretchTooFar, height: h });
             at += r.count;
         }
+        // A short row in the middle of the page (before a pillar or a round photo) reads as a
+        // gap: share the last two rows' photos out so both run the full width.
+        const tail = rows[rows.length - 1];
+        if (!last && tail && tail.capped && rows.length >= 2) {
+            const both = [...rows[rows.length - 2].items, ...tail.items];
+            const rowH = (part) => (W - (part.length - 1) * g) / part.reduce((t, e) => t + ar(e), 0);
+            let best = null;
+            for (let k = 1; k < both.length; k++) {
+                const h1 = rowH(both.slice(0, k)), h2 = rowH(both.slice(k));
+                const worst = Math.max(Math.abs(h1 - h) / h, Math.abs(h2 - h) / h);
+                if (h1 > 0.7 * h && h1 < 1.35 * h && h2 > 0.7 * h && h2 < 1.35 * h && (!best || worst < best.worst)) {
+                    best = { k, worst };
+                }
+            }
+            if (best) {
+                rows.splice(rows.length - 2, 2,
+                    { type: 'row', items: both.slice(0, best.k), capped: false, height: h },
+                    { type: 'row', items: both.slice(best.k), capped: false, height: h });
+            }
+        }
+        // Still short: those photos move past the showcase photo that follows and join the
+        // rows after it (or beside it, for a pillar), so no row is left half empty.
+        let carry = [];
+        const end = rows[rows.length - 1];
+        if (!last && end && end.capped) {
+            carry = end.items;
+            rows.pop();
+        }
+        blocks.push(...rows);
+        return carry;
     };
 
     let i = 0, side = 'left';
@@ -709,13 +759,27 @@ function computeBlocks(items, W, g, h) {
         let j = i + 1;
         if (!isShowcase(e)) {
             while (j < n && !isShowcase(items[j])) j++;
-            pushRows(items.slice(i, j));
-            i = j;
+            const carry = pushRows(items.slice(i, j), j >= n);
+            if (carry.length) {
+                // move them to just after the showcase photo at j
+                items.splice(j - carry.length, carry.length);
+                items.splice(j - carry.length + 1, 0, ...carry);
+                i = j - carry.length;
+            } else {
+                i = j;
+            }
             continue;
         }
         while (j < n && !isShowcase(items[j])) j++;
         const cand = items.slice(i + 1, j);        // the ordinary photos that follow, up to the next showcase
         const a = ar(e);
+
+        if (e.shape === 'round') {                 // a disc stands alone, centred, with its caption below
+            const d = Math.min(W * (W < 900 ? 0.92 : 0.58), window.innerHeight * 0.8, 1000);
+            blocks.push({ type: 'moment', item: e, d });
+            i += 1;
+            continue;
+        }
 
         if (a >= 1.9) {                            // a panorama takes a row of its own
             blocks.push({ type: 'row', items: [e], capped: false, height: h });
@@ -830,6 +894,14 @@ function layoutGrid() {
         };
         computeBlocks(shown, W, g, h).forEach(b => {
             if (b.type === 'row') { frag.appendChild(makeRow(b.items, b.capped, b.height, b.center)); return; }
+            if (b.type === 'moment') {
+                const m = div('g-moment');
+                const c = cardOf(b.item);
+                c.style.setProperty('--d', b.d.toFixed(1) + 'px');
+                m.appendChild(c);
+                frag.appendChild(m);
+                return;
+            }
             const block = div('g-block ' + b.side);
             block.style.setProperty('--p', b.p.toFixed(2) + 'px');
             const pillar = cardOf(b.pillar);

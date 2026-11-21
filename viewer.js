@@ -186,11 +186,15 @@ export function createViewer(entries, options = {}) {
     const pageTitle = document.title;
 
     const dataSource = entries.map(entry => {
-        const big = largestJpg(entry);
-        const jpg = (entry.sources && entry.sources.jpg) || [];
+        let big = largestJpg(entry);
+        let list = (entry.sources && entry.sources.jpg) || [];
+        // A round photo keeps its transparent corners only in AVIF (JPEG is flattened onto the
+        // page colour, which is not the viewer's), so the viewer shows the AVIF versions.
+        const avif = (entry.sources && entry.sources.avif) || [];
+        if (entry.shape === 'round' && avif.length) { list = avif; big = avif[avif.length - 1]; }
         return {
             src: '/' + encodeURI(big.src),
-            srcset: srcsetOf(jpg),
+            srcset: srcsetOf(list),
             width: big.w,
             height: big.h,
             msrc: entry.placeholder,

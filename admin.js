@@ -388,7 +388,8 @@
             textField(entry, 'skyTarget', 'Sky map target', 'e.g. NGC 7000 — powers “View on Sky Map”'),
             paletteField(entry),
             textField(entry, 'date', 'Capture date', 'YYYY-MM or YYYY-MM-DD (sorts newest first)'),
-            prominenceField(entry)
+            prominenceField(entry),
+            shapeField(entry)
         );
 
         const desc = document.createElement('div');
@@ -601,6 +602,25 @@
             renderList();
         });
         return fieldWrap('Size in the grid', select);
+    }
+
+    /* Shape: automatic (a PNG cut out as a disc with transparent corners is shown round) */
+    function shapeField(entry) {
+        const select = document.createElement('select');
+        [['auto', 'Automatic — round when the file is a disc'], ['round', 'Round'], ['rect', 'Rectangle']].forEach(([val, label]) => {
+            const o = document.createElement('option');
+            o.value = val;
+            o.textContent = label;
+            select.appendChild(o);
+        });
+        if (!entry.layout) entry.layout = { span: 1, focal: [0.5, 0.5] };
+        select.value = entry.layout.shape || 'auto';
+        select.addEventListener('change', () => {
+            if (select.value === 'auto') delete entry.layout.shape;
+            else entry.layout.shape = select.value;
+            markDirty();
+        });
+        return fieldWrap('Shape', select);
     }
 
     /* ---------- Mutations ---------- */

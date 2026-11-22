@@ -187,7 +187,7 @@ KNOWN_ORIGINALS = {
         "skyTarget": "VEIL",
         "description": "",
     },
-    "ExtraDark4site.jpg": {
+    "2403_2xupsampled_Saturated_DarkerForSite.jpg": {
         "id": "ngc-2403",
         "title": "NGC 2403",
         "catalog": "Caldwell 7",

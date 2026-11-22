@@ -169,6 +169,28 @@ a disc, never a square:
 
 The full-resolution download is the PNG itself, with its metadata chunks removed.
 
+## Honest zoom and edge trim
+
+Most of these photos were exported upsampled, 2× to 6× the pixels the camera recorded (the
+plate-solved pixel scale is then a clean fraction of the setup's native scale: 2.38″/px for
+the small-sensor setup, 3.07″/px for the RedCat 51 with the Canon T7). Upsampling adds no
+detail, so zooming into those pixels on a large monitor only shows noise and processing
+texture.
+
+- **Honest zoom.** The build works out each photo's enlargement (`detail.upsample`) from its
+  solve against `settings.zoom.native_scales`, or takes it from `zoom.upsample` when set by
+  hand (the admin's *Upsampled* control). The viewer and the deep zoom then stop at
+  `settings.zoom.max_detail` (1.5) times the real detail: `detail.max_width` is the widest
+  the photo is ever shown. A photo that fits the screen at that limit simply does not zoom.
+- **Edge trim.** `layout.trim` (`{"top", "right", "bottom", "left"}`, each in % of the frame,
+  at most 25) cuts stacking or mosaic edges off everything the site shows: grid, viewer,
+  photo page, deep zoom, alternate versions. The original download stays whole. The admin's
+  *Edges* section previews the trim on the whole frame and can brighten the preview to show
+  edge colour. The build records the kept box in `crop` and keeps an untrimmed preview at
+  `gallery/_web/<id>-frame.jpg`. Plate solves stay in the untrimmed frame, so labels, the
+  RA/Dec grid and the Sky footprint keep lining up, and changing the trim never needs a new
+  solve. Round photos are never trimmed.
+
 ## The astro layer on photo pages
 
 Under the photo, depending on what exists for it:
@@ -251,10 +273,11 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "layout": { "span": 1, "focal": [0.5, 0.5] },
       "versions": [ { "id": "starless", "label": "Starless", "original": "gallery/California_starless.jpg" } ],
       "mosaic": { "panels": 4, "panel_map": [[0, 0, 0.5, 0.5], [0.5, 0, 0.5, 0.5], [0, 0.5, 0.5, 0.5], [0.5, 0.5, 0.5, 0.5]] },
-      "zoom": { "max_edge": 6000 },           // optional per-photo tile cap
+      "zoom": { "max_edge": 6000, "upsample": 3 },   // optional: tile cap; enlargement over the camera (absent = from the solve)
       "rotate": 0,                             // 90 / 180 / 270 clockwise, applied by the build (file untouched)
       // layout.shape: "round" | "rect" overrides the detected shape (absent = automatic)
       // layout.prominence: "showcase" | "normal" overrides the automatic choice (absent = automatic)
+      // layout.trim: { "top": 0, "right": 0, "bottom": 1.5, "left": 2 } trims % of each edge on the site
       "acquisition": {
         "optics": "", "camera": "", "mount": "", "filters": "", "guiding": "", "software": "",
         "location": "", "bortle": "", "integration": "",
@@ -276,6 +299,8 @@ side, 0 = hard edge, the default), `bottom_fade` (`none` by default, `short`, `l
       "sky_area": 2.5,                         // square degrees, from the solve
       "shape": "rect",                         // "round" for a disc with transparent corners
       "showcase": false,                       // true for wide fields (see Showcase photos)
+      "detail": { "upsample": 2, "auto": true, "max_width": 5337 },  // honest zoom limit (see Honest zoom)
+      "crop": { "x": 0, "y": 0, "w": 7116, "h": 3150, "full": [7116, 3216], "preview": "gallery/_web/california-frame.jpg" },  // only when trimmed
       "tiles": { "main": { "dzi": "tiles/california/main.dzi", "files": "tiles/california/main_files/",
                            "width": 4096, "height": 1851, "tile_size": 256, "overlap": 1, "format": "webp", … } },
       // --- written by the plate solve (tools/solve.py) ---

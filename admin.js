@@ -389,8 +389,16 @@
             paletteField(entry),
             textField(entry, 'date', 'Capture date', 'YYYY-MM or YYYY-MM-DD (sorts newest first)'),
             prominenceField(entry),
-            shapeField(entry)
+            shapeField(entry),
+            upsampleField(entry)
         );
+
+        const edgeCaption = document.createElement('div');
+        edgeCaption.className = 'editor-caption';
+        edgeCaption.textContent = 'Edges (trim stacking or mosaic edges off what the site shows; the download stays whole)';
+        const edges = document.createElement('div');
+        edges.className = 'editor-full';
+        edges.appendChild(trimField(entry));
 
         const desc = document.createElement('div');
         desc.className = 'editor-full';
@@ -444,7 +452,7 @@
         right.append(meta, remove);
         actions.append(left, right);
 
-        ed.append(grid, desc, capCaption, capGrid, subs, actions);
+        ed.append(grid, desc, edgeCaption, edges, capCaption, capGrid, subs, actions);
         return ed;
     }
 
@@ -621,6 +629,136 @@
             markDirty();
         });
         return fieldWrap('Shape', select);
+    }
+
+    /* Upsampling: how many times the file is enlarged over what the camera recorded. The viewer
+       and deep zoom stop at 1.5× the real detail (settings.zoom.max_detail), so visitors never
+       zoom into enlarged noise. Automatic reads it from the plate solve. */
+    function upsampleField(entry) {
+        const select = document.createElement('select');
+        const d = entry.detail || {};
+        const detected = d.auto === false ? 'from the plate solve'
+            : (Number(d.upsample) > 1 ? `detected ${d.upsample}× from the plate solve` : 'not upsampled, or not detected');
+        const options = [['auto', `Automatic — ${detected}`], ['1', 'Not upsampled'], ['1.5', '1.5×'], ['2', '2×'], ['3', '3×'], ['4', '4×'], ['6', '6×']];
+        const current = entry.zoom && entry.zoom.upsample ? String(entry.zoom.upsample) : 'auto';
+        if (!options.some(([v]) => v === current)) options.push([current, `${current}×`]);
+        options.forEach(([val, label]) => {
+            const o = document.createElement('option');
+            o.value = val;
+            o.textContent = label;
+            select.appendChild(o);
+        });
+        select.value = current;
+        select.addEventListener('change', () => {
+            const zoom = { ...(entry.zoom || {}) };
+            if (select.value === 'auto') delete zoom.upsample;
+            else zoom.upsample = Number(select.value);
+            if (Object.keys(zoom).length) entry.zoom = zoom;
+            else delete entry.zoom;
+            markDirty();
+        });
+        return fieldWrap('Upsampled (sets how far visitors can zoom)', select);
+    }
+
+    /* Edge trim, in % of each side, previewed on the whole frame. Applies to everything the
+       site shows (grid, viewer, photo page, deep zoom); the original download is untouched. */
+    function trimField(entry) {
+        const wrap = document.createElement('div');
+        wrap.className = 'trim';
+        if (entry.shape === 'round') {
+            wrap.innerHTML = '<p class="trim-note">Round photos are shown whole; there are no straight edges to trim.</p>';
+            return wrap;
+        }
+        if (!entry.layout) entry.layout = { span: 1, focal: [0.5, 0.5] };
+        const SIDES = [['top', 'Top'], ['right', 'Right'], ['bottom', 'Bottom'], ['left', 'Left']];
+        const trim = { top: 0, right: 0, bottom: 0, left: 0, ...(entry.layout.trim || {}) };
+        const full = entry.crop && entry.crop.full ? entry.crop.full : [entry.width, entry.height];
+
+        // the preview must show the whole frame: once trimmed, the build keeps an untrimmed copy
+        const jpgs = (entry.sources && entry.sources.jpg) || [];
+        const mid = jpgs.find(s => Math.max(s.w, s.h) >= 1024) || jpgs[0];
+        const path = (entry.crop && entry.crop.preview) || (mid && mid.src) || '';
+        const staged = state.staged.get(entry.original);
+        const src = staged && staged.thumbUrl ? staged.thumbUrl
+            : path ? (state.repoTree.has(path) ? rawUrl(path) : path) : (entry.placeholder || '');
+
+        const stage = document.createElement('div');
+        stage.className = 'trim-stage';
+        const img = document.createElement('img');
+        img.alt = '';
+        img.src = src;
+        stage.appendChild(img);
+        const shade = {};
+        ['top', 'right', 'bottom', 'left'].forEach(s => {
+            shade[s] = document.createElement('div');
+            shade[s].className = 'trim-shade';
+            stage.appendChild(shade[s]);
+        });
+        const box = document.createElement('div');
+        box.className = 'trim-box';
+        stage.appendChild(box);
+
+        const controls = document.createElement('div');
+        controls.className = 'trim-controls';
+        const inputs = {};
+        SIDES.forEach(([side, label]) => {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.min = '0';
+            input.max = '25';
+            input.step = '0.25';
+            input.value = String(Number(trim[side]) || 0);
+            input.addEventListener('input', () => {
+                const v = Math.min(25, Math.max(0, Number(input.value) || 0));
+                trim[side] = v;
+                save();
+                update();
+            });
+            inputs[side] = input;
+            controls.appendChild(fieldWrap(`${label} %`, input));
+        });
+
+        const tools = document.createElement('div');
+        tools.className = 'trim-tools';
+        const boost = document.createElement('label');
+        boost.className = 'check';
+        boost.innerHTML = '<input type="checkbox"> <span>Brighten the preview to show edge colour</span>';
+        boost.querySelector('input').addEventListener('change', (e) => stage.classList.toggle('boost', e.target.checked));
+        const reset = document.createElement('button');
+        reset.type = 'button';
+        reset.className = 'btn';
+        reset.textContent = 'No trim';
+        reset.addEventListener('click', () => {
+            SIDES.forEach(([side]) => { trim[side] = 0; inputs[side].value = '0'; });
+            save();
+            update();
+        });
+        const info = document.createElement('span');
+        info.className = 'trim-info mono';
+        tools.append(boost, reset, info);
+
+        function save() {
+            const any = SIDES.some(([side]) => trim[side] > 0);
+            if (any) entry.layout.trim = Object.fromEntries(SIDES.map(([side]) => [side, trim[side]]));
+            else delete entry.layout.trim;
+            markDirty();
+        }
+        function update() {
+            const { top: t, right: r, bottom: b, left: l } = trim;
+            Object.assign(shade.top.style, { left: '0', top: '0', width: '100%', height: t + '%' });
+            Object.assign(shade.bottom.style, { left: '0', bottom: '0', width: '100%', height: b + '%' });
+            Object.assign(shade.left.style, { left: '0', top: t + '%', width: l + '%', height: (100 - t - b) + '%' });
+            Object.assign(shade.right.style, { right: '0', top: t + '%', width: r + '%', height: (100 - t - b) + '%' });
+            Object.assign(box.style, { left: l + '%', top: t + '%', right: r + '%', bottom: b + '%' });
+            const w = full[0] - Math.round(full[0] * l / 100) - Math.round(full[0] * r / 100);
+            const h = full[1] - Math.round(full[1] * t / 100) - Math.round(full[1] * b / 100);
+            info.textContent = (t || r || b || l)
+                ? `shown ${w}×${h} of ${full[0]}×${full[1]} (takes effect after the next build)`
+                : `${full[0]}×${full[1]}, shown whole`;
+        }
+        update();
+        wrap.append(stage, controls, tools);
+        return wrap;
     }
 
     /* ---------- Mutations ---------- */

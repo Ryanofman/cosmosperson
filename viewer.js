@@ -205,6 +205,14 @@ export function createViewer(entries, options = {}) {
 
     const isWide = () => window.innerWidth >= RAIL_BREAKPOINT;
 
+    // Honest zoom: never past detail.max_width (the build's limit from the real detail in the
+    // file), and never below fitting the screen. Zoom levels are relative to the slide's width.
+    const maxZoom = (zl) => {
+        const d = zl.itemData && zl.itemData.entry && zl.itemData.entry.detail;
+        const cap = d && d.max_width && zl.itemData.width ? d.max_width / zl.itemData.width : 1.5;
+        return Math.max(zl.fit, Math.min(1.5, cap));
+    };
+
     const lightbox = new PhotoSwipeLightbox({
         dataSource,
         pswpModule: () => import('/vendor/photoswipe/photoswipe.esm.min.js'),
@@ -223,8 +231,8 @@ export function createViewer(entries, options = {}) {
         tapAction: 'toggle-controls',
         doubleTapAction: 'zoom',
         initialZoomLevel: 'fit',
-        secondaryZoomLevel: (zl) => Math.max(zl.fill, Math.min(1, zl.fit * 3)),
-        maxZoomLevel: 1.5,
+        secondaryZoomLevel: (zl) => Math.min(maxZoom(zl), Math.max(zl.fill, Math.min(1, zl.fit * 3))),
+        maxZoomLevel: maxZoom,
         paddingFn: (vs) => {
             if (!railOpen) return { top: 0, bottom: 0, left: 0, right: 0 };
             if (vs.x >= RAIL_BREAKPOINT) return { top: 0, bottom: 0, left: 0, right: RAIL_WIDTH };

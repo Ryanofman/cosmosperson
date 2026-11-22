@@ -133,6 +133,11 @@ DEFAULT_SETTINGS = {
     },
     "viewer": {"open_as": "overlay", "show_card": True},
     "tiles": {"max_edge": TILE_MAX_EDGE, "base": ""},   # base "" = this site; later e.g. an R2 bucket URL
+    # Honest zoom: the viewer and deep zoom stop at max_detail times the detail the camera
+    # actually recorded. A photo's enlargement over that is set by hand (zoom.upsample) or
+    # recognised from its plate solve against these native scales, in arcsec per pixel
+    # (2.38: the small-sensor setup; 3.07: RedCat 51 + Canon T7).
+    "zoom": {"max_detail": 1.5, "native_scales": [2.38, 3.07]},
     "sky": {"survey": "P/DSS2/color"},                    # survey behind the Sky panel on photo pages
     "theme": {"accent": "#7cd1c8"},
     "site": {
@@ -494,6 +499,26 @@ def apply_rotation(img: Image.Image, rotate: int) -> Image.Image:
     return img.rotate(-rot, expand=True)
 
 
+TRIM_MAX = 25.0    # % per side
+
+
+def trim_box(w: int, h: int, trim) -> tuple | None:
+    """layout.trim = {"top", "right", "bottom", "left"}, each in % of the frame's height or
+    width. Returns the box that is kept, (x0, y0, x1, y1) in pixels, or None for no trim."""
+    if not isinstance(trim, dict):
+        return None
+
+    def pct(side: str) -> float:
+        try:
+            return min(TRIM_MAX, max(0.0, float(trim.get(side) or 0)))
+        except (TypeError, ValueError):
+            return 0.0
+
+    t, r, b, l = (pct(s) for s in ("top", "right", "bottom", "left"))
+    box = (round(w * l / 100), round(h * t / 100), w - round(w * r / 100), h - round(h * b / 100))
+    return None if box == (0, 0, w, h) else box
+
+
 def build_tiles(img: Image.Image, photo_id: str, version: str, max_edge: int,
                 signature: str, previous: dict | None, force: bool) -> dict:
     """Deep Zoom pyramid at tiles/<id>/<version>_files/<level>/<col>_<row>.webp + tiles/<id>/<version>.dzi.
@@ -766,6 +791,49 @@ def assign_prominence(images: list, settings: dict) -> bool:
     return changed
 
 
+def upsample_factor(e: dict, settings: dict) -> tuple[float, bool]:
+    """How many times the file is enlarged over what the camera recorded, and whether that
+    was worked out (True) or set by hand in zoom.upsample (False). Worked out from the plate
+    solve: an upsampled frame's pixel scale is a clean fraction (1/2, 1/3 ...) of one of the
+    setups' native scales (settings.zoom.native_scales). Anything else counts as native."""
+    manual = (e.get("zoom") or {}).get("upsample")
+    try:
+        if manual is not None and float(manual) > 0:
+            return float(manual), False
+    except (TypeError, ValueError):
+        pass
+    s = e.get("solve") or {}
+    try:
+        ps = float(s.get("pixscale") or 0) if s.get("status") == "solved" else 0.0
+    except (TypeError, ValueError):
+        ps = 0.0
+    best = None
+    for native in ((settings.get("zoom") or {}).get("native_scales") or []) if ps > 0 else []:
+        try:
+            r = float(native) / ps
+        except (TypeError, ValueError):
+            continue
+        n = round(r)
+        if n >= 2 and abs(r / n - 1) <= 0.04 and (best is None or abs(r / n - 1) < best[1]):
+            best = (n, abs(r / n - 1))
+    return (float(best[0]) if best else 1.0), True
+
+
+def assign_detail(images: list, settings: dict) -> None:
+    """Honest zoom: detail.max_width is the widest a photo is ever shown (viewer and deep
+    zoom), max_detail times the width the camera actually recorded."""
+    try:
+        md = max(1.0, float((settings.get("zoom") or {}).get("max_detail", 1.5)))
+    except (TypeError, ValueError):
+        md = 1.5
+    for e in images:
+        if not e.get("width"):
+            continue
+        f, auto = upsample_factor(e, settings)
+        e["detail"] = {"upsample": int(f) if f == int(f) else round(f, 2), "auto": auto,
+                       "max_width": round(e["width"] / f * md)}
+
+
 def format_fov(fov) -> str:
     try:
         w, h = float(fov[0]), float(fov[1])
@@ -863,13 +931,33 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
             print(f"     stripped EXIF/XMP from the original {src.name}")
         rotate = int(entry.get("rotate") or 0) % 360
         src_hash = file_hash(src)
-        source_sig = f"{src_hash}:{rotate}"
-        # Web versions are regenerated when the file's bytes or the rotation change
+        img = apply_rotation(load_image(src), rotate)
+        full_w, full_h = img.size
+        layout = entry.get("layout") or {}
+        shape = layout.get("shape") or detect_shape(img)
+        # Optional edge trim (stacking or mosaic edges) for everything shown on the site; the
+        # original download stays whole. Round photos are never trimmed.
+        box = trim_box(full_w, full_h, layout.get("trim")) if shape != "round" else None
+        trim_sig = f":trim{box[0]},{box[1]},{box[2]},{box[3]}" if box else ""
+        source_sig = f"{src_hash}:{rotate}{trim_sig}"
+        # Web versions are regenerated when the file's bytes, the rotation or the trim change
         # (a replaced file with the same name, for example), not only when missing.
         entry_force = force or entry.get("source") != source_sig
-        img = apply_rotation(load_image(src), rotate)
+        if box:
+            # an untrimmed preview, so the trim can be adjusted again in the admin
+            preview = GALLERY_WEB / f"{img_id}-frame.jpg"
+            if entry_force or not preview.exists():
+                save_jpeg(resize_long_edge(img, 800), preview, quality=80)
+            referenced.add(preview.name)
+            img = img.crop(box)
+            entry["crop"] = {"x": box[0], "y": box[1], "w": box[2] - box[0], "h": box[3] - box[1],
+                             "full": [full_w, full_h], "preview": f"gallery/_web/{preview.name}"}
+        else:
+            entry.pop("crop", None)
         w, h = img.size
-        print(f"  {img_id:<22} {w}x{h}" + (f" (rotated {rotate}°)" if rotate else "") + (" rebuilding" if entry_force and not force else ""))
+        print(f"  {img_id:<22} {w}x{h}" + (f" (rotated {rotate}°)" if rotate else "")
+              + (f" (trimmed from {full_w}x{full_h})" if box else "")
+              + (" rebuilding" if entry_force and not force else ""))
 
         is_hero = img_id == (settings.get("hero") or {}).get("id")
         wants_big = is_hero or bool(entry.get("showcase"))     # the hero and showcase photos get one larger size
@@ -882,7 +970,7 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
         prev_tiles = entry.get("tiles") or {}
         tile_info: dict = {}
         if tiles:
-            sig = tile_signature(src_hash, max_edge, rotate)
+            sig = tile_signature(src_hash + trim_sig, max_edge, rotate)
             tile_info["main"] = build_tiles(img, img_id, "main", max_edge, sig, prev_tiles.get("main"), force)
         else:
             tile_info = prev_tiles
@@ -899,16 +987,20 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
             if strip_metadata(vsrc):
                 print(f"     stripped EXIF/XMP from the original {vsrc.name}")
             v_hash = file_hash(vsrc)
-            v_sig = f"{v_hash}:{rotate}"
+            v_sig = f"{v_hash}:{rotate}{trim_sig}"
             v_force = force or v.get("source") != v_sig
             vimg = apply_rotation(load_image(vsrc), rotate)
+            if box:                                       # the same trim, in the version's own pixels
+                vbox = trim_box(*vimg.size, layout.get("trim"))
+                if vbox:
+                    vimg = vimg.crop(vbox)
             vw, vh = vimg.size
             v_avif, v_jpg = make_derivatives(vimg, f"{img_id}--{vid}", v_force, referenced)
             version = {**v, "id": vid, "label": v.get("label") or vid.upper(), "original": vorig,
                        "width": vw, "height": vh, "bytes": vsrc.stat().st_size,
                        "sources": {"avif": v_avif, "jpg": v_jpg}, "source": v_sig}
             if tiles:
-                vsig = tile_signature(v_hash, max_edge, rotate)
+                vsig = tile_signature(v_hash + trim_sig, max_edge, rotate)
                 tile_info[vid] = build_tiles(vimg, img_id, vid, max_edge, vsig, prev_tiles.get(vid), force)
             versions.append(version)
             print(f"     version {vid}: {vw}x{vh}")
@@ -930,7 +1022,7 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
             "placeholder": make_placeholder(img),
             "color": average_color(img),
             # round: a disc inside transparent corners (detected; layout.shape overrides)
-            "shape": ((entry.get("layout") or {}).get("shape") or detect_shape(img)),
+            "shape": shape,
             "srcset": [{"src": s["src"], "w": s["w"]} for s in jpg_list],   # kept for explore.html
             "sources": {"avif": avif_list, "jpg": jpg_list},
         })
@@ -947,8 +1039,8 @@ def build_portfolio(force: bool, previous: dict, tiles: bool = True) -> dict:
         entry["downloads"] = [{
             "label": f"Full resolution {kind}",
             "url": entry["original"],
-            "width": w,
-            "height": h,
+            "width": full_w,                       # the original file, untrimmed
+            "height": full_h,
             "bytes": src.stat().st_size,
         }]
         for size, label in ((HERO_SIZE, "Extra large JPEG"), (3200, "Large JPEG"), (1600, "Medium JPEG")):
@@ -1408,6 +1500,7 @@ def main() -> int:
         print(f"Showcase photos changed ({', '.join(names) or 'none'}); updating web versions:")
         manifest = build_portfolio(False, manifest, tiles=not args.no_tiles)
         assign_prominence(manifest["images"], manifest["settings"])
+    assign_detail(manifest["images"], manifest["settings"])
 
     # Keep the previous timestamp when nothing else changed, so a no-op build
     # (the GitHub Action after a merge, for example) does not create a commit.

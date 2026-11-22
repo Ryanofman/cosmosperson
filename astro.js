@@ -74,24 +74,42 @@ function fmtFov(fov) {
     return Math.max(w, h) >= 1 ? `${w.toFixed(1)}° × ${h.toFixed(1)}°` : `${Math.round(w * 60)}′ × ${Math.round(h * 60)}′`;
 }
 
-/* ---------- WCS: TAN projection, in original-image pixels ---------- */
+/* ---------- WCS: TAN projection, in the pixels of the image as shown ---------- */
+
+/* A trimmed photo is shown without its edges; its solve stays in the untrimmed frame.
+   frameOf gives that frame's size and where the shown image starts inside it. */
+function frameOf(entry) {
+    const c = entry.crop;
+    return c && c.full ? { w: c.full[0], h: c.full[1], x: c.x || 0, y: c.y || 0 }
+                       : { w: entry.width, h: entry.height, x: 0, y: 0 };
+}
+
+/* Honest zoom: deep zoom stops where the photo runs out of real detail. detail.max_width (from
+   the build) is the widest the photo should ever be shown; the pyramid may be larger than that
+   when the file is upsampled, so the limit is a ratio of the pyramid's own pixels. */
+function maxZoomRatio(entry) {
+    const max = entry.detail && Number(entry.detail.max_width);
+    const tw = entry.tiles && entry.tiles.main && Number(entry.tiles.main.width);
+    return max > 0 && tw > 0 ? Math.min(2.5, max / tw) : 2.5;
+}
 
 export function makeWCS(solve, entry) {
     const w = solve && solve.wcs;
     if (!w || !w.cd || !w.crpix || !w.crval) return null;
-    const k = w.width / entry.width;              // original px -> solved px
+    const f = frameOf(entry);
+    const k = w.width / f.w;                      // frame px -> solved px
     const [[a, b], [c, d]] = w.cd;
     const det = a * d - b * c;
     if (!det) return null;
     const ra0 = rad(w.crval[0]), dec0 = rad(w.crval[1]);
     const toSolved = (x, y) => {
-        let sx = x * k, sy = y * k;
+        let sx = (x + f.x) * k, sy = (y + f.y) * k;
         if (w.flip_y) sy = w.height - 1 - sy;
         return [sx, sy];
     };
     const fromSolved = (sx, sy) => {
         if (w.flip_y) sy = w.height - 1 - sy;
-        return [sx / k, sy / k];
+        return [sx / k - f.x, sy / k - f.y];
     };
     return {
         pix2sky(x, y) {
@@ -212,7 +230,11 @@ function buildOverlay(ctx) {
         svg.appendChild(g);
     }
 
-    const labels = (solve && solve.annotations) || [];
+    // labels and panels are stored in the untrimmed frame
+    const f = frameOf(entry);
+    const labels = ((solve && solve.annotations) || [])
+        .map(a => ({ ...a, x: a.x - f.x, y: a.y - f.y }))
+        .filter(a => a.x >= 0 && a.y >= 0 && a.x <= W && a.y <= H);
     if (labels.length) {
         const g = el('g', { class: 'ov-labels' });
         const minR = W / 160;
@@ -231,7 +253,8 @@ function buildOverlay(ctx) {
         const g = el('g', { class: 'ov-panels' });
         const frac = panels.every(p => p.every(v => v <= 1.0001));   // fractions of the image or pixels
         panels.forEach((p, i) => {
-            const [x, y, w, h] = frac ? [p[0] * W, p[1] * H, p[2] * W, p[3] * H] : p;
+            const [px, py, w, h] = frac ? [p[0] * f.w, p[1] * f.h, p[2] * f.w, p[3] * f.h] : p;
+            const x = px - f.x, y = py - f.y;
             g.appendChild(el('rect', { x: x.toFixed(1), y: y.toFixed(1), width: w.toFixed(1), height: h.toFixed(1), class: 'ov-panel' }));
             g.appendChild(el('text', { x: (x + w / 2).toFixed(1), y: (y + h / 2).toFixed(1), 'text-anchor': 'middle', dy: '0.35em', class: 'ov-panel-text' }, String(i + 1)));
         });
@@ -454,7 +477,7 @@ async function openZoom(ctx, rect) {
         zoomPerScroll: 1.25,
         zoomPerClick: 1.8,
         minZoomImageRatio: 0.85,
-        maxZoomPixelRatio: 2.5,
+        maxZoomPixelRatio: maxZoomRatio(entry),
         visibilityRatio: 0.7,
         immediateRender: true,
         blendTime: reduced ? 0 : 0.25,

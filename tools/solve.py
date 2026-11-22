@@ -287,6 +287,23 @@ def build_solve(entry: dict, pick: dict, sw: int, sh: int, subid: int, jobid: in
         "objects": [str(o) for o in result["objects"]],
         "annotations": labels,
     }
+    # A trimmed photo was solved from its trimmed web version. Labels and WCS are always kept
+    # in the untrimmed frame, so changing the trim later never needs a new solve.
+    crop = entry.get("crop")
+    if crop:
+        ox, oy = int(crop["x"]), int(crop["y"])
+        for label in labels:
+            label["x"] += ox
+            label["y"] += oy
+        if wcs:
+            if wcs.get("flip_y"):                    # the same projection with rows counted from the top
+                (a, b), (c, d) = wcs["cd"]
+                wcs["cd"] = [[a, -b], [c, -d]]
+                wcs["crpix"][1] = wcs["height"] + 1 - wcs["crpix"][1]
+                wcs["flip_y"] = False
+            wcs["crpix"] = [wcs["crpix"][0] + ox / scale, wcs["crpix"][1] + oy / scale]
+            wcs["width"] = round(crop["full"][0] / scale)
+            wcs["height"] = round(crop["full"][1] / scale)
     if wcs:
         solve["wcs"] = wcs
     return solve

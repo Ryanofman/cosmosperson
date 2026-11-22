@@ -509,3 +509,35 @@
     .admin-header-right { gap: 14px; }
     .admin-user { display: none; }
 }
+
+/* Edge trim: the whole frame, with the trimmed edges shaded */
+.trim { display: grid; gap: 12px; }
+.trim-note { color: var(--ink-3); margin: 0; }
+.trim-stage {
+    position: relative;
+    justify-self: start;
+    line-height: 0;
+    background: #000;
+    border: 1px solid var(--line);
+}
+.trim-stage img { display: block; max-width: 100%; max-height: 380px; }
+.trim-stage.boost img { filter: brightness(5) contrast(1.15) saturate(1.4); }
+.trim-shade {
+    position: absolute;
+    background: repeating-linear-gradient(45deg, rgba(10, 11, 14, 0.82) 0 6px, rgba(10, 11, 14, 0.68) 6px 12px);
+    pointer-events: none;
+}
+.trim-box {
+    position: absolute;
+    outline: 1px solid var(--accent);
+    pointer-events: none;
+}
+.trim-controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(90px, 140px));
+    gap: 10px 14px;
+}
+.trim-controls .field { margin-bottom: 0; }
+.trim-tools { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.trim-info { color: var(--ink-3); font-size: 0.75rem; }
+@media (max-width: 560px) { .trim-controls { grid-template-columns: repeat(2, 1fr); } }

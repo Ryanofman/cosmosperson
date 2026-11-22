@@ -69,6 +69,13 @@
       "max_edge": 6000,
       "base": ""
     },
+    "zoom": {
+      "max_detail": 1.5,
+      "native_scales": [
+        2.38,
+        3.07
+      ]
+    },
     "sky": {
       "survey": "P/DSS2/color"
     },
@@ -329,7 +336,12 @@
       },
       "sky_area": 0.768,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 4,
+        "auto": true,
+        "max_width": 1468
+      }
     },
     {
       "id": "california",
@@ -583,7 +595,12 @@
       },
       "sky_area": 2.5,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 5337
+      }
     },
     {
       "id": "butterfly",
@@ -815,7 +832,12 @@
       },
       "sky_area": 1.571,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 4,
+        "auto": true,
+        "max_width": 2300
+      }
     },
     {
       "id": "ghost-of-cassiopeia",
@@ -1081,7 +1103,12 @@
       },
       "sky_area": 0.849,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 2794
+      }
     },
     {
       "id": "whirlpool",
@@ -1365,7 +1392,12 @@
       },
       "sky_area": 0.402,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 1094
+      }
     },
     {
       "id": "north-america",
@@ -1610,7 +1642,12 @@
       },
       "sky_area": 2.62,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 2754
+      }
     },
     {
       "id": "pinwheel",
@@ -1957,7 +1994,12 @@
       },
       "sky_area": 0.569,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 6,
+        "auto": true,
+        "max_width": 1406
+      }
     },
     {
       "id": "thors-helmet",
@@ -2210,7 +2252,12 @@
       },
       "sky_area": 0.788,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 4,
+        "auto": true,
+        "max_width": 2715
+      }
     },
     {
       "id": "horsehead",
@@ -2488,7 +2535,12 @@
       },
       "sky_area": 0.983,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 2956
+      }
     },
     {
       "id": "pacman",
@@ -2751,7 +2803,12 @@
       },
       "sky_area": 0.745,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 1521
+      }
     },
     {
       "id": "soul",
@@ -3005,7 +3062,12 @@
       },
       "sky_area": 2.608,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 4896
+      }
     },
     {
       "id": "eastern-veil",
@@ -3269,7 +3331,12 @@
       },
       "sky_area": 0.823,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 2658
+      }
     },
     {
       "id": "eagle",
@@ -3526,7 +3593,12 @@
       },
       "sky_area": 2.136,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 2924
+      }
     },
     {
       "title": "The Lagoon Nebula",
@@ -3862,7 +3934,12 @@
       },
       "sky_area": 2.878,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 3,
+        "auto": true,
+        "max_width": 5004
+      }
     },
     {
       "id": "elephants-trunk",
@@ -4106,7 +4183,12 @@
       },
       "sky_area": 2.371,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 4488
+      }
     },
     {
       "id": "triangulum",
@@ -4499,7 +4581,12 @@
       },
       "sky_area": 0.73,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 4,
+        "auto": true,
+        "max_width": 2451
+      }
     },
     {
       "id": "milky-way",
@@ -5560,7 +5647,12 @@
       },
       "sky_area": 3116.898,
       "showcase": true,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 1,
+        "auto": true,
+        "max_width": 6000
+      }
     },
     {
       "id": "helix",
@@ -5805,7 +5897,12 @@
       },
       "sky_area": 0.729,
       "showcase": false,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 4,
+        "auto": true,
+        "max_width": 1372
+      }
     },
     {
       "id": "north-america-pelican",
@@ -6143,7 +6240,12 @@
       },
       "sky_area": 13.077,
       "showcase": true,
-      "shape": "rect"
+      "shape": "rect",
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 4546
+      }
     },
     {
       "id": "spherical-veil",
@@ -6470,7 +6572,12 @@
         }
       },
       "sky_area": 9.845,
-      "showcase": true
+      "showcase": true,
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 5494
+      }
     },
     {
       "id": "ngc-2403",
@@ -6723,7 +6830,12 @@
         }
       },
       "sky_area": 0.603,
-      "showcase": false
+      "showcase": false,
+      "detail": {
+        "upsample": 2,
+        "auto": true,
+        "max_width": 2673
+      }
     }
   ]
 }

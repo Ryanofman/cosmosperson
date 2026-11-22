@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-11-22T07:00:53Z",
+  "updated": "2026-11-22T07:12:16Z",
   "settings": {
     "hero": {
       "id": "milky-way",
@@ -6519,12 +6519,12 @@
       },
       "visible": true,
       "versions": [],
-      "source": "a4932deb9964fdaf:0",
-      "original": "gallery/2403_2xupsampled_Saturated_Darkened.jpg",
+      "source": "82e4de815992050d:0",
+      "original": "gallery/ExtraDark4site.jpg",
       "width": 3564,
       "height": 1556,
-      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAKABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKsvBB9lEkdwDJnmMrg/nVUd6BQAtFJRQB//Z",
-      "color": "#0a0a0a",
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAKABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDjasPBB9lEkdyDJnmMrgj8ar+tJQAtFFFAH//Z",
+      "color": "#060606",
       "shape": "rect",
       "srcset": [
         {
@@ -6554,31 +6554,31 @@
             "src": "gallery/_web/ngc-2403-640.avif",
             "w": 640,
             "h": 279,
-            "bytes": 13918
+            "bytes": 12626
           },
           {
             "src": "gallery/_web/ngc-2403-1024.avif",
             "w": 1024,
             "h": 447,
-            "bytes": 31813
+            "bytes": 24467
           },
           {
             "src": "gallery/_web/ngc-2403-1600.avif",
             "w": 1600,
             "h": 699,
-            "bytes": 60385
+            "bytes": 44615
           },
           {
             "src": "gallery/_web/ngc-2403-2400.avif",
             "w": 2400,
             "h": 1048,
-            "bytes": 109137
+            "bytes": 70375
           },
           {
             "src": "gallery/_web/ngc-2403-3200.avif",
             "w": 3200,
             "h": 1397,
-            "bytes": 162411
+            "bytes": 98952
           }
         ],
         "jpg": [
@@ -6586,31 +6586,31 @@
             "src": "gallery/_web/ngc-2403-640.jpg",
             "w": 640,
             "h": 279,
-            "bytes": 28847
+            "bytes": 26499
           },
           {
             "src": "gallery/_web/ngc-2403-1024.jpg",
             "w": 1024,
             "h": 447,
-            "bytes": 59034
+            "bytes": 50306
           },
           {
             "src": "gallery/_web/ngc-2403-1600.jpg",
             "w": 1600,
             "h": 699,
-            "bytes": 122090
+            "bytes": 92697
           },
           {
             "src": "gallery/_web/ngc-2403-2400.jpg",
             "w": 2400,
             "h": 1048,
-            "bytes": 239094
+            "bytes": 164591
           },
           {
             "src": "gallery/_web/ngc-2403-3200.jpg",
             "w": 3200,
             "h": 1397,
-            "bytes": 379554
+            "bytes": 250144
           }
         ]
       },
@@ -6625,8 +6625,8 @@
           "format": "webp",
           "levels": 13,
           "tiles": 145,
-          "bytes": 338730,
-          "signature": "a4932deb9964fdaf:0:6000:256:1:webp:88"
+          "bytes": 228022,
+          "signature": "82e4de815992050d:0:6000:256:1:webp:88"
         }
       },
       "integration_seconds": 0,
@@ -6634,24 +6634,24 @@
       "downloads": [
         {
           "label": "Full resolution JPEG",
-          "url": "gallery/2403_2xupsampled_Saturated_Darkened.jpg",
+          "url": "gallery/ExtraDark4site.jpg",
           "width": 3564,
           "height": 1556,
-          "bytes": 291653
+          "bytes": 193044
         },
         {
           "label": "Large JPEG",
           "url": "gallery/_web/ngc-2403-3200.jpg",
           "width": 3200,
           "height": 1397,
-          "bytes": 379554
+          "bytes": 250144
         },
         {
           "label": "Medium JPEG",
           "url": "gallery/_web/ngc-2403-1600.jpg",
           "width": 1600,
           "height": 699,
-          "bytes": 122090
+          "bytes": 92697
         }
       ],
       "solve": {

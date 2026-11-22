@@ -150,9 +150,18 @@ web versions, the WebP deep-zoom tiles and the loading placeholder. JPEG version
 cannot be transparent, are flattened onto the page colour. Everywhere the photo appears it is
 a disc, never a square:
 
-- **In the grid** a round showcase photo stands on its own, centred, at about 58 % of the
-  grid's width (and no taller than 80 % of the window), with its title, field of view and
-  description set below it. A small round photo sits in a row with its caption floating over it.
+- **In the grid, on a wide screen,** a round showcase photo makes a *transit*: a band of the
+  photos that follow it crosses the page through the disc's equator, one or two rows deep on
+  each side. No photo is cropped: the band parts for the disc, each side stopping two gutters
+  short of it, with a faint orbit line in that gap, and the disc's whole silhouette shows
+  above and below the band. Above the band on the left sits the title plate (type, title,
+  catalogue, field of view); below it on the right, the description if there is one and the
+  plate-solved position. `gallery.js` tries every way of setting the next few photos into the
+  band and keeps the one that centres the disc and keeps the rows even and no photo narrower
+  than 130 px (the hero photo is never used). Below
+  960 px, or when no arrangement fits (a filter leaving too few photos), the disc stands on
+  its own, centred, with its caption below. A small round photo sits in a row with its
+  caption floating over it.
 - **In the viewer** it is shown from the AVIF versions so the corners stay transparent.
 - **On its page** it has no square backdrop or shadow; labels and the RA/Dec grid are clipped
   to the disc; the deep zoom sits on the page colour; on the Sky panel its footprint is a

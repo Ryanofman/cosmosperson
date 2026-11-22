@@ -187,6 +187,17 @@ KNOWN_ORIGINALS = {
         "skyTarget": "VEIL",
         "description": "",
     },
+    "2403_2xupsampled_Saturated_Darkened.jpg": {
+        "id": "ngc-2403",
+        "title": "NGC 2403",
+        "catalog": "Caldwell 7",
+        "type": "Spiral Galaxy",
+        "category": "galaxies",
+        "constellation": "Camelopardalis",
+        "distance": "≈ 8 million light-years",
+        "skyTarget": "NGC2403",
+        "description": "",
+    },
     "Helix_2xUpsampled.jpg": {
         "id": "helix",
         "title": "The Helix Nebula",

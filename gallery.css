@@ -356,8 +356,10 @@
     margin-bottom: var(--gutter);
 }
 
+/* flex factors scaled by 100: when they add up to less than 1 (one tall photo alone in a row)
+   CSS would hand out only that fraction of the row */
 .grid.justified.rows .g-row > .card {
-    flex: var(--ar) 1 0%;
+    flex: calc(var(--ar) * 100) 1 0%;
     min-width: 0;
 }
 
@@ -482,6 +484,103 @@
     line-height: 1.6;
     color: var(--ink-2);
 }
+
+/* Transit: the disc crosses a band of photos (see renderTransit in gallery.js) */
+
+.grid.justified.rows .g-transit {
+    position: relative;
+    margin: calc(var(--gutter) * 3) 0 calc(var(--gutter) * 4);
+}
+
+.grid.justified.rows .g-transit .g-band {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gutter);
+}
+
+.grid.justified.rows .g-transit .g-belt {
+    display: flex;
+    gap: var(--gutter);
+    margin: 0;
+    flex: none;
+}
+
+.grid.justified.rows .g-transit .g-belt > .card {
+    flex: calc(var(--ar) * 100) 1 0%;
+    min-width: 0;
+    height: 100%;
+}
+
+.grid.justified.rows .g-transit .g-belt > .card picture,
+.grid.justified.rows .g-transit .g-belt > .card img {
+    display: block;
+    height: 100%;
+}
+
+.grid.justified.rows .g-transit .g-belt > .card img { aspect-ratio: auto; }
+
+.grid.justified.rows .g-transit > .card.round {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+.g-transit > .card.round .card-caption { display: none; }
+
+.g-orbit {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    pointer-events: none;
+}
+
+.transit-plate {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+}
+
+.transit-plate.lower { justify-content: flex-start; text-align: right; align-items: flex-end; }
+
+.tp-kicker { color: var(--ink-3); }
+
+.transit-plate.compact .tp-kicker { display: none; }
+
+.tp-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.4vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--ink);
+    transition: color 0.3s var(--ease);
+}
+
+.transit-plate.upper:hover .tp-title { color: var(--accent); }
+
+.tp-sub {
+    text-wrap: balance;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+}
+
+.tp-desc {
+    max-width: 440px;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+}
+
+.tp-coords { color: var(--ink-3); letter-spacing: 0.2em; }
 
 /* a small round photo in an ordinary row: the caption floats over the disc without a band */
 .grid.captions-hover .card.round:not(.showcase) .card-caption {

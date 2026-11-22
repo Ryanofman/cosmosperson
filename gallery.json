@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "updated": "2026-11-21T10:12:45Z",
+  "updated": "2026-11-22T07:00:53Z",
   "settings": {
     "hero": {
       "id": "milky-way",
@@ -6471,6 +6471,259 @@
       },
       "sky_area": 9.845,
       "showcase": true
+    },
+    {
+      "id": "ngc-2403",
+      "title": "NGC 2403",
+      "catalog": "Caldwell 7",
+      "type": "Spiral Galaxy",
+      "category": "galaxies",
+      "constellation": "Camelopardalis",
+      "distance": "≈ 8 million light-years",
+      "skyTarget": "NGC2403",
+      "description": "",
+      "acquisition": {
+        "optics": "",
+        "camera": "",
+        "mount": "",
+        "filters": "",
+        "guiding": "",
+        "software": "",
+        "location": "",
+        "bortle": "",
+        "integration": "",
+        "subs": [],
+        "nights": [],
+        "conditions": {
+          "seeing": "",
+          "transparency": ""
+        },
+        "notes": ""
+      },
+      "subtitle": "",
+      "story": "",
+      "alt": "",
+      "tags": [],
+      "collections": [],
+      "featured": false,
+      "palette": "",
+      "date": "",
+      "licence": "",
+      "badges": [],
+      "layout": {
+        "span": 1,
+        "focal": [
+          0.5,
+          0.5
+        ]
+      },
+      "visible": true,
+      "versions": [],
+      "source": "a4932deb9964fdaf:0",
+      "original": "gallery/2403_2xupsampled_Saturated_Darkened.jpg",
+      "width": 3564,
+      "height": 1556,
+      "placeholder": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAKABgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDkKsvBB9lEkdwDJnmMrg/nVUd6BQAtFJRQB//Z",
+      "color": "#0a0a0a",
+      "shape": "rect",
+      "srcset": [
+        {
+          "src": "gallery/_web/ngc-2403-640.jpg",
+          "w": 640
+        },
+        {
+          "src": "gallery/_web/ngc-2403-1024.jpg",
+          "w": 1024
+        },
+        {
+          "src": "gallery/_web/ngc-2403-1600.jpg",
+          "w": 1600
+        },
+        {
+          "src": "gallery/_web/ngc-2403-2400.jpg",
+          "w": 2400
+        },
+        {
+          "src": "gallery/_web/ngc-2403-3200.jpg",
+          "w": 3200
+        }
+      ],
+      "sources": {
+        "avif": [
+          {
+            "src": "gallery/_web/ngc-2403-640.avif",
+            "w": 640,
+            "h": 279,
+            "bytes": 13918
+          },
+          {
+            "src": "gallery/_web/ngc-2403-1024.avif",
+            "w": 1024,
+            "h": 447,
+            "bytes": 31813
+          },
+          {
+            "src": "gallery/_web/ngc-2403-1600.avif",
+            "w": 1600,
+            "h": 699,
+            "bytes": 60385
+          },
+          {
+            "src": "gallery/_web/ngc-2403-2400.avif",
+            "w": 2400,
+            "h": 1048,
+            "bytes": 109137
+          },
+          {
+            "src": "gallery/_web/ngc-2403-3200.avif",
+            "w": 3200,
+            "h": 1397,
+            "bytes": 162411
+          }
+        ],
+        "jpg": [
+          {
+            "src": "gallery/_web/ngc-2403-640.jpg",
+            "w": 640,
+            "h": 279,
+            "bytes": 28847
+          },
+          {
+            "src": "gallery/_web/ngc-2403-1024.jpg",
+            "w": 1024,
+            "h": 447,
+            "bytes": 59034
+          },
+          {
+            "src": "gallery/_web/ngc-2403-1600.jpg",
+            "w": 1600,
+            "h": 699,
+            "bytes": 122090
+          },
+          {
+            "src": "gallery/_web/ngc-2403-2400.jpg",
+            "w": 2400,
+            "h": 1048,
+            "bytes": 239094
+          },
+          {
+            "src": "gallery/_web/ngc-2403-3200.jpg",
+            "w": 3200,
+            "h": 1397,
+            "bytes": 379554
+          }
+        ]
+      },
+      "tiles": {
+        "main": {
+          "dzi": "tiles/ngc-2403/main.dzi",
+          "files": "tiles/ngc-2403/main_files/",
+          "width": 3564,
+          "height": 1556,
+          "tile_size": 256,
+          "overlap": 1,
+          "format": "webp",
+          "levels": 13,
+          "tiles": 145,
+          "bytes": 338730,
+          "signature": "a4932deb9964fdaf:0:6000:256:1:webp:88"
+        }
+      },
+      "integration_seconds": 0,
+      "year": "",
+      "downloads": [
+        {
+          "label": "Full resolution JPEG",
+          "url": "gallery/2403_2xupsampled_Saturated_Darkened.jpg",
+          "width": 3564,
+          "height": 1556,
+          "bytes": 291653
+        },
+        {
+          "label": "Large JPEG",
+          "url": "gallery/_web/ngc-2403-3200.jpg",
+          "width": 3200,
+          "height": 1397,
+          "bytes": 379554
+        },
+        {
+          "label": "Medium JPEG",
+          "url": "gallery/_web/ngc-2403-1600.jpg",
+          "width": 1600,
+          "height": 699,
+          "bytes": 122090
+        }
+      ],
+      "solve": {
+        "status": "solved",
+        "solved_at": "2026-11-22",
+        "service": "nova.astrometry.net",
+        "submission": 16550407,
+        "job": 17385860,
+        "image": {
+          "src": "gallery/_web/ngc-2403-1600.jpg",
+          "w": 1600,
+          "h": 699
+        },
+        "ra": 114.190803,
+        "dec": 65.620456,
+        "radius": 0.6411,
+        "pixscale": 1.18692,
+        "orientation": 309.919,
+        "parity": 1.0,
+        "fov": [
+          1.17505,
+          0.51335
+        ],
+        "objects": [
+          "NGC 2403"
+        ],
+        "annotations": [
+          {
+            "names": [
+              "NGC 2404"
+            ],
+            "type": "ngc",
+            "x": 1691,
+            "y": 713,
+            "r": 0
+          },
+          {
+            "names": [
+              "NGC 2403"
+            ],
+            "type": "ngc",
+            "x": 1723,
+            "y": 791,
+            "r": 504
+          }
+        ],
+        "wcs": {
+          "width": 1600,
+          "height": 699,
+          "crpix": [
+            1537.69961548,
+            385.653957367
+          ],
+          "crval": [
+            113.299966394,
+            66.0216663065
+          ],
+          "cd": [
+            [
+              -0.000471577012651,
+              -0.000563031316061
+            ],
+            [
+              0.000563489674706,
+              -0.000470959339988
+            ]
+          ],
+          "flip_y": false
+        }
+      },
+      "sky_area": 0.603,
+      "showcase": false
     }
   ]
 }

@@ -5,7 +5,7 @@
    viewer (viewer.js) over the grid with real /photo/<id>/ URLs.
    ============================================================ */
 
-import { createViewer, loadManifest, integrationLabel, formatDate, srcsetOf } from '/viewer.js';
+import { createViewer, loadManifest, integrationLabel, formatDate, srcsetOf, formatRA, formatDec } from '/viewer.js';
 
 const CATEGORY_LABELS = {
     'nebulae': 'Nebulae',
@@ -546,17 +546,9 @@ function arrange(list) {
     const rest = list.filter(e => !isShowcase(e));
     const share = Math.max(6, Math.ceil(rest.length / big.length));
     const out = [];
-    big.forEach((b, i) => {
-        const mine = rest.slice(i * share, (i + 1) * share);
-        // a round photo stands alone; set it in the middle of its share so ordinary rows
-        // separate it from the showcase before it
-        if (b.shape === 'round' && i > 0) {
-            const k = Math.ceil(mine.length / 2);
-            out.push(...mine.slice(0, k), b, ...mine.slice(k));
-        } else {
-            out.push(b, ...mine);
-        }
-    });
+    // each showcase photo leads its share: a pillar sets them beside it, a round photo on the
+    // band that crosses it (its title plate keeps it apart from the block before)
+    big.forEach((b, i) => out.push(b, ...rest.slice(i * share, (i + 1) * share)));
     out.push(...rest.slice(big.length * share));
     return out;
 }
@@ -684,13 +676,111 @@ function renderGrid() {
    a pillar beside several rows of the others. Inside a row the cards still size themselves
    (flex-grow by aspect ratio), so nothing is cropped and rounding never leaves a gap. */
 
+/* Transit planner. A band of photos crosses the page through the disc's equator, one or two
+   rows deep on each side. Nothing is cropped: every photo stays a whole rectangle, and the
+   band parts for the disc, each side stopping at xin = R + gap from its centre, so the disc
+   just clears the band where the two meet and its full silhouette shows above and below.
+
+   For a side of k rows the band height is linear in the side's width w:
+       H(w) = a·w + c,   a = Σ 1/Sᵢ,   c = (k−1)·g − Σ (nᵢ−1)·g/Sᵢ
+   (Sᵢ = sum of the row's aspect ratios). Both sides share one height Hb and together fill
+   W − 2·xin, which fixes Hb in closed form, and with it the disc's centre cx. Every way of
+   setting the next few photos into rows is tried; the winner keeps the disc near the middle,
+   the rows near an even height and the band near its target share of the disc. */
+function transitFor(e, cand, W, g, D) {
+    const ar = (x) => x.width / x.height;
+    const heroId = heroConfig().id;                    // the hero is already shown large at the top
+    const pool = cand.filter(x => x.id !== heroId && x.shape !== 'round').slice(0, 8);
+    if (pool.length < 2) return null;
+    const R = D / 2, gap = 2 * g, xin = R + gap;
+
+    const lin = (rows) => {
+        let a = 0, c = (rows.length - 1) * g;
+        rows.forEach(r => { a += 1 / r.S; c -= (r.items.length - 1) * g / r.S; });
+        return { a, c };
+    };
+    const row = (items) => ({ items, S: items.reduce((t, x) => t + ar(x), 0) });
+
+    const solve = (left, right) => {
+        const L = lin(left), Rr = lin(right);
+        const Hb = (W - 2 * xin + L.c / L.a + Rr.c / Rr.a) / (1 / L.a + 1 / Rr.a);
+        const wL = (Hb - L.c) / L.a;
+        return { Hb, wL, wR: W - 2 * xin - wL, cx: wL + xin };
+    };
+
+    const evaluate = (left, right, rowsPerSide) => {
+        const target = rowsPerSide === 2 ? 0.6 : 0.5;
+        const sol = solve(left, right);
+        if (!(sol.Hb > 0) || sol.wL < 150 || sol.wR < 150) return null;
+        const share = sol.Hb / D;
+        if (share < target - 0.16 || share > target + 0.12) return null;
+        if (sol.cx < 0.36 * W || sol.cx > 0.64 * W) return null;
+        const heights = [];
+        const place = (rows, w) => rows.map(r => {
+            const h = (w - (r.items.length - 1) * g) / r.S;
+            heights.push(h);
+            return { items: r.items, h };
+        });
+        const L = place(left, sol.wL), Rt = place(right, sol.wR);
+        const mean = (sol.Hb - (rowsPerSide - 1) * g) / rowsPerSide;
+        if (mean < 150) return null;                    // the band's photos must not shrink to thumbnails
+        if (heights.some(h => h < 0.62 * mean || h > 1.5 * mean)) return null;
+        if ([...L, ...Rt].some(r => r.items.some(x => ar(x) * r.h < 130))) return null;   // no slivers
+        const spread = Math.max(...heights) / Math.min(...heights);
+        const photos = [...L, ...Rt].reduce((t, r) => t + r.items.length, 0);
+        const score = 5 * Math.abs(sol.cx / W - 0.5) + 2 * Math.abs(share - target)
+            + 0.6 * (spread - 1) - 0.07 * photos - (rowsPerSide === 2 ? 0.12 : 0);
+        return { type: 'transit', item: e, D, R, gap, cx: sol.cx, xin, Hb: sol.Hb,
+                 left: L, right: Rt, used: [...L, ...Rt].flatMap(r => r.items), score };
+    };
+
+    let best = null;
+    const consider = (b) => { if (b && (!best || b.score < best.score)) best = b; };
+
+    // one row per side: any two disjoint groups of up to three photos
+    const m = Math.min(pool.length, 7);
+    const groups = [];
+    for (let mask = 1; mask < (1 << m); mask++) {
+        const idx = [];
+        for (let k = 0; k < m; k++) if (mask & (1 << k)) idx.push(k);
+        if (idx.length <= 3) groups.push({ mask, items: idx.map(k => pool[k]) });
+    }
+    groups.forEach(A => groups.forEach(B => {
+        if (!(A.mask & B.mask)) consider(evaluate([row(A.items)], [row(B.items)], 1));
+    }));
+
+    // two rows per side: the next photos, in a few orders, cut into four consecutive rows
+    if (pool.length >= 4) {
+        const orders = [
+            pool,
+            pool.slice().sort((a, b) => ar(b) - ar(a)),
+            pool.slice().sort((a, b) => ar(a) - ar(b)),
+        ];
+        const sizes = [];
+        const rec = (left, acc) => {
+            if (acc.length === 4) { sizes.push(acc); return; }
+            for (let s = 1; s <= 3; s++) rec(left, [...acc, s]);
+        };
+        rec(0, []);
+        orders.forEach(order => sizes.forEach(sz => {
+            const total = sz.reduce((t, x) => t + x, 0);
+            if (total > order.length) return;
+            let at = 0;
+            const rows = sz.map(n => { const r = row(order.slice(at, at + n)); at += n; return r; });
+            consider(evaluate([rows[0], rows[1]], [rows[2], rows[3]], 2));
+            consider(evaluate([rows[0], rows[2]], [rows[1], rows[3]], 2));
+        }));
+    }
+    return best;
+}
+
 function computeBlocks(list, W, g, h) {
     const items = list.slice();
     const ar = (e) => e.width / e.height;
     const frac = Number(showcaseConfig().height) || 0.86;
     const H0max = Math.min(1100, Math.max(520, frac * window.innerHeight));
     const blocks = [];
-    const n = items.length;
+    let n = items.length;
 
     // Take items from list[start…] until the justified row height reaches the target,
     // stopping before or after the last one, whichever lands closer to the target.
@@ -724,6 +814,12 @@ function computeBlocks(list, W, g, h) {
         // A short row in the middle of the page (before a pillar or a round photo) reads as a
         // gap: share the last two rows' photos out so both run the full width.
         const tail = rows[rows.length - 1];
+        // A panorama left on its own at the very end closes the page at full width instead of
+        // sitting half a row wide.
+        if (last && tail && tail.capped) {
+            const s = tail.items.reduce((t, e) => t + ar(e), 0);
+            if (s >= 1.9 && (W - (tail.items.length - 1) * g) / s <= H0max) tail.capped = false;
+        }
         if (!last && tail && tail.capped && rows.length >= 2) {
             const both = [...rows[rows.length - 2].items, ...tail.items];
             const rowH = (part) => (W - (part.length - 1) * g) / part.reduce((t, e) => t + ar(e), 0);
@@ -774,9 +870,21 @@ function computeBlocks(list, W, g, h) {
         const cand = items.slice(i + 1, j);        // the ordinary photos that follow, up to the next showcase
         const a = ar(e);
 
-        if (e.shape === 'round') {                 // a disc stands alone, centred, with its caption below
+        if (e.shape === 'round') {
             const d = Math.min(W * (W < 900 ? 0.92 : 0.58), window.innerHeight * 0.8, 1000);
-            blocks.push({ type: 'moment', item: e, d });
+            // On a wide screen the disc crosses a band of the photos that follow (a "transit");
+            // where that cannot be made to fit, it stands alone with its caption below.
+            // a slightly smaller disc on mid-size screens leaves the band room for real photos
+            const dt = W >= 1300 ? d : Math.min(W * 0.52, window.innerHeight * 0.8, 1000);
+            const t = W >= 960 ? transitFor(e, cand, W, g, dt) : null;
+            if (t) {
+                blocks.push(t);
+                const taken = new Set(t.used.map(x => x.id));
+                items.splice(i + 1, cand.length, ...cand.filter(x => !taken.has(x.id)));
+                n = items.length;
+            } else {
+                blocks.push({ type: 'moment', item: e, d });
+            }
             i += 1;
             continue;
         }
@@ -874,6 +982,8 @@ function layoutGrid() {
     const cardOf = (e) => {
         const c = cardEls.get(e.id);
         c.classList.remove('pillar');
+        c.style.removeProperty('left');
+        c.style.removeProperty('width');
         return c;
     };
     const div = (cls) => { const d = document.createElement('div'); d.className = cls; return d; };
@@ -894,6 +1004,7 @@ function layoutGrid() {
         };
         computeBlocks(shown, W, g, h).forEach(b => {
             if (b.type === 'row') { frag.appendChild(makeRow(b.items, b.capped, b.height, b.center)); return; }
+            if (b.type === 'transit') { frag.appendChild(renderTransit(b, W, g, cardOf, div)); return; }
             if (b.type === 'moment') {
                 const m = div('g-moment');
                 const c = cardOf(b.item);
@@ -925,6 +1036,74 @@ function layoutGrid() {
         if (src) src.sizes = w + 'px';
         if (img) img.sizes = w + 'px';
     });
+}
+
+/* Transit rendering. Everything is absolutely placed inside a block as tall as the disc:
+   the band's two sides (one or two rows each), the disc, a faint orbit in the gap, and the
+   plate: title above the band on the left, the sky position below it on the right. */
+function renderTransit(b, W, g, cardOf, div) {
+    const t = div('g-transit');
+    const top = (b.D - b.Hb) / 2;
+    t.style.height = b.D.toFixed(1) + 'px';
+
+    const side = (rows, left, width) => {
+        const col = div('g-band');
+        col.style.cssText = `left:${left.toFixed(1)}px;top:${top.toFixed(1)}px;width:${width.toFixed(1)}px;height:${b.Hb.toFixed(1)}px`;
+        rows.forEach(r => {
+            const el = div('g-row g-belt');
+            el.style.height = r.h.toFixed(2) + 'px';
+            r.items.forEach(x => el.appendChild(cardOf(x)));
+            col.appendChild(el);
+        });
+        return col;
+    };
+
+    const orbit = div('g-orbit');
+    const ro = b.R + b.gap / 2;                         // midway between the disc and the band
+    orbit.style.cssText = `left:${(b.cx - ro).toFixed(1)}px;top:${(b.D / 2 - ro).toFixed(1)}px;width:${(2 * ro).toFixed(1)}px;height:${(2 * ro).toFixed(1)}px`;
+
+    const disc = cardOf(b.item);
+    disc.style.left = (b.cx - b.R).toFixed(1) + 'px';
+    disc.style.width = b.D.toFixed(1) + 'px';
+
+    // the plate keeps clear of the disc, whose half-width where the band meets it is √(R² − (Hb/2)²)
+    const e = b.item;
+    const clear = Math.sqrt(b.R * b.R - b.Hb * b.Hb / 4) + 28;
+    const plateH = top - 20;
+    const upperW = b.cx - clear, lowerW = W - b.cx - clear;
+    const open = (ev) => {
+        if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;
+        ev.preventDefault();
+        viewer.open(shown.findIndex(x => x.id === e.id));
+    };
+    const upper = document.createElement('a');
+    upper.className = 'transit-plate upper' + (plateH < 104 ? ' compact' : '');
+    upper.href = `/photo/${encodeURIComponent(e.id)}/`;
+    upper.style.cssText = `left:0;top:0;height:${plateH.toFixed(1)}px;width:${Math.max(180, upperW).toFixed(1)}px`;
+    const span = (cls, text) => { const x = document.createElement('span'); x.className = cls; x.textContent = text; return x; };
+    upper.append(
+        span('label tp-kicker', [e.type, e.constellation].filter(Boolean).join(' · ')),
+        span('tp-title', e.title),
+        span('tp-sub', [e.catalog, fovLabel(e)].filter(Boolean).join(' · '))
+    );
+    upper.addEventListener('click', open);
+
+    const s = e.solve && e.solve.status === 'solved' ? e.solve : null;
+    const coords = s ? `RA ${formatRA(s.ra)} · Dec ${formatDec(s.dec)}` : '';
+    const parts = [];
+    if (e.description) parts.push(span('tp-desc', e.description));
+    if (coords) parts.push(span('label tp-coords', coords));
+
+    t.append(side(b.left, 0, b.cx - b.xin), side(b.right, b.cx + b.xin, W - b.cx - b.xin), orbit, disc, upper);
+    if (parts.length && lowerW >= 220) {
+        const lower = div('transit-plate lower');
+        lower.style.cssText = `right:0;top:${(top + b.Hb + 20).toFixed(1)}px;height:${plateH.toFixed(1)}px;width:${lowerW.toFixed(1)}px`;
+        lower.append(...parts);
+        t.appendChild(lower);
+    } else if (coords) {
+        upper.appendChild(span('label tp-coords', coords));       // no room on the right: it joins the title
+    }
+    return t;
 }
 
 /* Legacy deep links: index.html#photo=<id> (older shares and explore.html) */
